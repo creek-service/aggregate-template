@@ -16,12 +16,10 @@
 
 package org.creek.example.service;
 
-/**
- * Entry point of the service
- */
+/** Entry point of the service */
 public final class ServiceMain {
 
-    private ServiceMain(){}
+    private ServiceMain() {}
 
     public static void main(final String... args) {
         System.out.println("Hello");
