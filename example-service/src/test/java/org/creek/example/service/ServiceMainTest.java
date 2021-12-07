@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package org.creek.example;
+package org.creek.example.service;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 import org.junit.jupiter.api.Test;
 
-class ExampleTest {
+class ServiceMainTest {
 
     @Test
-    void shouldReturnTrue() {
-        assertThat(Example.getTrue(), is(true));
+    void shouldHaveAtLeastOneTestSoThatCoverageReportsAreGenerated() {
+        ServiceMain.main();
     }
 }

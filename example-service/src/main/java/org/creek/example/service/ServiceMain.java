@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.creek.example;
+package org.creek.example.service;
 
-public final class Example {
-    private Example() {}
+/** Entry point of the service */
+public final class ServiceMain {
 
-    public static boolean getTrue() {
-        return true;
+    private ServiceMain() {}
+
+    public static void main(final String... args) {
+        System.out.println("Hello");
     }
 }

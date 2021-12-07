@@ -1,14 +1,37 @@
-<!-- ChangeMe: replace /multi-module-template in the badge urls below with the name of the repo-->
+<!-- ChangeMe: replace /aggregate-template in the badge urls below with the name of the repo if keeping the badges-->
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![build](https://github.com/creek-service/multi-module-template/actions/workflows/gradle.yml/badge.svg)](https://github.com/creek-service/multi-module-template/actions/workflows/gradle.yml)
-[![Coverage Status](https://coveralls.io/repos/github/creek-service/multi-module-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/multi-module-template?branch=main)
+[![build](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml)
+[![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
 
-# Multi-module template Repo
-Template repo used to create other multi-module repos.
+# Aggregate template
 
-## Features
+Intended for use by people wanting to use Creek in their own project. 
 
-The template sets up the following:
+Use this template repo to create your own aggregate repos, or as the basis for your own customised template repo for use in your project.
+
+## Modules
+
+The template comes with the following modules:
+
+* **api**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
+  * This jar is shared with other aggregates
+  * To avoid dependency hell in production it should be pretty much dependency free.
+  * The types in this jar can be used by downstream services, but should not be part of their api.
+* **ids**: defines type safe wrappers around simple id types.
+  * This jar is shared with other aggregates.
+  * To avoid dependency hell in production it should be pretty much dependency free.
+  * The types in this jar can be used by downstream services and can be part of their api.
+* **services**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
+  * This jar is used by the system tests to discover services
+  * To avoid dependency hell when running system tests it should be pretty much dependency free.
+* **common**: common code shared between services in this aggregate.
+* **example-service**: an example Kafka Streams microservice.
+  * You can clone this module to add additional services.
+
+## Gradle Configuration
+
+The template sets up the following, though you can add and remove things to your hearts content once you've created
+your repo from this template:
 
 * Multi-module Gradle Java project, including:
   * Code formatting by [Spotless][1]
@@ -22,42 +45,12 @@ The template sets up the following:
     * [Hamcrest][9]
     * [Guava TestLib][10]
     * [Log4J 2.x][11]
-* GitHub build workflow, including:
+* [GitHub build workflow][12], including:
   * Gradle build
   * [Coveralls.io][6] reporting
-  * Release versioning
+  * Automatic incrementing of patch version number
+  * Jars published to GitHub Package Repository
 * GitHub code owners and PR template.
-
-## Usage
-
-### Creating a new repo from the template
-
-1. Click the "Use this template" button on the main page and follow the instructions.
-2. Import the new repo into Coveralls.io, noting the repo token.
-3. Customise the repo in GitHub `Settings`->:
-   1. `Options`->
-      1. `Merge Button`: 
-         1. un-tick: `Allow merge commits` and `Allow rebase merging`.
-         2. tick: `Allow auto-merging` and `Automatically delete head branches`
-   2. `Secrets`->:
-      1. Add a new repository secret called `COVERALLS_REPO_TOKEN`, grabbing the value from Coveralls.io.,
-4. Customise the files in the new repo:
-    1. Replace the `multi-module-template` repo name with the name of the new project.
-       Each place is marked with a `ChangeMe` comment.
-    2. Replace the [`example`](example) module with the repos first module.
-    3. Replace this README.md
-    4. Commit changes as a PR (so you can test the PR build works!)
-5. Finish customising the repo in GitHub `Settings`->`Branches` and protect the `main` branch:
-    1. Tick `Require a pull request before merging`
-       1. With `Require approvals` set to 1.
-    2. Tick `Require statuc checks to pass before merging`
-       1. With `Require branches to be up to date before merging`
-       2. With status checks `build` and `coverage/coveralls`.
-6. Finish customising the repo in Coveralls.io `Settings`->`Pull Request Alerts`:
-   1. Tick `Leave comments`
-   2. Set `COVERAGE THRESHOLD FOR FAILURE` to `80`%
-   3. Set `COVERAGE DECREASE THRESHOLD FOR FAILURE` to `1`%
-   4. Save changes.
 
 ### Gradle commands
 
@@ -65,6 +58,32 @@ The template sets up the following:
 * `./gradlew static` will run static code analysis, i.e. [Spotbugs][2] and [Checkstyle][3].
 * `./gradlew check` will run all checks and tests.
 * `./gradlew coverage` will generate a cross-module [Jacoco][5] coverage report.
+
+## Creating a new repo from the template
+
+Obviously, you're free to customise any repos you generate from this template as you see fit.
+There will be features set up on this project, e.g. using [Coveralls.io][6] for reporting code coverage,
+that just don't fit with how you're doing things. Just remove any bits you don't want or need.
+Many are here simply because that's how Creek does things internally. 
+
+Taking into account any features you don't need, you can also run through the following list of steps to
+finish off your new repo:
+
+1. Click the "Use this template" button on the main page and follow the instructions.
+2. If using Coveralls.io:
+   1. Import the new repo into Coveralls.io, noting the repo token.
+   2. Add the repo token as a secret to the repo in GitHub:
+      * In GitHub, got to your new repo and click `Settings`->`Secrets`->`New repository secret` 
+      * Set the name to `COVERALLS_REPO_TOKEN`
+      * Set the value to the repo token you noted from Coveralls.io.
+3. Customise the files in the new repo:
+   1. Replace the `aggregate-template` repo name used in the files with the name of the new repo.
+      Each place is marked with a `ChangeMe` comment.
+   2. Replace the `org.creek` and associated package names used in the code with your own. 
+   3. Replace/duplicate the [`example-service`](example-service) module. 
+      One module per service this aggregate will contain.
+   4. Replace/remove this README.md!
+   5. Commit changes as a PR (so you can test the PR build works, if using GitHub actions to build)
 
 [1]: https://github.com/diffplug/spotless
 [2]: https://spotbugs.github.io/
@@ -77,3 +96,4 @@ The template sets up the following:
 [9]: http://hamcrest.org/JavaHamcrest/index
 [10]: https://github.com/google/guava/tree/master/guava-testlib
 [11]: https://logging.apache.org/log4j/2.x/
+[12]: .github/workflows/gradle.yml
