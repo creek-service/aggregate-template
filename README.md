@@ -77,11 +77,10 @@ finish off your new repo:
       * Set the name to `COVERALLS_REPO_TOKEN`
       * Set the value to the repo token you noted from Coveralls.io.
 3. Customise the files in the new repo:
-   1. Replace the `aggregate-template` repo name used in the files with the name of the new repo.
-      Each place is marked with a `ChangeMe` comment.
+   1. Replace/duplicate the [`example-service`](example-service) module.
+       One module per service this aggregate will contain.
    2. Replace the `org.creek` and associated package names used in the code with your own. 
-   3. Replace/duplicate the [`example-service`](example-service) module. 
-      One module per service this aggregate will contain.
+   3. Search for `ChangeMe` comments, following the instructions.
    4. Replace/remove this README.md!
    5. Commit changes as a PR (so you can test the PR build works, if using GitHub actions to build)
 

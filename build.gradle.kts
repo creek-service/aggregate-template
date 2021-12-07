@@ -56,6 +56,8 @@ subprojects {
         set("junitPioneerVersion", "1.5.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
         set("mockitoVersion", "4.1.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "2.2")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
+
+        set("kafkaVersion", "2.8.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
     }
 
     val guavaVersion : String by extra
@@ -127,7 +129,7 @@ subprojects {
     }
 
     tasks.jar {
-        archiveBaseName.set("creek-${project.name}")
+        archiveBaseName.set("${rootProject.name}-${project.name}")
     }
 
     tasks.register("format") {
@@ -153,6 +155,7 @@ subprojects {
         publications {
             create<MavenPublication>("maven") {
                 from(components["java"])
+                artifactId = "${rootProject.name}-${project.name}"
 
                 pom {
                     url.set("https://github.com/creek-service/${rootProject.name}.git")

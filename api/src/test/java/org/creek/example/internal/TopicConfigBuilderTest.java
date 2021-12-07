@@ -1,0 +1,87 @@
+/*
+ * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.creek.example.internal;
+
+import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasEntry;
+
+import java.time.Duration;
+import org.apache.kafka.common.config.TopicConfig;
+import org.creek.api.kafka.metadata.KafkaTopicConfig;
+import org.junit.jupiter.api.Test;
+
+class TopicConfigBuilderTest {
+
+    @Test
+    void shouldTurnOnKeyCompaction() {
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withKeyCompaction().build();
+
+        // Then:
+        assertThat(
+                config.getConfig(),
+                hasEntry(TopicConfig.CLEANUP_POLICY_CONFIG, TopicConfig.CLEANUP_POLICY_COMPACT));
+    }
+
+    @Test
+    void shouldTurnOnKeyCompactionAndDeletion() {
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withKeyCompactionAndDeletion().build();
+
+        // Then:
+        assertThat(
+                config.getConfig(),
+                hasEntry(
+                        TopicConfig.CLEANUP_POLICY_CONFIG,
+                        TopicConfig.CLEANUP_POLICY_COMPACT
+                                + ","
+                                + TopicConfig.CLEANUP_POLICY_DELETE));
+    }
+
+    @Test
+    void shouldSetRetentionTime() {
+        // Given:
+        final Duration duration = Duration.ofMillis(1234);
+
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withRetentionTime(duration).build();
+
+        // Then:
+        assertThat(
+                config.getConfig(),
+                hasEntry(TopicConfig.RETENTION_MS_CONFIG, "" + duration.toMillis()));
+    }
+
+    @Test
+    void shouldSetInfiniteRetention() {
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withInfiniteRetention().build();
+
+        // Then:
+        assertThat(config.getConfig(), hasEntry(TopicConfig.RETENTION_MS_CONFIG, "-1"));
+    }
+
+    @Test
+    void shouldSetSegmentSize() {
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withSegmentSize(50 * 1024).build();
+
+        // Then:
+        assertThat(config.getConfig(), hasEntry(TopicConfig.SEGMENT_BYTES_CONFIG, "51200"));
+    }
+}
