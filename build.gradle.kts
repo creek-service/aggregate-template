@@ -173,9 +173,8 @@ val coverage = tasks.register<JacocoReport>("coverage") {
         val subproject = this
         subproject.plugins.withType<JacocoPlugin>().configureEach {
             subproject.tasks.matching({ it.extensions.findByType<JacocoTaskExtension>() != null }).configureEach {
-                val coverageSubTask = this
                 sourceSets(subproject.sourceSets.main.get())
-                executionData(coverageSubTask)
+                executionData(files(subproject.tasks.withType<Test>()).filter { it.exists() && it.name.endsWith(".exec") })
             }
 
             subproject.tasks.matching({ it.extensions.findByType<JacocoTaskExtension>() != null }).forEach {
