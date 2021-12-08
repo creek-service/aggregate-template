@@ -1,0 +1,210 @@
+/*
+ * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.creek.example.internal;
+
+import static java.util.Objects.requireNonNull;
+
+import java.util.Optional;
+import org.creek.api.kafka.metadata.CreatableKafkaTopicInternal;
+import org.creek.api.kafka.metadata.KafkaTopicConfig;
+import org.creek.api.kafka.metadata.KafkaTopicInternal;
+import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
+
+/**
+ * Helper for creating topic descriptors.
+ *
+ * <p>Wondering where the builds are for {@link org.creek.api.kafka.metadata.KafkaTopicInput} or
+ * {@link org.creek.api.kafka.metadata.KafkaTopicOutput}? These should only be created by calling
+ * {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an owned
+ * topic descriptor, respectively.
+ */
+@SuppressWarnings("unused") // What is unused today may be used tomorrow...
+public final class TopicDescriptors {
+
+    private TopicDescriptors() {}
+
+    /**
+     * Create an input Kafka topic descriptor.
+     *
+     * <p>Looking for a version that returns {@link org.creek.api.kafka.metadata.KafkaTopicInput}?
+     * Get one of those by calling {@link OwnedKafkaTopicOutput#toInput()} on the topic descriptor
+     * defined in the upstream component.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the input topic descriptor.
+     */
+    public static <K, V> OwnedKafkaTopicInput<K, V> inputTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final Class<V> valueType,
+            final TopicConfigBuilder config) {
+        return new InputTopicDescriptor<>(topicName, keyType, valueType, config);
+    }
+
+    /**
+     * Create a Kafka topic descriptor for a topic that is implicitly created.
+     *
+     * <p>Most internal topics, e.g. Kafka Streams changelog and repartition topics, are implicitly
+     * created, and this is the method to use to build a descriptor for them.
+     *
+     * <p>For an internal topic that you want Creek to create, use {@link #creatableInternalTopic}.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the internal topic descriptor.
+     */
+    public static <K, V> KafkaTopicInternal<K, V> internalTopic(
+            final String topicName, final Class<K> keyType, final Class<V> valueType) {
+        return new InternalTopicDescriptor<>(topicName, keyType, valueType);
+    }
+
+    /**
+     * Create a Kafka topic descriptor for a topic that is implicitly created.
+     *
+     * <p>Most internal topics, e.g. Kafka Streams changelog and repartition topics, are implicitly
+     * created For such topics use {@link #internalTopic}
+     *
+     * <p>For an internal topic that you want Creek to create, use this method.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the internal topic descriptor.
+     */
+    public static <K, V> CreatableKafkaTopicInternal<K, V> creatableInternalTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final Class<V> valueType,
+            final TopicConfigBuilder config) {
+        return new CreatableInternalTopicDescriptor<>(topicName, keyType, valueType, config);
+    }
+
+    /**
+     * Create an output Kafka topic descriptor.
+     *
+     * <p>Looking for a version that returns {@link org.creek.api.kafka.metadata.KafkaTopicOutput}?
+     * Get one of those by calling {@link OwnedKafkaTopicInput#toOutput()} on the topic descriptor
+     * defined in the downstream component.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the output topic descriptor.
+     */
+    public static <K, V> OwnedKafkaTopicOutput<K, V> outputTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final Class<V> valueType,
+            final TopicConfigBuilder config) {
+        return new OutputTopicDescriptor<>(topicName, keyType, valueType, config);
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private abstract static class TopicDescriptor<K, V> {
+        private final String topicName;
+        private final Class<K> keyType;
+        private final Class<V> valueType;
+        private final Optional<KafkaTopicConfig> config;
+
+        TopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final Class<V> valueType,
+                final Optional<TopicConfigBuilder> config) {
+            this.topicName = requireNonNull(topicName, "topicName");
+            this.keyType = requireNonNull(keyType, "keyType");
+            this.valueType = requireNonNull(valueType, "valueType");
+            this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
+        }
+
+        public String getTopicName() {
+            return topicName;
+        }
+
+        public Class<K> getKeyType() {
+            return keyType;
+        }
+
+        public Class<V> getValueType() {
+            return valueType;
+        }
+
+        public KafkaTopicConfig getConfig() {
+            return config.orElseThrow();
+        }
+    }
+
+    private static final class OutputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements OwnedKafkaTopicOutput<K, V> {
+
+        OutputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final Class<V> valueType,
+                final TopicConfigBuilder config) {
+            super(topicName, keyType, valueType, Optional.of(config));
+        }
+    }
+
+    private static final class InputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements OwnedKafkaTopicInput<K, V> {
+
+        InputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final Class<V> valueType,
+                final TopicConfigBuilder config) {
+            super(topicName, keyType, valueType, Optional.of(config));
+        }
+    }
+
+    private static final class InternalTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements KafkaTopicInternal<K, V> {
+
+        InternalTopicDescriptor(
+                final String topicName, final Class<K> keyType, final Class<V> valueType) {
+            super(topicName, keyType, valueType, Optional.empty());
+        }
+    }
+
+    private static final class CreatableInternalTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements CreatableKafkaTopicInternal<K, V> {
+
+        CreatableInternalTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final Class<V> valueType,
+                final TopicConfigBuilder config) {
+            super(topicName, keyType, valueType, Optional.of(config));
+        }
+    }
+}
