@@ -18,8 +18,10 @@ package org.creek.example.internal;
 
 import static java.util.Objects.requireNonNull;
 
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import org.creek.api.kafka.metadata.KafkaTopicConfig;
 
@@ -37,15 +39,17 @@ public final class TopicConfigBuilder {
 
     public static TopicConfigBuilder builder(final int partitions, final boolean allowCrazy) {
         if (partitions <= 0) {
+            final NumberFormat format = NumberFormat.getInstance(Locale.ROOT);
             throw new IllegalArgumentException(
-                    "partition count must be positive. was: " + partitions);
+                    "partition count must be positive, but was " + format.format(partitions));
         }
         if (!allowCrazy && partitions > MAX_PARTITIONS) {
+            final NumberFormat format = NumberFormat.getInstance(Locale.ROOT);
             throw new IllegalArgumentException(
                     "partition count should be less than "
-                            + MAX_PARTITIONS
-                            + ". was: "
-                            + partitions);
+                            + format.format(MAX_PARTITIONS)
+                            + ", but was "
+                            + format.format(partitions));
         }
         return new TopicConfigBuilder(partitions);
     }

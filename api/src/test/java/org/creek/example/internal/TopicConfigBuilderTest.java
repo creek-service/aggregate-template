@@ -19,13 +19,50 @@ package org.creek.example.internal;
 import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThrows;
 
 import java.time.Duration;
+import java.util.Map;
 import org.apache.kafka.common.config.TopicConfig;
 import org.creek.api.kafka.metadata.KafkaTopicConfig;
 import org.junit.jupiter.api.Test;
 
 class TopicConfigBuilderTest {
+
+    @Test
+    void shouldSetPartitions() {
+        assertThat(withPartitions(4).build().getPartitions(), is(4));
+    }
+
+    @Test
+    void shouldThrowOnZeroPartitions() {
+        // When:
+        final Exception e = assertThrows(IllegalArgumentException.class, () -> withPartitions(0));
+
+        // Then:
+        assertThat(e.getMessage(), is("partition count must be positive, but was 0"));
+    }
+
+    @Test
+    void shouldThrowOnNegativePartitions() {
+        // When:
+        final Exception e = assertThrows(IllegalArgumentException.class, () -> withPartitions(-1));
+
+        // Then:
+        assertThat(e.getMessage(), is("partition count must be positive, but was -1"));
+    }
+
+    @Test
+    void shouldThrowOnCrazyHighPartitions() {
+        // When:
+        final Exception e =
+                assertThrows(IllegalArgumentException.class, () -> withPartitions(10_001));
+
+        // Then:
+        assertThat(
+                e.getMessage(), is("partition count should be less than 10,000, but was 10,001"));
+    }
 
     @Test
     void shouldTurnOnKeyCompaction() {
@@ -83,5 +120,14 @@ class TopicConfigBuilderTest {
 
         // Then:
         assertThat(config.getConfig(), hasEntry(TopicConfig.SEGMENT_BYTES_CONFIG, "51200"));
+    }
+
+    @Test
+    void shouldSetConfigs() {
+        // When:
+        final KafkaTopicConfig config = withPartitions(4).withConfigs(Map.of("a", "b")).build();
+
+        // Then:
+        assertThat(config.getConfig(), hasEntry("a", "b"));
     }
 }
