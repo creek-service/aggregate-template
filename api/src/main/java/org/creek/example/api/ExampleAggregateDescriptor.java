@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2022 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,21 +37,21 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     private static final String AGGREGATE_PREFIX = "example.";
 
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
-           register(
-                   outputTopic(
-                           AGGREGATE_PREFIX + "output",
-                           Long.class,
-                           String.class,
-                           withPartitions(2)));
+            register(
+                    outputTopic(
+                            AGGREGATE_PREFIX + "output",
+                            Long.class,
+                            String.class,
+                            withPartitions(2)));
     */
 
     @Override
-    public Collection<ComponentInput> getInputs() {
+    public Collection<ComponentInput> inputs() {
         return List.copyOf(INPUTS);
     }
 
     @Override
-    public Collection<ComponentOutput> getOutputs() {
+    public Collection<ComponentOutput> outputs() {
         return List.copyOf(OUTPUTS);
     }
 

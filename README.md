@@ -13,19 +13,13 @@ Use this template repo to create your own aggregate repos, or as the basis for y
 
 The template comes with the following modules:
 
-* **api**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
-  * This jar is shared with other aggregates
-  * To avoid dependency hell in production it should be pretty much dependency free.
-  * The types in this jar can be used by downstream services, but should not be part of their api.
-* **ids**: defines type safe wrappers around simple id types.
-  * This jar is shared with other aggregates.
-  * To avoid dependency hell in production it should be pretty much dependency free.
-  * The types in this jar can be used by downstream services and can be part of their api.
-* **services**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
+* **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
+* **[ids](ids)**: defines type safe wrappers around simple id types.
+* **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
   * This jar is used by the system tests to discover services
   * To avoid dependency hell when running system tests it should be pretty much dependency free.
-* **common**: common code shared between services in this aggregate.
-* **example-service**: an example Kafka Streams microservice.
+* **[common](common)**: common code shared between services in this aggregate.
+* **[example-service](example-service)**: an example Kafka Streams microservice.
   * You can clone this module to add additional services.
 
 ## Gradle Configuration

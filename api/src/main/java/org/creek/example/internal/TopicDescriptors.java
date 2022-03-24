@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2022 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,16 @@
 package org.creek.example.internal;
 
 import static java.util.Objects.requireNonNull;
+import static org.creek.api.kafka.metadata.SerializationFormat.serializationFormat;
 
 import java.util.Optional;
 import org.creek.api.kafka.metadata.CreatableKafkaTopicInternal;
 import org.creek.api.kafka.metadata.KafkaTopicConfig;
+import org.creek.api.kafka.metadata.KafkaTopicDescriptor.PartDescriptor;
 import org.creek.api.kafka.metadata.KafkaTopicInternal;
 import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
 import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creek.api.kafka.metadata.SerializationFormat;
 
 /**
  * Helper for creating topic descriptors.
@@ -35,6 +38,8 @@ import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicDescriptors {
+
+    public static final SerializationFormat KAFKA_FORMAT = serializationFormat("kafka");
 
     private TopicDescriptors() {}
 
@@ -128,11 +133,30 @@ public final class TopicDescriptors {
         return new OutputTopicDescriptor<>(topicName, keyType, valueType, config);
     }
 
+    private static final class KafkaPart<T> implements PartDescriptor<T> {
+
+        private final Class<T> type;
+
+        KafkaPart(final Class<T> type) {
+            this.type = requireNonNull(type, "type");
+        }
+
+        @Override
+        public SerializationFormat format() {
+            return KAFKA_FORMAT;
+        }
+
+        @Override
+        public Class<T> type() {
+            return type;
+        }
+    }
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private abstract static class TopicDescriptor<K, V> {
         private final String topicName;
-        private final Class<K> keyType;
-        private final Class<V> valueType;
+        private final PartDescriptor<K> key;
+        private final PartDescriptor<V> value;
         private final Optional<KafkaTopicConfig> config;
 
         TopicDescriptor(
@@ -141,24 +165,24 @@ public final class TopicDescriptors {
                 final Class<V> valueType,
                 final Optional<TopicConfigBuilder> config) {
             this.topicName = requireNonNull(topicName, "topicName");
-            this.keyType = requireNonNull(keyType, "keyType");
-            this.valueType = requireNonNull(valueType, "valueType");
+            this.key = new KafkaPart<>(keyType);
+            this.value = new KafkaPart<>(valueType);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
         }
 
-        public String getTopicName() {
+        public String name() {
             return topicName;
         }
 
-        public Class<K> getKeyType() {
-            return keyType;
+        public PartDescriptor<K> key() {
+            return key;
         }
 
-        public Class<V> getValueType() {
-            return valueType;
+        public PartDescriptor<V> value() {
+            return value;
         }
 
-        public KafkaTopicConfig getConfig() {
+        public KafkaTopicConfig config() {
             return config.orElseThrow();
         }
     }
