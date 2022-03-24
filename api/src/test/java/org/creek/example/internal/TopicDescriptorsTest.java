@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2022 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.creek.example.internal;
 
 import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
+import static org.creek.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.creek.example.internal.TopicDescriptors.creatableInternalTopic;
 import static org.creek.example.internal.TopicDescriptors.inputTopic;
 import static org.creek.example.internal.TopicDescriptors.internalTopic;
@@ -59,10 +60,12 @@ class TopicDescriptorsTest {
                 inputTopic("name", Long.class, String.class, config);
 
         // Then:
-        assertThat(topic.getTopicName(), is("name"));
-        assertThat(topic.getKeyType(), is(Long.class));
-        assertThat(topic.getValueType(), is(String.class));
-        assertThat(topic.getConfig(), is(sameInstance(CONFIG)));
+        assertThat(topic.name(), is("name"));
+        assertThat(topic.key().format(), is(KAFKA_FORMAT));
+        assertThat(topic.key().type(), is(Long.class));
+        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().type(), is(String.class));
+        assertThat(topic.config(), is(sameInstance(CONFIG)));
     }
 
     @Test
@@ -72,9 +75,11 @@ class TopicDescriptorsTest {
                 internalTopic("name", Long.class, String.class);
 
         // Then:
-        assertThat(topic.getTopicName(), is("name"));
-        assertThat(topic.getKeyType(), is(Long.class));
-        assertThat(topic.getValueType(), is(String.class));
+        assertThat(topic.name(), is("name"));
+        assertThat(topic.key().format(), is(KAFKA_FORMAT));
+        assertThat(topic.key().type(), is(Long.class));
+        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().type(), is(String.class));
     }
 
     @Test
@@ -84,10 +89,12 @@ class TopicDescriptorsTest {
                 creatableInternalTopic("name", Long.class, String.class, config);
 
         // Then:
-        assertThat(topic.getTopicName(), is("name"));
-        assertThat(topic.getKeyType(), is(Long.class));
-        assertThat(topic.getValueType(), is(String.class));
-        assertThat(topic.getConfig(), is(sameInstance(CONFIG)));
+        assertThat(topic.name(), is("name"));
+        assertThat(topic.key().format(), is(KAFKA_FORMAT));
+        assertThat(topic.key().type(), is(Long.class));
+        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().type(), is(String.class));
+        assertThat(topic.config(), is(sameInstance(CONFIG)));
     }
 
     @Test
@@ -97,9 +104,11 @@ class TopicDescriptorsTest {
                 outputTopic("name", Long.class, String.class, config);
 
         // Then:
-        assertThat(topic.getTopicName(), is("name"));
-        assertThat(topic.getKeyType(), is(Long.class));
-        assertThat(topic.getValueType(), is(String.class));
-        assertThat(topic.getConfig(), is(sameInstance(CONFIG)));
+        assertThat(topic.name(), is("name"));
+        assertThat(topic.key().format(), is(KAFKA_FORMAT));
+        assertThat(topic.key().type(), is(Long.class));
+        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().type(), is(String.class));
+        assertThat(topic.config(), is(sameInstance(CONFIG)));
     }
 }

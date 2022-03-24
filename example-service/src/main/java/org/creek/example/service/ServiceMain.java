@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2022 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,28 @@
 
 package org.creek.example.service;
 
+
+import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
+import org.creek.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
+import org.creek.api.service.context.CreekContext;
+import org.creek.api.service.context.CreekServices;
+import org.creek.example.services.ExampleServiceDescriptor;
+
 /** Entry point of the service */
 public final class ServiceMain {
 
     private ServiceMain() {}
 
     public static void main(final String... args) {
-        System.out.println("Hello");
+        final CreekContext ctx =
+                CreekServices.builder(new ExampleServiceDescriptor())
+                        .with(
+                                KafkaStreamsExtensionOptions.builder()
+                                        // Customize the Kafka streams extension...
+                                        .build())
+                        .build();
+
+        // ChangeMe: initialize the app...
+        ctx.extension(KafkaStreamsExtension.class);
     }
 }

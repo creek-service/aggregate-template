@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2022 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
     /*
     ChangeMe: replace or remove these example topic descriptor:
 
-    public static final OwnedKafkaTopicOutput<Long, String> InputTopic =
+    public static final KafkaTopicInput<Long, String> InputTopic =
            register(SomeOtherAggregateDescriptor.OutputTopic.toInput());
 
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
@@ -44,17 +44,17 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
     */
 
     @Override
-    public Collection<ComponentInput> getInputs() {
+    public Collection<ComponentInput> inputs() {
         return List.copyOf(INPUTS);
     }
 
     @Override
-    public Collection<ComponentInternal> getInternals() {
+    public Collection<ComponentInternal> internals() {
         return List.copyOf(INTERNALS);
     }
 
     @Override
-    public Collection<ComponentOutput> getOutputs() {
+    public Collection<ComponentOutput> outputs() {
         return List.copyOf(OUTPUTS);
     }
 

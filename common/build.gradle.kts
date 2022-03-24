@@ -2,6 +2,12 @@ plugins {
     `java-library`
 }
 
+val kafkaVersion : String by extra
+val creekVersion : String by extra
+
 dependencies {
-    implementation(project(":api"))
+    api(project(":services"))
+
+    api("org.creek:creek-service-context:$creekVersion")
+    api("org.creek:creek-kafka-streams-extension:$creekVersion")
 }

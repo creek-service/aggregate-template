@@ -3,6 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":api"))
     implementation(project(":common"))
 }
