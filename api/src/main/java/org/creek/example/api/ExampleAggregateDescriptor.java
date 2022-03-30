@@ -16,10 +16,13 @@
 
 package org.creek.example.api;
 
+import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
+import static org.creek.example.internal.TopicDescriptors.outputTopic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creek.api.platform.metadata.AggregateDescriptor;
 import org.creek.api.platform.metadata.ComponentInput;
 import org.creek.api.platform.metadata.ComponentOutput;
@@ -31,9 +34,7 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
-    /*
-    ChangeMe: replace or remove this example topic descriptor:
-
+    // ChangeMe: replace or remove topic descriptors, as required:
     private static final String AGGREGATE_PREFIX = "example.";
 
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
@@ -43,7 +44,6 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
                             Long.class,
                             String.class,
                             withPartitions(2)));
-    */
 
     @Override
     public Collection<ComponentInput> inputs() {
@@ -56,18 +56,16 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     }
 
     /*
-    ChangeMe: Uncomment if needed, delete if not.
+    ChangeMe: Uncomment if needed, remove if not.
     private static <T extends ComponentInput> T register(final T input) {
         INPUTS.add(input);
         return input;
     }
     */
 
-    /*
-    ChangeMe: Uncomment if needed, delete if not.
+    // ChangeMe: remove if not needed:
     private static <T extends ComponentOutput> T register(final T output) {
         OUTPUTS.add(output);
         return output;
     }
-    */
 }

@@ -16,11 +16,8 @@ The template comes with the following modules:
 * **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
 * **[ids](ids)**: defines type safe wrappers around simple id types.
 * **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
-  * This jar is used by the system tests to discover services
-  * To avoid dependency hell when running system tests it should be pretty much dependency free.
 * **[common](common)**: common code shared between services in this aggregate.
 * **[example-service](example-service)**: an example Kafka Streams microservice.
-  * You can clone this module to add additional services.
 
 ## Gradle Configuration
 

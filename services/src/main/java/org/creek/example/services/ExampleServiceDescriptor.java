@@ -16,14 +16,19 @@
 
 package org.creek.example.services;
 
+import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
+import static org.creek.example.internal.TopicDescriptors.inputTopic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creek.api.platform.metadata.ComponentInput;
 import org.creek.api.platform.metadata.ComponentInternal;
 import org.creek.api.platform.metadata.ComponentOutput;
 import org.creek.api.platform.metadata.ServiceDescriptor;
+import org.creek.example.api.ExampleAggregateDescriptor;
 
 // ChangeMe: change the name of this class to match the name of the new service and customize as
 // needed
@@ -33,15 +38,12 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
 
-    /*
-    ChangeMe: replace or remove these example topic descriptor:
-
-    public static final KafkaTopicInput<Long, String> InputTopic =
-           register(SomeOtherAggregateDescriptor.OutputTopic.toInput());
+    // ChangeMe: replace or remove these example topic descriptor:
+    public static final OwnedKafkaTopicInput<String, Long> InputTopic =
+            register(inputTopic("input", String.class, Long.class, withPartitions(3)));
 
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
-           register(ExampleAggregateDescriptor.OutputTopic);
-    */
+            register(ExampleAggregateDescriptor.OutputTopic);
 
     @Override
     public Collection<ComponentInput> inputs() {
@@ -58,13 +60,11 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
         return List.copyOf(OUTPUTS);
     }
 
-    /*
-    ChangeMe: Uncomment if needed, delete if not.
+    // ChangeMe: Uncomment if needed, remove if not.
     private static <T extends ComponentInput> T register(final T input) {
         INPUTS.add(input);
         return input;
     }
-    */
 
     /*
     ChangeMe: Uncomment if needed, delete if not.
@@ -74,11 +74,9 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
     }
     */
 
-    /*
-    ChangeMe: Uncomment if needed, delete if not.
+    // ChangeMe: Uncomment if needed, remove if not.
     private static <T extends ComponentOutput> T register(final T output) {
         OUTPUTS.add(output);
         return output;
     }
-    */
 }
