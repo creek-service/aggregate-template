@@ -16,6 +16,7 @@
 
 package org.creek.example.internal;
 
+import static org.creek.example.internal.TopicConfigBuilder.builder;
 import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
@@ -62,6 +63,15 @@ class TopicConfigBuilderTest {
         // Then:
         assertThat(
                 e.getMessage(), is("partition count should be less than 10,000, but was 10,001"));
+    }
+
+    @Test
+    void shouldAllowCrazyHighPartitions() {
+        // When:
+        final TopicConfigBuilder builder = builder(10_001, true);
+
+        // Then:
+        assertThat(builder.build().getPartitions(), is(10_001));
     }
 
     @Test

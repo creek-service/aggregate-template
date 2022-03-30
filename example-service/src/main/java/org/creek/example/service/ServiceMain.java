@@ -17,10 +17,12 @@
 package org.creek.example.service;
 
 
+import org.apache.kafka.streams.Topology;
 import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creek.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
 import org.creek.api.service.context.CreekContext;
 import org.creek.api.service.context.CreekServices;
+import org.creek.example.service.kafka.streams.TopologyBuilder;
 import org.creek.example.services.ExampleServiceDescriptor;
 
 /** Entry point of the service */
@@ -37,7 +39,8 @@ public final class ServiceMain {
                                         .build())
                         .build();
 
-        // ChangeMe: initialize the app...
-        ctx.extension(KafkaStreamsExtension.class);
+        final KafkaStreamsExtension ext = ctx.extension(KafkaStreamsExtension.class);
+        final Topology topology = new TopologyBuilder(ext).build();
+        ext.execute(topology);
     }
 }
