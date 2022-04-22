@@ -33,7 +33,7 @@ import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creek.api.kafka.streams.test.TestKafkaStreamsExtensionOptions;
 import org.creek.api.service.context.CreekContext;
 import org.creek.api.service.context.CreekServices;
-import org.creek.api.test.TestPaths;
+import org.creek.api.test.util.TestPaths;
 import org.creek.example.services.ExampleServiceDescriptor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
