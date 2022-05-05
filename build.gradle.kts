@@ -10,6 +10,11 @@ plugins {
 
 project.version = scmVersion.version
 
+scmVersion {
+    // Required while using Creek SNAPSHOT build:
+    checks.isSnapshotDependencies = false
+}
+
 allprojects {
     apply(plugin = "idea")
     apply(plugin = "java")
