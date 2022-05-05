@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.creek.example.services;
+package org.acme.example.services;
 
-import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
-import static org.creek.example.internal.TopicDescriptors.inputTopic;
+import static org.acme.example.internal.TopicDescriptors.inputTopic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
-import org.creek.api.platform.metadata.ComponentInput;
-import org.creek.api.platform.metadata.ComponentInternal;
-import org.creek.api.platform.metadata.ComponentOutput;
-import org.creek.api.platform.metadata.ServiceDescriptor;
-import org.creek.example.api.ExampleAggregateDescriptor;
+import org.acme.example.api.ExampleAggregateDescriptor;
+import org.acme.example.internal.TopicConfigBuilder;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.platform.metadata.ComponentInput;
+import org.creekservice.api.platform.metadata.ComponentInternal;
+import org.creekservice.api.platform.metadata.ComponentOutput;
+import org.creekservice.api.platform.metadata.ServiceDescriptor;
 
 // ChangeMe: change the name of this class to match the name of the new service and customize as
 // needed
@@ -40,7 +40,12 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
 
     // ChangeMe: replace or remove these example topic descriptor:
     public static final OwnedKafkaTopicInput<String, Long> InputTopic =
-            register(inputTopic("input", String.class, Long.class, withPartitions(3)));
+            register(
+                    inputTopic(
+                            "input",
+                            String.class,
+                            Long.class,
+                            TopicConfigBuilder.withPartitions(3)));
 
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
             register(ExampleAggregateDescriptor.OutputTopic);

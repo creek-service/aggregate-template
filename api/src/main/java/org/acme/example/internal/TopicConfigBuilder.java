@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.creek.example.internal;
+package org.acme.example.internal;
 
 import static java.util.Objects.requireNonNull;
 
@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import org.creek.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
 
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicConfigBuilder {

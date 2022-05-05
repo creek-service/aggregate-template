@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.creek.example.service;
+package org.acme.example.service;
 
 
+import org.acme.example.service.kafka.streams.TopologyBuilder;
+import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.Topology;
-import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
-import org.creek.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
-import org.creek.api.service.context.CreekContext;
-import org.creek.api.service.context.CreekServices;
-import org.creek.example.service.kafka.streams.TopologyBuilder;
-import org.creek.example.services.ExampleServiceDescriptor;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
+import org.creekservice.api.service.context.CreekContext;
+import org.creekservice.api.service.context.CreekServices;
 
 /** Entry point of the service */
 public final class ServiceMain {

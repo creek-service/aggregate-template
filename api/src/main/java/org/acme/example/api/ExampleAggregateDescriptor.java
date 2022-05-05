@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.creek.example.api;
+package org.acme.example.api;
 
-import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
-import static org.creek.example.internal.TopicDescriptors.outputTopic;
+import static org.acme.example.internal.TopicDescriptors.outputTopic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
-import org.creek.api.platform.metadata.AggregateDescriptor;
-import org.creek.api.platform.metadata.ComponentInput;
-import org.creek.api.platform.metadata.ComponentOutput;
+import org.acme.example.internal.TopicConfigBuilder;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.platform.metadata.AggregateDescriptor;
+import org.creekservice.api.platform.metadata.ComponentInput;
+import org.creekservice.api.platform.metadata.ComponentOutput;
 
 // ChangeMe: change the name of this class to match the name of the new aggregate and customize as
 // needed
@@ -43,7 +43,7 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
                             AGGREGATE_PREFIX + "output",
                             Long.class,
                             String.class,
-                            withPartitions(2)));
+                            TopicConfigBuilder.withPartitions(2)));
 
     @Override
     public Collection<ComponentInput> inputs() {

@@ -18,7 +18,8 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
 
-    group = "org.creek"
+    // ChangeMe:
+    group = "org.acme"
 
     java {
         withSourcesJar()
@@ -47,7 +48,7 @@ subprojects {
     project.version = project.parent?.version!!
 
     extra.apply {
-        set("creekVersion", "+")
+        set("creekVersion", "0.2.0-SNAPSHOT")
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
 
         set("guavaVersion", "31.1-jre")       // https://mvnrepository.com/artifact/com.google.guava/guava
@@ -70,8 +71,8 @@ subprojects {
     val hamcrestVersion : String by extra
 
     dependencies {
-        testImplementation("org.creek:creek-test-hamcrest:$creekVersion")
-        testImplementation("org.creek:creek-test-util:$creekVersion")
+        testImplementation("org.creekservice:creek-test-hamcrest:$creekVersion")
+        testImplementation("org.creekservice:creek-test-util:$creekVersion")
         testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
         testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
         testImplementation("org.junit-pioneer:junit-pioneer:$junitPioneerVersion")
@@ -116,13 +117,13 @@ subprojects {
     spotbugs {
         tasks.spotbugsMain {
             reports.create("html") {
-                isEnabled = true
+                enabled = true
                 setStylesheet("fancy-hist.xsl")
             }
         }
         tasks.spotbugsTest {
             reports.create("html") {
-                isEnabled = true
+                enabled = true
                 setStylesheet("fancy-hist.xsl")
             }
         }

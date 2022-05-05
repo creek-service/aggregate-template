@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package org.creek.example.internal;
+package org.acme.example.internal;
 
-import static org.creek.example.internal.TopicConfigBuilder.builder;
-import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
@@ -26,20 +24,24 @@ import static org.junit.Assert.assertThrows;
 import java.time.Duration;
 import java.util.Map;
 import org.apache.kafka.common.config.TopicConfig;
-import org.creek.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 class TopicConfigBuilderTest {
 
     @Test
     void shouldSetPartitions() {
-        assertThat(withPartitions(4).build().getPartitions(), is(4));
+        MatcherAssert.assertThat(
+                TopicConfigBuilder.withPartitions(4).build().getPartitions(), is(4));
     }
 
     @Test
     void shouldThrowOnZeroPartitions() {
         // When:
-        final Exception e = assertThrows(IllegalArgumentException.class, () -> withPartitions(0));
+        final Exception e =
+                assertThrows(
+                        IllegalArgumentException.class, () -> TopicConfigBuilder.withPartitions(0));
 
         // Then:
         assertThat(e.getMessage(), is("partition count must be positive, but was 0"));
@@ -48,7 +50,10 @@ class TopicConfigBuilderTest {
     @Test
     void shouldThrowOnNegativePartitions() {
         // When:
-        final Exception e = assertThrows(IllegalArgumentException.class, () -> withPartitions(-1));
+        final Exception e =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> TopicConfigBuilder.withPartitions(-1));
 
         // Then:
         assertThat(e.getMessage(), is("partition count must be positive, but was -1"));
@@ -58,7 +63,9 @@ class TopicConfigBuilderTest {
     void shouldThrowOnCrazyHighPartitions() {
         // When:
         final Exception e =
-                assertThrows(IllegalArgumentException.class, () -> withPartitions(10_001));
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> TopicConfigBuilder.withPartitions(10_001));
 
         // Then:
         assertThat(
@@ -68,7 +75,7 @@ class TopicConfigBuilderTest {
     @Test
     void shouldAllowCrazyHighPartitions() {
         // When:
-        final TopicConfigBuilder builder = builder(10_001, true);
+        final TopicConfigBuilder builder = TopicConfigBuilder.builder(10_001, true);
 
         // Then:
         assertThat(builder.build().getPartitions(), is(10_001));
@@ -77,7 +84,8 @@ class TopicConfigBuilderTest {
     @Test
     void shouldTurnOnKeyCompaction() {
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withKeyCompaction().build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withKeyCompaction().build();
 
         // Then:
         assertThat(
@@ -88,7 +96,8 @@ class TopicConfigBuilderTest {
     @Test
     void shouldTurnOnKeyCompactionAndDeletion() {
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withKeyCompactionAndDeletion().build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withKeyCompactionAndDeletion().build();
 
         // Then:
         assertThat(
@@ -106,7 +115,8 @@ class TopicConfigBuilderTest {
         final Duration duration = Duration.ofMillis(1234);
 
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withRetentionTime(duration).build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withRetentionTime(duration).build();
 
         // Then:
         assertThat(
@@ -117,7 +127,8 @@ class TopicConfigBuilderTest {
     @Test
     void shouldSetInfiniteRetention() {
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withInfiniteRetention().build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withInfiniteRetention().build();
 
         // Then:
         assertThat(config.getConfig(), hasEntry(TopicConfig.RETENTION_MS_CONFIG, "-1"));
@@ -126,7 +137,8 @@ class TopicConfigBuilderTest {
     @Test
     void shouldSetSegmentSize() {
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withSegmentSize(50 * 1024).build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withSegmentSize(50 * 1024).build();
 
         // Then:
         assertThat(config.getConfig(), hasEntry(TopicConfig.SEGMENT_BYTES_CONFIG, "51200"));
@@ -135,7 +147,8 @@ class TopicConfigBuilderTest {
     @Test
     void shouldSetConfigs() {
         // When:
-        final KafkaTopicConfig config = withPartitions(4).withConfigs(Map.of("a", "b")).build();
+        final KafkaTopicConfig config =
+                TopicConfigBuilder.withPartitions(4).withConfigs(Map.of("a", "b")).build();
 
         // Then:
         assertThat(config.getConfig(), hasEntry("a", "b"));

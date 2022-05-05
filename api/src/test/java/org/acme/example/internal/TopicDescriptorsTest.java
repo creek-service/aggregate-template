@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package org.creek.example.internal;
+package org.acme.example.internal;
 
-import static org.creek.example.internal.TopicConfigBuilder.withPartitions;
-import static org.creek.example.internal.TopicDescriptors.KAFKA_FORMAT;
-import static org.creek.example.internal.TopicDescriptors.creatableInternalTopic;
-import static org.creek.example.internal.TopicDescriptors.inputTopic;
-import static org.creek.example.internal.TopicDescriptors.internalTopic;
-import static org.creek.example.internal.TopicDescriptors.outputTopic;
+import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
+import static org.acme.example.internal.TopicDescriptors.creatableInternalTopic;
+import static org.acme.example.internal.TopicDescriptors.inputTopic;
+import static org.acme.example.internal.TopicDescriptors.internalTopic;
+import static org.acme.example.internal.TopicDescriptors.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.when;
 
-import org.creek.api.kafka.metadata.CreatableKafkaTopicInternal;
-import org.creek.api.kafka.metadata.KafkaTopicConfig;
-import org.creek.api.kafka.metadata.KafkaTopicInternal;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +43,7 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TopicDescriptorsTest {
 
-    private static final KafkaTopicConfig CONFIG = withPartitions(1).build();
+    private static final KafkaTopicConfig CONFIG = TopicConfigBuilder.withPartitions(1).build();
 
     @Mock private TopicConfigBuilder config;
 

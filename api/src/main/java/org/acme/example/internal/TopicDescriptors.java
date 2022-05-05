@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package org.creek.example.internal;
+package org.acme.example.internal;
 
 import static java.util.Objects.requireNonNull;
-import static org.creek.api.kafka.metadata.SerializationFormat.serializationFormat;
+import static org.creekservice.api.kafka.metadata.SerializationFormat.serializationFormat;
 
 import java.util.Optional;
-import org.creek.api.kafka.metadata.CreatableKafkaTopicInternal;
-import org.creek.api.kafka.metadata.KafkaTopicConfig;
-import org.creek.api.kafka.metadata.KafkaTopicDescriptor.PartDescriptor;
-import org.creek.api.kafka.metadata.KafkaTopicInternal;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creek.api.kafka.metadata.OwnedKafkaTopicOutput;
-import org.creek.api.kafka.metadata.SerializationFormat;
+import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.PartDescriptor;
+import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.SerializationFormat;
 
 /**
  * Helper for creating topic descriptors.
  *
- * <p>Wondering where the builds are for {@link org.creek.api.kafka.metadata.KafkaTopicInput} or
- * {@link org.creek.api.kafka.metadata.KafkaTopicOutput}? These should only be created by calling
- * {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an owned
- * topic descriptor, respectively.
+ * <p>Wondering where the builds are for {@link org.creekservice.api.kafka.metadata.KafkaTopicInput}
+ * or {@link org.creekservice.api.kafka.metadata.KafkaTopicOutput}? These should only be created by
+ * calling {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an
+ * owned topic descriptor, respectively.
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicDescriptors {
@@ -46,9 +46,9 @@ public final class TopicDescriptors {
     /**
      * Create an input Kafka topic descriptor.
      *
-     * <p>Looking for a version that returns {@link org.creek.api.kafka.metadata.KafkaTopicInput}?
-     * Get one of those by calling {@link OwnedKafkaTopicOutput#toInput()} on the topic descriptor
-     * defined in the upstream component.
+     * <p>Looking for a version that returns {@link
+     * org.creekservice.api.kafka.metadata.KafkaTopicInput}? Get one of those by calling {@link
+     * OwnedKafkaTopicOutput#toInput()} on the topic descriptor defined in the upstream component.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
@@ -113,9 +113,9 @@ public final class TopicDescriptors {
     /**
      * Create an output Kafka topic descriptor.
      *
-     * <p>Looking for a version that returns {@link org.creek.api.kafka.metadata.KafkaTopicOutput}?
-     * Get one of those by calling {@link OwnedKafkaTopicInput#toOutput()} on the topic descriptor
-     * defined in the downstream component.
+     * <p>Looking for a version that returns {@link
+     * org.creekservice.api.kafka.metadata.KafkaTopicOutput}? Get one of those by calling {@link
+     * OwnedKafkaTopicInput#toOutput()} on the topic descriptor defined in the downstream component.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
