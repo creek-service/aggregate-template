@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package org.creek.example.service.kafka.streams;
+package org.acme.example.service.kafka.streams;
 
 import static org.apache.kafka.streams.KeyValue.pair;
-import static org.creek.api.kafka.streams.test.TestTopics.inputTopic;
-import static org.creek.api.kafka.streams.test.TestTopics.outputTopic;
-import static org.creek.example.services.ExampleServiceDescriptor.InputTopic;
-import static org.creek.example.services.ExampleServiceDescriptor.OutputTopic;
+import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
+import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
+import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
-import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
-import org.creek.api.kafka.streams.test.TestKafkaStreamsExtensionOptions;
-import org.creek.api.service.context.CreekContext;
-import org.creek.api.service.context.CreekServices;
-import org.creek.api.test.util.TestPaths;
-import org.creek.example.services.ExampleServiceDescriptor;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
+import org.creekservice.api.kafka.streams.test.TestKafkaStreamsExtensionOptions;
+import org.creekservice.api.service.context.CreekContext;
+import org.creekservice.api.service.context.CreekServices;
+import org.creekservice.api.test.util.TestPaths;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,8 +63,8 @@ class TopologyBuilderTest {
 
         testDriver = new TopologyTestDriver(topology, ext.properties());
 
-        inputTopic = inputTopic(InputTopic, ctx, testDriver);
-        outputTopic = outputTopic(OutputTopic, ctx, testDriver);
+        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);
+        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);
     }
 
     @AfterEach

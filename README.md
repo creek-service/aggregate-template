@@ -71,7 +71,7 @@ finish off your new repo:
 3. Customise the files in the new repo:
    1. Replace/duplicate the [`example-service`](example-service) module.
        One module per service this aggregate will contain.
-   2. Replace the `org.creek` and associated package names used in the code with your own. 
+   2. Replace the `org.acme` and associated package names used in the code with your own. 
    3. Search for `ChangeMe` comments, following the instructions.
    4. Replace/remove this README.md!
    5. Commit changes as a PR (so you can test the PR build works, if using GitHub actions to build)

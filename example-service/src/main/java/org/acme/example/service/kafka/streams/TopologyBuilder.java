@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package org.creek.example.service.kafka.streams;
+package org.acme.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
-import static org.creek.example.services.ExampleServiceDescriptor.InputTopic;
-import static org.creek.example.services.ExampleServiceDescriptor.OutputTopic;
 
+import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
@@ -28,9 +27,9 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.Transformer;
 import org.apache.kafka.streams.kstream.TransformerSupplier;
 import org.apache.kafka.streams.processor.ProcessorContext;
-import org.creek.api.kafka.common.resource.KafkaTopic;
-import org.creek.api.kafka.streams.extension.KafkaStreamsExtension;
-import org.creek.api.kafka.streams.util.Name;
+import org.creekservice.api.kafka.common.resource.KafkaTopic;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
+import org.creekservice.api.kafka.streams.util.Name;
 
 public final class TopologyBuilder {
 
@@ -44,8 +43,9 @@ public final class TopologyBuilder {
     public Topology build() {
         final StreamsBuilder builder = new StreamsBuilder();
 
-        final KafkaTopic<String, Long> inputTopic = ext.topic(InputTopic);
-        final KafkaTopic<Long, String> outputTopic = ext.topic(OutputTopic);
+        final KafkaTopic<String, Long> inputTopic = ext.topic(ExampleServiceDescriptor.InputTopic);
+        final KafkaTopic<Long, String> outputTopic =
+                ext.topic(ExampleServiceDescriptor.OutputTopic);
 
         builder.stream(
                         inputTopic.name(),
