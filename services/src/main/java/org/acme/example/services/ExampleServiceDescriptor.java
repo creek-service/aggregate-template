@@ -51,6 +51,11 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
             register(ExampleAggregateDescriptor.OutputTopic);
 
     @Override
+    public String dockerImage() {
+        return "acme.org/example-service";
+    }
+
+    @Override
     public Collection<ComponentInput> inputs() {
         return List.copyOf(INPUTS);
     }
