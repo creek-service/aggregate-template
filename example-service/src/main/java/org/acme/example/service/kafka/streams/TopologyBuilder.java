@@ -17,6 +17,7 @@
 package org.acme.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
+import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
 import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.KeyValue;
@@ -57,7 +58,7 @@ public final class TopologyBuilder {
                         Produced.with(outputTopic.keySerde(), outputTopic.valueSerde())
                                 .withName(name.name("egress-" + outputTopic.name())));
 
-        return builder.build(ext.properties());
+        return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
     }
 
     private TransformerSupplier<String, Long, KeyValue<Long, String>> switchKeyAndValue() {
