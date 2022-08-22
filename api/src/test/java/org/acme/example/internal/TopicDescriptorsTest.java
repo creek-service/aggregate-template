@@ -28,7 +28,9 @@ import static org.mockito.Mockito.when;
 
 import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicInput;
 import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.KafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,12 +61,31 @@ class TopicDescriptorsTest {
                 inputTopic("name", Long.class, String.class, config);
 
         // Then:
+        assertThat(topic.id().toString(), is("kafka-topic://default/name"));
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
         assertThat(topic.value().format(), is(KAFKA_FORMAT));
         assertThat(topic.value().type(), is(String.class));
         assertThat(topic.config(), is(sameInstance(CONFIG)));
+    }
+
+    @Test
+    void shouldConvertInputTopicToOutput() {
+        // Given:
+        final OwnedKafkaTopicInput<Long, String> input =
+                inputTopic("name", Long.class, String.class, config);
+
+        // When:
+        final KafkaTopicOutput<Long, String> output = input.toOutput();
+
+        // Then:
+        assertThat(output.id().toString(), is("kafka-topic://default/name"));
+        assertThat(output.name(), is("name"));
+        assertThat(output.key().format(), is(KAFKA_FORMAT));
+        assertThat(output.key().type(), is(Long.class));
+        assertThat(output.value().format(), is(KAFKA_FORMAT));
+        assertThat(output.value().type(), is(String.class));
     }
 
     @Test
@@ -97,17 +118,36 @@ class TopicDescriptorsTest {
     }
 
     @Test
-    void shouldOutputTopic() {
+    void shouldCreateOutputTopic() {
         // When:
         final OwnedKafkaTopicOutput<Long, String> topic =
                 outputTopic("name", Long.class, String.class, config);
 
         // Then:
+        assertThat(topic.id().toString(), is("kafka-topic://default/name"));
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
         assertThat(topic.value().format(), is(KAFKA_FORMAT));
         assertThat(topic.value().type(), is(String.class));
         assertThat(topic.config(), is(sameInstance(CONFIG)));
+    }
+
+    @Test
+    void shouldConvertOutputTopicToInput() {
+        // Given:
+        final OwnedKafkaTopicOutput<Long, String> output =
+                outputTopic("name", Long.class, String.class, config);
+
+        // When:
+        final KafkaTopicInput<Long, String> input = output.toInput();
+
+        // Then:
+        assertThat(input.id().toString(), is("kafka-topic://default/name"));
+        assertThat(input.name(), is("name"));
+        assertThat(input.key().format(), is(KAFKA_FORMAT));
+        assertThat(input.key().type(), is(Long.class));
+        assertThat(input.value().format(), is(KAFKA_FORMAT));
+        assertThat(input.value().type(), is(String.class));
     }
 }
