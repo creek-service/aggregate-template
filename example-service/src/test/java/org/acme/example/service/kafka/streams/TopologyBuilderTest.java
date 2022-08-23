@@ -17,6 +17,7 @@
 package org.acme.example.service.kafka.streams;
 
 import static org.apache.kafka.streams.KeyValue.pair;
+import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
 import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -61,7 +62,7 @@ class TopologyBuilderTest {
 
         topology = new TopologyBuilder(ext).build();
 
-        testDriver = new TopologyTestDriver(topology, ext.properties());
+        testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
 
         inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);
         outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);

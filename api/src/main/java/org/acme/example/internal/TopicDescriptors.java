@@ -17,13 +17,18 @@
 package org.acme.example.internal;
 
 import static java.util.Objects.requireNonNull;
+import static org.creekservice.api.kafka.metadata.KafkaResourceIds.topicId;
 import static org.creekservice.api.kafka.metadata.SerializationFormat.serializationFormat;
 
+import java.net.URI;
 import java.util.Optional;
 import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.KafkaTopicDescriptor;
 import org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.PartDescriptor;
+import org.creekservice.api.kafka.metadata.KafkaTopicInput;
 import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.KafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.SerializationFormat;
@@ -154,6 +159,8 @@ public final class TopicDescriptors {
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private abstract static class TopicDescriptor<K, V> {
+
+        private final URI id;
         private final String topicName;
         private final PartDescriptor<K> key;
         private final PartDescriptor<V> value;
@@ -168,6 +175,11 @@ public final class TopicDescriptors {
             this.key = new KafkaPart<>(keyType);
             this.value = new KafkaPart<>(valueType);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
+            this.id = topicId(KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME, topicName);
+        }
+
+        public URI id() {
+            return id;
         }
 
         public String name() {
@@ -197,6 +209,31 @@ public final class TopicDescriptors {
                 final TopicConfigBuilder config) {
             super(topicName, keyType, valueType, Optional.of(config));
         }
+
+        @Override
+        public KafkaTopicInput<K, V> toInput() {
+            return new KafkaTopicInput<>() {
+                @Override
+                public URI id() {
+                    return OutputTopicDescriptor.this.id();
+                }
+
+                @Override
+                public String name() {
+                    return OutputTopicDescriptor.this.name();
+                }
+
+                @Override
+                public PartDescriptor<K> key() {
+                    return OutputTopicDescriptor.this.key();
+                }
+
+                @Override
+                public PartDescriptor<V> value() {
+                    return OutputTopicDescriptor.this.value();
+                }
+            };
+        }
     }
 
     private static final class InputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
@@ -208,6 +245,31 @@ public final class TopicDescriptors {
                 final Class<V> valueType,
                 final TopicConfigBuilder config) {
             super(topicName, keyType, valueType, Optional.of(config));
+        }
+
+        @Override
+        public KafkaTopicOutput<K, V> toOutput() {
+            return new KafkaTopicOutput<>() {
+                @Override
+                public URI id() {
+                    return InputTopicDescriptor.this.id();
+                }
+
+                @Override
+                public String name() {
+                    return InputTopicDescriptor.this.name();
+                }
+
+                @Override
+                public PartDescriptor<K> key() {
+                    return InputTopicDescriptor.this.key();
+                }
+
+                @Override
+                public PartDescriptor<V> value() {
+                    return InputTopicDescriptor.this.value();
+                }
+            };
         }
     }
 
