@@ -12,7 +12,7 @@ project.version = scmVersion.version
 
 scmVersion {
     // Required while using Creek SNAPSHOT build:
-    checks.isSnapshotDependencies = false
+    checks.snapshotDependencies.set(false)
 }
 
 allprojects {
