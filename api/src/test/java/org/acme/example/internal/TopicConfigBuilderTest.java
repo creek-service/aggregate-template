@@ -32,8 +32,7 @@ class TopicConfigBuilderTest {
 
     @Test
     void shouldSetPartitions() {
-        MatcherAssert.assertThat(
-                TopicConfigBuilder.withPartitions(4).build().getPartitions(), is(4));
+        MatcherAssert.assertThat(TopicConfigBuilder.withPartitions(4).build().partitions(), is(4));
     }
 
     @Test
@@ -78,7 +77,7 @@ class TopicConfigBuilderTest {
         final TopicConfigBuilder builder = TopicConfigBuilder.builder(10_001, true);
 
         // Then:
-        assertThat(builder.build().getPartitions(), is(10_001));
+        assertThat(builder.build().partitions(), is(10_001));
     }
 
     @Test
@@ -89,7 +88,7 @@ class TopicConfigBuilderTest {
 
         // Then:
         assertThat(
-                config.getConfig(),
+                config.config(),
                 hasEntry(TopicConfig.CLEANUP_POLICY_CONFIG, TopicConfig.CLEANUP_POLICY_COMPACT));
     }
 
@@ -101,7 +100,7 @@ class TopicConfigBuilderTest {
 
         // Then:
         assertThat(
-                config.getConfig(),
+                config.config(),
                 hasEntry(
                         TopicConfig.CLEANUP_POLICY_CONFIG,
                         TopicConfig.CLEANUP_POLICY_COMPACT
@@ -120,7 +119,7 @@ class TopicConfigBuilderTest {
 
         // Then:
         assertThat(
-                config.getConfig(),
+                config.config(),
                 hasEntry(TopicConfig.RETENTION_MS_CONFIG, "" + duration.toMillis()));
     }
 
@@ -131,7 +130,7 @@ class TopicConfigBuilderTest {
                 TopicConfigBuilder.withPartitions(4).withInfiniteRetention().build();
 
         // Then:
-        assertThat(config.getConfig(), hasEntry(TopicConfig.RETENTION_MS_CONFIG, "-1"));
+        assertThat(config.config(), hasEntry(TopicConfig.RETENTION_MS_CONFIG, "-1"));
     }
 
     @Test
@@ -141,7 +140,7 @@ class TopicConfigBuilderTest {
                 TopicConfigBuilder.withPartitions(4).withSegmentSize(50 * 1024).build();
 
         // Then:
-        assertThat(config.getConfig(), hasEntry(TopicConfig.SEGMENT_BYTES_CONFIG, "51200"));
+        assertThat(config.config(), hasEntry(TopicConfig.SEGMENT_BYTES_CONFIG, "51200"));
     }
 
     @Test
@@ -151,6 +150,6 @@ class TopicConfigBuilderTest {
                 TopicConfigBuilder.withPartitions(4).withConfigs(Map.of("a", "b")).build();
 
         // Then:
-        assertThat(config.getConfig(), hasEntry("a", "b"));
+        assertThat(config.config(), hasEntry("a", "b"));
     }
 }
