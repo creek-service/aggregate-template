@@ -17,7 +17,6 @@
 package org.acme.example.internal;
 
 import static java.util.Objects.requireNonNull;
-import static org.creekservice.api.kafka.metadata.KafkaResourceIds.topicId;
 import static org.creekservice.api.kafka.metadata.SerializationFormat.serializationFormat;
 
 import java.net.URI;
@@ -158,7 +157,7 @@ public final class TopicDescriptors {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private abstract static class TopicDescriptor<K, V> {
+    private abstract static class TopicDescriptor<K, V> implements KafkaTopicDescriptor<K, V> {
 
         private final URI id;
         private final String topicName;
@@ -175,7 +174,7 @@ public final class TopicDescriptors {
             this.key = new KafkaPart<>(keyType);
             this.value = new KafkaPart<>(valueType);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
-            this.id = topicId(KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME, topicName);
+            this.id = KafkaTopicDescriptor.super.id();
         }
 
         public URI id() {

@@ -52,6 +52,10 @@ subprojects {
 
     project.version = project.parent?.version!!
 
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor(10, TimeUnit.MINUTES)
+    }
+
     extra.apply {
         set("creekVersion", "0.2.0-SNAPSHOT")
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
