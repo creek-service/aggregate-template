@@ -6,6 +6,7 @@ plugins {
     id("com.diffplug.spotless") version "6.10.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
     id("pl.allegro.tech.build.axion-release") version "1.14.0"  // https://mvnrepository.com/artifact/pl.allegro.tech.build.axion-release/pl.allegro.tech.build.axion-release.gradle.plugin?repo=gradle-plugins
     id("com.github.kt3k.coveralls") version "2.12.0"            // https://plugins.gradle.org/plugin/com.github.kt3k.coveralls
+    id("org.javamodularity.moduleplugin") version "1.8.12" apply false  // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
 }
 
 project.version = scmVersion.version
@@ -29,6 +30,7 @@ allprojects {
     java {
         withSourcesJar()
 
+        modularity.inferModulePath.set(false)
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
@@ -49,6 +51,7 @@ allprojects {
 
 subprojects {
     apply(plugin = "maven-publish")
+    apply(plugin = "org.javamodularity.moduleplugin")
 
     project.version = project.parent?.version!!
 
@@ -94,7 +97,7 @@ subprojects {
     }
 
     tasks.compileJava {
-        options.compilerArgs.add("-Xlint:all,-serial")
+        options.compilerArgs.add("-Xlint:all,-serial,-module")
         options.compilerArgs.add("-Werror")
     }
 

@@ -17,7 +17,6 @@ The template comes with the following modules:
 * **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
 * **[ids](ids)**: defines type safe wrappers around simple id types.
 * **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
-* **[common](common)**: common code shared between services in this aggregate.
 * **[example-service](example-service)**: an example Kafka Streams microservice.
 
 ## Gradle Configuration

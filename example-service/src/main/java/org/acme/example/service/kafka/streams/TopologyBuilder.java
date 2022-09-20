@@ -28,7 +28,7 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.kstream.Transformer;
 import org.apache.kafka.streams.kstream.TransformerSupplier;
 import org.apache.kafka.streams.processor.ProcessorContext;
-import org.creekservice.api.kafka.common.resource.KafkaTopic;
+import org.creekservice.api.kafka.extension.resource.KafkaTopic;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creekservice.api.kafka.streams.extension.util.Name;
 

@@ -4,6 +4,5 @@ include(
     "ids",
     "api",
     "services",
-    "common",
     "example-service"
 )
