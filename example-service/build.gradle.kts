@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":services"))
     implementation("org.creekservice:creek-service-context:$creekVersion")
     implementation("org.creekservice:creek-kafka-streams-extension:$creekVersion")
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
     testImplementation("org.creekservice:creek-kafka-streams-test:$creekVersion")
