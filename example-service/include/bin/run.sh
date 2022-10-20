@@ -20,6 +20,4 @@ java \
  -Xms64m -Xmx256m \
  -Dlog4j.configurationFile=/log/log4j2.xml \
  --module-path "/opt/creek/service/lib" \
- --module example.service/org.acme.example.service.ServiceMain
-
-# ChangeMe: change the above '--module <module-name>/<fully-qualified-name-of-main-class>' to match any changes made
+ --module example.mod.service/org.acme.example.service.ServiceMain

@@ -7,6 +7,8 @@ version: 2
 registries:
   creek-github-packages:
     type: maven-repository
+    # ChangeMe: remove this, as it's only required for Creek's own repos.
+    # Your repo should get Creek jars from Maven Central.
     url: https://maven.pkg.github.com/creek-service/*
     username: "Creek-Bot-Token"
     password: "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"
@@ -21,8 +23,3 @@ updates:
       - creek-github-packages
     schedule:
       interval: weekly
-    ignore:
-      # https://github.com/creek-service/creek-kafka/issues/27
-      - dependency-name: "org.apache.kafka:*"
-        update-types: [ "version-update:semver-patch" ]
-        versions: [ "3.+" ]

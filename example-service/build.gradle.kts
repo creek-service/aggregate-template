@@ -24,7 +24,7 @@ dependencies {
 modularity.patchModule("kafka.streams", "kafka-streams-test-utils-$kafkaVersion.jar")
 
 application {
-    mainModule.set("example.service")
+    mainModule.set("example.mod.service")
     mainClass.set("org.acme.example.service.ServiceMain")
 }
 

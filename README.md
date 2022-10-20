@@ -1,4 +1,3 @@
-<!-- ChangeMe: replace /aggregate-template in the badge urls below with the name of the repo if keeping the badges-->
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
 [![build](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml)
@@ -6,16 +5,17 @@
 
 # Aggregate template
 
-Intended for use by people wanting to use Creek in their own project. 
-
-Use this template repo to create your own aggregate repos, or as the basis for your own customised template repo for use in your project.
+This repository is intended as a template for anyone wanting to use Creek when writing microservices.
+It is not a requirement that Creek based microservices use this template. However, the template sets up
+a lot of boilerplate code for you. 
+Organisations and individuals wanting to build their microservice echo system using Creek may want to
+create their own aggregate template, using this template as a starting point.
 
 ## Modules
 
 The template comes with the following modules:
 
 * **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
-* **[ids](ids)**: defines type safe wrappers around simple id types.
 * **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
 * **[example-service](example-service)**: an example Kafka Streams microservice.
 
@@ -58,9 +58,9 @@ that just don't fit with how you're doing things. Just remove any bits you don't
 Many are here simply because that's how Creek does things internally. 
 
 Taking into account any features you don't need, you can also run through the following list of steps to
-finish off your new repo:
+finish initializing your new repo:
 
-1. Click the "Use this template" button on the main page and follow the instructions.
+1. Click the "Use this template" button on the main page and follow the instructions to clone the repo to your account.
 2. If using Coveralls.io:
    1. Import the new repo into Coveralls.io, noting the repo token.
    2. Add the repo token as a secret to the repo in GitHub:
@@ -68,12 +68,18 @@ finish off your new repo:
       * Set the name to `COVERALLS_REPO_TOKEN`
       * Set the value to the repo token you noted from Coveralls.io.
 3. Customise the files in the new repo:
-   1. Replace/duplicate the [`example-service`](example-service) module.
-       One module per service this aggregate will contain.
-   2. Replace the `org.acme` and associated package names used in the code with your own. 
+   1. Run the `init.sh` script to initialize the repo:
+        Note: if on OS X, then first run `brew install gnu-sed` and update the path as indicated in the output 'caveats'.
+        
+        ```shell
+        ./init.sh
+        ``` 
+   2. Delete the `init.sh` script.
    3. Search for `ChangeMe` comments, following the instructions.
    4. Replace/remove this README.md!
    5. Commit changes as a PR (so you can test the PR build works, if using GitHub actions to build)
+   6. Replace/duplicate the [`example-service`](example-service) module.
+      One module for each service this aggregate will contain.
 
 [1]: https://github.com/diffplug/spotless
 [2]: https://spotbugs.github.io/

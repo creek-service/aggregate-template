@@ -16,17 +16,11 @@
 
 package org.acme.example.service.kafka.streams;
 
-import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
-import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
-import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
 import org.acme.example.services.ExampleServiceDescriptor;
-import org.apache.kafka.streams.TestInputTopic;
-import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
@@ -44,8 +38,6 @@ class TopologyBuilderTest {
     private static CreekContext ctx;
 
     private TopologyTestDriver testDriver;
-    private TestInputTopic<String, Long> inputTopic;
-    private TestOutputTopic<Long, String> outputTopic;
     private Topology topology;
 
     @BeforeAll
@@ -63,9 +55,6 @@ class TopologyBuilderTest {
         topology = new TopologyBuilder(ext).build();
 
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
-
-        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);
-        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);
     }
 
     @AfterEach
@@ -73,14 +62,7 @@ class TopologyBuilderTest {
         testDriver.close();
     }
 
-    @Test
-    void shouldSwitchKeyAndValue() {
-        // When:
-        inputTopic.pipeInput("a", 1L);
-
-        // Then:
-        assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));
-    }
+    // ChangeMe: add tests for your topology here.
 
     /**
      * A test that intentionally fails when ever the topology changes.

@@ -1,9 +1,8 @@
 
 import org.creekservice.api.platform.metadata.ComponentDescriptor;
 
-// ChangeMe: change the name of the module to something more appropriate
-module example.services {
-    requires transitive example.api;
+module example.mod.services {
+    requires transitive example.mod.api;
 
     exports org.acme.example.services;
 

@@ -19,16 +19,8 @@ package org.acme.example.service.kafka.streams;
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
-import org.acme.example.services.ExampleServiceDescriptor;
-import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.kstream.Transformer;
-import org.apache.kafka.streams.kstream.TransformerSupplier;
-import org.apache.kafka.streams.processor.ProcessorContext;
-import org.creekservice.api.kafka.extension.resource.KafkaTopic;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
 import org.creekservice.api.kafka.streams.extension.util.Name;
 
@@ -44,36 +36,8 @@ public final class TopologyBuilder {
     public Topology build() {
         final StreamsBuilder builder = new StreamsBuilder();
 
-        final KafkaTopic<String, Long> inputTopic = ext.topic(ExampleServiceDescriptor.InputTopic);
-        final KafkaTopic<Long, String> outputTopic =
-                ext.topic(ExampleServiceDescriptor.OutputTopic);
-
-        builder.stream(
-                        inputTopic.name(),
-                        Consumed.with(inputTopic.keySerde(), inputTopic.valueSerde())
-                                .withName(name.name("ingest-" + inputTopic.name())))
-                .transform(switchKeyAndValue(), name.named("switch"))
-                .to(
-                        outputTopic.name(),
-                        Produced.with(outputTopic.keySerde(), outputTopic.valueSerde())
-                                .withName(name.name("egress-" + outputTopic.name())));
+        // ChangeMe: Initialize your topology here.
 
         return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
-    }
-
-    private TransformerSupplier<String, Long, KeyValue<Long, String>> switchKeyAndValue() {
-        return () ->
-                new Transformer<>() {
-                    @Override
-                    public void init(final ProcessorContext context) {}
-
-                    @Override
-                    public KeyValue<Long, String> transform(final String key, final Long value) {
-                        return new KeyValue<>(value, key);
-                    }
-
-                    @Override
-                    public void close() {}
-                };
     }
 }
