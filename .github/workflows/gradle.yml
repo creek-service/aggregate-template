@@ -61,20 +61,20 @@ jobs:
         run: chmod +x gradlew
       - name: Run init script
         run: |
-          echo serviceName=${{ matix.serviceName }}
-          echo serviceClass=${{ matix.serviceClass }}
-          echo repoName=${{ matix.repoName }}
-          echo groupName=${{ matix.groupName }}
-          echo aggregateClass=${{ matix.aggregateClass }}
-          echo rootPackage=${{ matix.rootPackage }}
-          echo modNamePrefix=${{ matix.modNamePrefix }}
+          echo serviceName=${{ matrix.serviceName }}
+          echo serviceClass=${{ matrix.serviceClass }}
+          echo repoName=${{ matrix.repoName }}
+          echo groupName=${{ matrix.groupName }}
+          echo aggregateClass=${{ matrix.aggregateClass }}
+          echo rootPackage=${{ matrix.rootPackage }}
+          echo modNamePrefix=${{ matrix.modNamePrefix }}
           ./init_headless.sh \
-            ${{ matix.serviceName }} \
-            ${{ matix.serviceClass }} \
-            ${{ matix.repoName }} \
-            ${{ matix.groupName }} \
-            ${{ matix.aggregateClass }} \
-            ${{ matix.rootPackage }} \
-            ${{ matix.modNamePrefix }}
+            ${{ matrix.serviceName }} \
+            ${{ matrix.serviceClass }} \
+            ${{ matrix.repoName }} \
+            ${{ matrix.groupName }} \
+            ${{ matrix.aggregateClass }} \
+            ${{ matrix.rootPackage }} \
+            ${{ matrix.modNamePrefix }}
       - name: Build
         run: ./gradlew check
