@@ -4,14 +4,12 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
-registries:
-  creek-github-packages:
-    type: maven-repository
-    # ChangeMe: remove this, as it's only required for Creek's own repos.
-    # Your repo should get Creek jars from Maven Central.
-    url: https://maven.pkg.github.com/creek-service/*
-    username: "Creek-Bot-Token"
-    password: "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"
+registries:                                                                     # init:remove
+  creek-github-packages:                                                        # init:remove
+    type: maven-repository                                                      # init:remove
+    url: https://maven.pkg.github.com/creek-service/*                           # init:remove
+    username: "Creek-Bot-Token"                                                 # init:remove
+    password: "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"                   # init:remove
 updates:
   - package-ecosystem: github-actions
     directory: /

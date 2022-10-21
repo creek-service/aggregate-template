@@ -27,9 +27,14 @@ aggDesc=$5
 rootPackage=$6
 modNamePrefix=$7
 
+# sedCode(sedCmd)
+function sedCode() {
+  find . \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i $1
+}
+
 # replaceInCode(text-to-replace, replacement)
 function replaceInCode() {
-  find . \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i 's/'$1'/'$2'/g'
+  sedCode "s/$1/$2/g"
 }
 
 # renamePackage(old-pkg-name, new-pkg-name)
@@ -83,6 +88,9 @@ if [ "$modNamePrefix" != "example" ]; then
   echo Updating module names
   replaceInCode "example.mod" "$modNamePrefix"
 fi
+
+echo Deleting Creek specific code
+sedCode "/.*init:remove.*/d"
 
 echo Tidying up
 find . -type d -empty -delete

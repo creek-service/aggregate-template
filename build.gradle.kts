@@ -37,15 +37,13 @@ allprojects {
     repositories {
         mavenCentral()
 
-        // ChangeMe: remove this, as it's only required for Creek's own repos.
-        // Your repo should get Creek jars from Maven Central.
-        maven {
-            url = uri("https://maven.pkg.github.com/creek-service/*")
-            credentials {
-                username = "Creek-Bot-Token"
-                password = "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"
-            }
-        }
+        maven {                                                                 // init:remove
+            url = uri("https://maven.pkg.github.com/creek-service/*")      // init:remove
+            credentials {                                                       // init:remove
+                username = "Creek-Bot-Token"                                    // init:remove
+                password = "\u0067hp_LtyvXrQZen3WlKenUhv21Mg6NG38jn0AO2YH"      // init:remove
+            }                                                                   // init:remove
+        }                                                                       // init:remove
     }
 }
 
@@ -157,7 +155,7 @@ subprojects {
     }
 
     if (name == "api") {
-        // ChangeMe: remove / update this:
+        // ChangeMe: update to publish jars to your artefact store
         publishing {
             repositories {
                 maven {
