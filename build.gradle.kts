@@ -24,7 +24,6 @@ allprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "com.github.spotbugs")
 
-    // ChangeMe:
     group = "org.acme"
 
     java {
@@ -38,7 +37,7 @@ allprojects {
     repositories {
         mavenCentral()
 
-        // ChangeMe: remove this, as it's only required by Creek's own repos. Your repo should get Creek jars from Maven Central.
+        // ChangeMe: Remove. Fixed by: https://github.com/orgs/creek-service/projects/3
         maven {
             url = uri("https://maven.pkg.github.com/creek-service/*")
             credentials {
@@ -63,7 +62,7 @@ subprojects {
         set("creekVersion", "0.2.0-SNAPSHOT")
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
 
-        set("guavaVersion", "31.1-jre")       // https://mvnrepository.com/artifact/com.google.guava/guava
+        set("guavaVersion", "31.1-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.19.0")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
 
         set("junitVersion", "5.9.1")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
@@ -71,7 +70,7 @@ subprojects {
         set("mockitoVersion", "4.8.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "2.2")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
 
-        set("kafkaVersion", "2.8.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+        set("kafkaVersion", "3.3.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
     }
 
     val creekVersion : String by extra
@@ -122,6 +121,7 @@ subprojects {
             removeUnusedImports()
             trimTrailingWhitespace()
             endWithNewline()
+            toggleOffOn("formatting:off", "formatting:on")
         }
     }
 
@@ -156,25 +156,27 @@ subprojects {
         dependsOn("checkstyleMain", "checkstyleTest", "spotbugsMain", "spotbugsTest")
     }
 
-    // ChangeMe: remove / update this.
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/creek-service/${rootProject.name}")
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
+    if (name == "api") {
+        // ChangeMe: update to publish jars to your artefact store
+        publishing {
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/creek-service/${rootProject.name}")
+                    credentials {
+                        username = System.getenv("GITHUB_ACTOR")
+                        password = System.getenv("GITHUB_TOKEN")
+                    }
                 }
             }
-        }
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-                artifactId = "${rootProject.name}-${project.name}"
+            publications {
+                create<MavenPublication>("maven") {
+                    from(components["java"])
+                    artifactId = "${rootProject.name}-${project.name}"
 
-                pom {
-                    url.set("https://github.com/creek-service/${rootProject.name}.git")
+                    pom {
+                        url.set("https://github.com/creek-service/${rootProject.name}.git")
+                    }
                 }
             }
         }

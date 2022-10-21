@@ -27,23 +27,21 @@ import org.creekservice.api.platform.metadata.AggregateDescriptor;
 import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 
-// ChangeMe: change the name of this class to match the name of the new aggregate and customize as
-// needed
 public final class ExampleAggregateDescriptor implements AggregateDescriptor {
 
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
-
-    // ChangeMe: replace or remove topic descriptors, as required:
-    private static final String AGGREGATE_PREFIX = "example.";
-
-    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =
-            register(
-                    outputTopic(
-                            AGGREGATE_PREFIX + "output",
-                            Long.class,
-                            String.class,
-                            TopicConfigBuilder.withPartitions(2)));
+    // formatting:off init:remove
+    private static final String AGGREGATE_PREFIX = "example.";                  // init:remove
+                                                                                // init:remove
+    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =       // init:remove
+            register(                                                           // init:remove
+                    outputTopic(                                                // init:remove
+                            AGGREGATE_PREFIX + "output",                        // init:remove
+                            Long.class,                                         // init:remove
+                            String.class,                                       // init:remove
+                            TopicConfigBuilder.withPartitions(2)));             // init:remove
+    // formatting:on init:remove
 
     @Override
     public Collection<ComponentInput> inputs() {
@@ -55,15 +53,12 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
         return List.copyOf(OUTPUTS);
     }
 
-    /*
-    ChangeMe: Uncomment if needed, remove if not.
-    private static <T extends ComponentInput> T register(final T input) {
-        INPUTS.add(input);
-        return input;
-    }
-    */
+    // Uncomment if needed
+    // private static <T extends ComponentInput> T register(final T input) {
+    //     INPUTS.add(input);
+    //     return input;
+    // }
 
-    // ChangeMe: remove if not needed:
     private static <T extends ComponentOutput> T register(final T output) {
         OUTPUTS.add(output);
         return output;

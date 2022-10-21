@@ -37,3 +37,46 @@ jobs:
         run: ./gradlew publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-clone:
+    strategy:
+      matrix:
+        serviceName: [ example-service, diff-service ]
+        serviceClass: [ ExampleServiceDescriptor, DiffServiceDescriptor ]
+        repoName: [ aggregate-template, some-repo ]
+        groupName: [ org.acme, com.something ]
+        aggregateClass: [ AggregateTemplateAggregateDescriptor, DiffAggregateDescriptor ]
+        rootPackage: [ org.acme.aggregate.template, com.something.aggregate ]
+        modNamePrefix: [ aggregate.template, diff.prefix ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run init script
+        run: |
+          echo serviceName=${{ matrix.serviceName }}
+          echo serviceClass=${{ matrix.serviceClass }}
+          echo repoName=${{ matrix.repoName }}
+          echo groupName=${{ matrix.groupName }}
+          echo aggregateClass=${{ matrix.aggregateClass }}
+          echo rootPackage=${{ matrix.rootPackage }}
+          echo modNamePrefix=${{ matrix.modNamePrefix }}
+          ./init_headless.sh \
+            ${{ matrix.serviceName }} \
+            ${{ matrix.serviceClass }} \
+            ${{ matrix.repoName }} \
+            ${{ matrix.groupName }} \
+            ${{ matrix.aggregateClass }} \
+            ${{ matrix.rootPackage }} \
+            ${{ matrix.modNamePrefix }}
+      - name: Build
+        run: |
+          ./gradlew format
+          ./gradlew check

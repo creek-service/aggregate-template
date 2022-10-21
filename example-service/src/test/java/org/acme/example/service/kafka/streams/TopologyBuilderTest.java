@@ -44,9 +44,11 @@ class TopologyBuilderTest {
     private static CreekContext ctx;
 
     private TopologyTestDriver testDriver;
-    private TestInputTopic<String, Long> inputTopic;
-    private TestOutputTopic<Long, String> outputTopic;
     private Topology topology;
+    // formatting:off                                                           // init:remove
+    private TestInputTopic<String, Long> inputTopic;                            // init:remove
+    private TestOutputTopic<Long, String> outputTopic;                          // init:remove
+    // formatting:on                                                            // init:remove
 
     @BeforeAll
     public static void classSetup() {
@@ -61,11 +63,11 @@ class TopologyBuilderTest {
         final KafkaStreamsExtension ext = ctx.extension(KafkaStreamsExtension.class);
 
         topology = new TopologyBuilder(ext).build();
-
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
-
-        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);
-        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);
+        // formatting:off init:remove
+        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);   // init:remove
+        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);// init:remove
+        // formatting:on  init:remove
     }
 
     @AfterEach
@@ -73,14 +75,17 @@ class TopologyBuilderTest {
         testDriver.close();
     }
 
-    @Test
-    void shouldSwitchKeyAndValue() {
-        // When:
-        inputTopic.pipeInput("a", 1L);
-
-        // Then:
-        assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));
-    }
+    // formatting:off init:remove
+    @Test                                                                            // init:remove
+    void shouldSwitchKeyAndValue() {                                                 // init:remove
+        // When:                                                                     // init:remove
+        inputTopic.pipeInput("a", 1L);                                               // init:remove
+                                                                                     // init:remove
+        // Then:                                                                     // init:remove
+        assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));      // init:remove
+    }                                                                                // init:remove
+    // formatting:on  init:remove
+    // ChangeMe: add tests for your topology here.
 
     /**
      * A test that intentionally fails when ever the topology changes.

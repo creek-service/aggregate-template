@@ -1,7 +1,6 @@
-rootProject.name = "aggregate-template" // ChangeMe: set the root project name to the name of your repo.
+rootProject.name = "aggregate-template"
 
 include(
-    "ids",
     "api",
     "services",
     "example-service"
