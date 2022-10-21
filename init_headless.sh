@@ -57,6 +57,9 @@ function renamePackage() {
 echo Prepare
 find . -type d -empty -delete
 
+echo Removing test expectation
+echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
+
 if [ "$serviceName" != "example-service" ]; then
   echo Renaming service
   replaceInCode "example-service" "$serviceName"
@@ -91,7 +94,6 @@ fi
 
 echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
-echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
 echo Tidying up
 find . -type d -empty -delete
