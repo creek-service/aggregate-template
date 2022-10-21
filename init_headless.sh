@@ -91,6 +91,7 @@ fi
 
 echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
+echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
 echo Tidying up
 find . -type d -empty -delete
