@@ -92,4 +92,4 @@ then
     exit 1
 fi
 
-./init_headless.sh "$serviceName" "$serviceClass" "$repoName" "$groupName" "$aggregateClass" "$rootPackage" "$modNamePrefix"
+./headless_init.sh "$serviceName" "$serviceClass" "$repoName" "$groupName" "$aggregateClass" "$rootPackage" "$modNamePrefix"
