@@ -77,4 +77,6 @@ jobs:
             ${{ matrix.rootPackage }} \
             ${{ matrix.modNamePrefix }}
       - name: Build
-        run: ./gradlew check
+        run: |
+          ./gradlew format
+          ./gradlew check
