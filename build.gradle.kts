@@ -70,7 +70,7 @@ subprojects {
         set("mockitoVersion", "4.8.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "2.2")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
 
-        set("kafkaVersion", "3.3.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+        set("kafkaVersion", "3.3.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
     }
 
     val creekVersion : String by extra
