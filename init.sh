@@ -144,6 +144,15 @@ if [ "$force" = false ]; then
   then
       exit 1
   fi
+
+  echo
 fi
 
-./init_headless.sh "$serviceName" "$serviceClass" "$repoName" "$groupName" "$aggregateClass" "$rootPackage" "$modNamePrefix"
+./init_headless.sh \
+  --aggregate-class "$aggregateClass" \
+  --service-name "$serviceName" \
+  --service-class "$serviceClass" \
+  --repository-name "$repoName" \
+  --group-name "$groupName" \
+  --root-package "$rootPackage" \
+  --module-name-prefix "$modNamePrefix"
