@@ -16,6 +16,12 @@
 # limitations under the License.
 #
 
+if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
+   echo "ERROR: incompatible version of sed detected." >&2
+   echo "If on Mac, 'brew install gnu-sed' and add to path" >&2
+   exit 1;
+fi
+
 succinct=false
 useDefaults=false
 force=false
@@ -45,7 +51,7 @@ while :; do
         break
         ;;
     -?*)
-        printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+        echo "WARN: Unknown option (ignored): $1" >&2
         ;;
     *)
         break
@@ -54,6 +60,18 @@ while :; do
   shift
 done
 
+# userOption(var, default, tag, description)
+function userOption() {
+  if [ "$succinct" = false ]; then
+    echo
+    echo -e $4
+  fi
+  if [ "$useDefaults" = false ]; then
+    eval read -p \"$3 [$2]: \" $1
+  fi
+  eval $1=\${$1:-$2}
+}
+
 if [ "$succinct" = false ]; then
   echo This script will customise a repository cloned from the tempalte.
   echo WARNING: only run this script once. If there are issues, revert all changes before running again.
@@ -61,87 +79,53 @@ if [ "$succinct" = false ]; then
   echo Please answer the following questions to control the customisation:
 fi
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "The template contains a single service. Its name can be customised."
-  echo "It is recommended the name ends in '-service'."
-  echo "Additional services can be added by duplicating the service module."
-fi
-if [ "$useDefaults" = false ]; then
-  read -p "Service module name [example-service]: " serviceName
-fi
-serviceName=${serviceName:-example-service}
+userOption "serviceName" "example-service" "Service module name" \
+ "The template contains a single service. Its name can be customised.\n
+ It is recommended the name ends in '-service'.\n
+ Additional services can be added by duplicating the service module
+ and adding them to settings.gradle.kts
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "The service descriptor is the class that forms the API of the service within the aggregate."
-  echo "It is the class that other services in the aggregate will use to access its inputs and outputs."
-  echo "The default name is based off the service name given above. Or you can provide a custom name."
-fi
 defaultServiceClass=$(echo $serviceName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
-if [ "$useDefaults" = false ]; then
-  read -p "Service class name [$defaultServiceClass]: " serviceClass
-fi
-serviceClass=${serviceClass:-$defaultServiceClass}
+userOption "serviceClass" "$defaultServiceClass" "Service class name" \
+ "The service descriptor is the class that forms the API of the service within the aggregate.\n
+ It is the class that other services in the aggregate will use to access its inputs and outputs.\n
+ The default name is based off the service name given above. Or you can provide a custom name.
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "What is the name of the cloned repository in GitHub?"
-  echo "This name is used to ensure the links to repository resources in Github are correct."
-  echo "The default is to root directory name of the local project."
-  echo "Only alpha-numerics and the dash(-) character are currently supported"
-fi
-if [ "$useDefaults" = false ]; then
-  read -p "New repository name [$(basename $PWD)]: " repoName
-fi
-repoName=${repoName:-$(basename $PWD)}
+userOption "repoName" $(basename $PWD) "New repository name" \
+ "What is the name of the cloned repository in GitHub?\n
+ This name is used to ensure the links to repository resources in Github are correct.\n
+ The default is to root directory name of the local project.\n
+ Only alpha-numerics and the dash(-) character are currently supported.
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "The artefact group name is the group name used when publishing artefacts."
-  echo "The default is to leave it as 'org.acme', which is fine for hacking about."
-fi
-if [ "$useDefaults" = false ]; then
-  read -p "Artefact group name [org.acme]: " groupName
-fi
-groupName=${groupName:-org.acme}
+userOption "groupName" "org.acme" "Artefact group name" \
+ "The artefact group name is the group name used when publishing artefacts.\n
+ The default is to leave it as 'org.acme', which is fine for hacking about.
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "The aggregate descriptor is the class that forms the API of this aggregate."
-  echo "It is the class that other aggregates will use to access its inputs and outputs."
-  echo "The default name is based off the repository name. Or you can provide a custom name."
-fi
 defaultAggregateClass=$(echo $repoName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
-if [ "$useDefaults" = false ]; then
-  read -p "Aggregate class name [$defaultAggregateClass]: " aggregateClass
-fi
-aggregateClass=${aggregateClass:-$defaultAggregateClass}
+userOption "aggregateClass" "$defaultAggregateClass" "Aggregate class name" \
+ "The aggregate descriptor is the class that forms the API of this aggregate.\n
+ It is the class that other aggregates will use to access its inputs and outputs.\n
+ The default name is based off the repository name. Or you can provide a custom name.
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "All the code in the template sits under a 'org.acme.example' root package."
-  echo "The default is based of the group and repo names; '<group name>.<repo name>"
-  echo "Or you can set a custom root package."
-fi
 defaultRootPackage=$groupName.$(echo $repoName | sed 's/-/./g')
-if [ "$useDefaults" = false ]; then
-  read -p "Root package name [$defaultRootPackage]: " rootPackage
-fi
-rootPackage=${rootPackage:-$defaultRootPackage}
+userOption "rootPackage" "$defaultRootPackage" "Root package name" \
+ "All the code in the template sits under a 'org.acme.example' root package.\n
+ The default is based of the group and repo names; '<group name>.<repo name>\n
+ Or you can set a custom root package.
+ "
 
-if [ "$succinct" = false ]; then
-  echo
-  echo "The module name prefix is the prefix added to each JPMS module's name."
-  echo "For example, given a prefix of 'bob', then the api module's name would be 'bob.api'."
-  echo "This is only important if you're using the Java Platform's Module System, JPMS."
-  echo "The default is based of the repo name."
-fi
 defaultModNamePrefix=$(echo $repoName | sed 's/-/./g')
-if [ "$useDefaults" = false ]; then
-  read -p "Module name prefix [$defaultModNamePrefix]: " modNamePrefix
-fi
-modNamePrefix=${modNamePrefix:-$defaultModNamePrefix}
+userOption "modNamePrefix" "$defaultModNamePrefix" "Module name prefix" \
+ "The module name prefix is the prefix added to each JPMS module's name.\n
+ For example, given a prefix of 'bob', then the api module's name would be 'bob.api'.\n
+ This is only important if you're using the Java Platform's Module System, JPMS.\n
+ The default is based of the repo name.
+ "
 
 if [ "$force" = false ]; then
   echo
