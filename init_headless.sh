@@ -96,4 +96,6 @@ echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
 
 echo Tidying up
+rm ./init.sh
+rm ./init_headless.sh
 find . -type d -empty -delete
