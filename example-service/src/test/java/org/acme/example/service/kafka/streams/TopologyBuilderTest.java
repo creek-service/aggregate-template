@@ -16,11 +16,17 @@
 
 package org.acme.example.service.kafka.streams;
 
+import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
+import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
+import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
 import org.acme.example.services.ExampleServiceDescriptor;
+import org.apache.kafka.streams.TestInputTopic;
+import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
@@ -39,6 +45,10 @@ class TopologyBuilderTest {
 
     private TopologyTestDriver testDriver;
     private Topology topology;
+    // formatting:off                                                           // init:remove
+    private TestInputTopic<String, Long> inputTopic;                            // init:remove
+    private TestOutputTopic<Long, String> outputTopic;                          // init:remove
+    // formatting:on                                                            // init:remove
 
     @BeforeAll
     public static void classSetup() {
@@ -53,8 +63,11 @@ class TopologyBuilderTest {
         final KafkaStreamsExtension ext = ctx.extension(KafkaStreamsExtension.class);
 
         topology = new TopologyBuilder(ext).build();
-
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
+        // formatting:off init:remove
+        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);   // init:remove
+        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);// init:remove
+        // formatting:on  init:remove
     }
 
     @AfterEach
@@ -62,6 +75,16 @@ class TopologyBuilderTest {
         testDriver.close();
     }
 
+    // formatting:off init:remove
+    @Test                                                                            // init:remove
+    void shouldSwitchKeyAndValue() {                                                 // init:remove
+        // When:                                                                     // init:remove
+        inputTopic.pipeInput("a", 1L);                                               // init:remove
+                                                                                     // init:remove
+        // Then:                                                                     // init:remove
+        assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));      // init:remove
+    }                                                                                // init:remove
+    // formatting:on  init:remove
     // ChangeMe: add tests for your topology here.
 
     /**

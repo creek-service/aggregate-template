@@ -16,10 +16,13 @@
 
 package org.acme.example.api;
 
+import static org.acme.example.internal.TopicDescriptors.outputTopic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.acme.example.internal.TopicConfigBuilder;
+import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creekservice.api.platform.metadata.AggregateDescriptor;
 import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentOutput;
@@ -28,6 +31,17 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
 
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
+    // formatting:off init:remove
+    private static final String AGGREGATE_PREFIX = "example.";                  // init:remove
+                                                                                // init:remove
+    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =       // init:remove
+            register(                                                           // init:remove
+                    outputTopic(                                                // init:remove
+                            AGGREGATE_PREFIX + "output",                        // init:remove
+                            Long.class,                                         // init:remove
+                            String.class,                                       // init:remove
+                            TopicConfigBuilder.withPartitions(2)));             // init:remove
+    // formatting:on init:remove
 
     @Override
     public Collection<ComponentInput> inputs() {
@@ -39,10 +53,11 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
         return List.copyOf(OUTPUTS);
     }
 
-    private static <T extends ComponentInput> T register(final T input) {
-        INPUTS.add(input);
-        return input;
-    }
+    // Uncomment if needed
+    // private static <T extends ComponentInput> T register(final T input) {
+    //     INPUTS.add(input);
+    //     return input;
+    // }
 
     private static <T extends ComponentOutput> T register(final T output) {
         OUTPUTS.add(output);
