@@ -68,6 +68,13 @@ jobs:
           echo aggregateClass=${{ matix.aggregateClass }}
           echo rootPackage=${{ matix.rootPackage }}
           echo modNamePrefix=${{ matix.modNamePrefix }}
-          ./init_headless.sh ${{ matix.serviceName }} ${{ matix.serviceClass }} ${{ matix.repoName }} ${{ matix.groupName }} ${{ matix.aggregateClass }} ${{ matix.rootPackage }} ${{ matix.modNamePrefix }}
+          ./init_headless.sh \
+            ${{ matix.serviceName }} \
+            ${{ matix.serviceClass }} \
+            ${{ matix.repoName }} \
+            ${{ matix.groupName }} \
+            ${{ matix.aggregateClass }} \
+            ${{ matix.rootPackage }} \
+            ${{ matix.modNamePrefix }}
       - name: Build
         run: ./gradlew check
