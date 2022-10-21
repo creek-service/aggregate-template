@@ -20,7 +20,7 @@ if [ "$#" -ne 7 ]; then
 fi
 
 serviceName=$1
-serviceDesc=$2
+serviceClass=$2
 repoName=$3
 groupName=$4
 aggDesc=$5
@@ -63,8 +63,8 @@ if [ "$serviceName" != "example-service" ]; then
   mv "example-service" "$serviceName"
 
   echo Updating service descsriptor
-  replaceInCode "ExampleServiceDescriptor" "$serviceDesc"
-  mv "services/src/main/java/org/acme/example/services/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceDesc.java"
+  replaceInCode "ExampleServiceDescriptor" "$serviceClass"
+  mv "services/src/main/java/org/acme/example/services/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
 fi
 
 echo Updating repo name

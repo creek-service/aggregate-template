@@ -32,9 +32,9 @@ echo
 echo "The service descriptor is the class that forms the API of the service within the aggregate."
 echo "It is the class that other services in the aggregate will use to access its inputs and outputs."
 echo "The default name is based off the service name given above. Or you can provide a custom name."
-defaultServiceDesc=$(echo $serviceName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
-read -p "Service class name [$defaultServiceDesc]: " serviceDesc
-serviceDesc=${aggDesc:-$defaultServiceDesc}
+defaultServiceClass=$(echo $serviceName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+read -p "Service class name [$defaultServiceClass]: " serviceClass
+serviceClass=${serviceClass:-$defaultServiceClass}
 
 echo
 echo "What is the name of the cloned repository in GitHub?"
@@ -54,9 +54,9 @@ echo
 echo "The aggregate descriptor is the class that forms the API of this aggregate."
 echo "It is the class that other aggregates will use to access its inputs and outputs."
 echo "The default name is based off the repository name. Or you can provide a custom name."
-defaultAggDesc=$(echo $repoName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
-read -p "Aggregate class name [$defaultAggDesc]: " aggDesc
-aggDesc=${aggDesc:-$defaultAggDesc}
+defaultAggregateClass=$(echo $repoName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
+read -p "Aggregate class name [$defaultAggregateClass]: " aggregateClass
+aggregateClass=${aggregateClass:-$defaultAggregateClass}
 
 echo
 echo "All the code in the template sits under a 'org.acme.example' root package."
@@ -78,10 +78,10 @@ modNamePrefix=${modNamePrefix:-$defaultModNamePrefix}
 echo
 echo About to customise the repository using:
 echo Service module name: $serviceName
-echo Service class name: $serviceDesc
+echo Service class name: $serviceClass
 echo Repository name: $repoName
 echo Artefact Group name: $groupName
-echo Aggregate class name: $aggDesc
+echo Aggregate class name: $aggregateClass
 echo Root package name: $rootPackage
 echo Module name prefix: $modNamePrefix
 echo
@@ -92,4 +92,4 @@ then
     exit 1
 fi
 
-./init_headless.sh "$serviceName" "$serviceDesc" "$repoName" "$groupName" "$aggDesc" "$rootPackage" "$modNamePrefix"
+./init_headless.sh "$serviceName" "$serviceClass" "$repoName" "$groupName" "$aggregateClass" "$rootPackage" "$modNamePrefix"
