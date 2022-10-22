@@ -39,6 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-clone:
+    if: github.event_name != 'push'
     strategy:
       matrix:
         serviceName: [ example-service, diff-service ]
