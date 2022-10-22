@@ -76,6 +76,7 @@ subprojects {
     val creekVersion : String by extra
     val guavaVersion : String by extra
     val log4jVersion : String by extra
+    val kafkaVersion : String by extra
     val junitVersion: String by extra
     val junitPioneerVersion: String by extra
     val mockitoVersion: String by extra
@@ -93,6 +94,15 @@ subprojects {
         testImplementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
         testImplementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    }
+
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.apache.kafka") {
+                // Need a known Kafka version for module patching to work:
+                useVersion(kafkaVersion)
+            }
+        }
     }
 
     tasks.compileJava {
