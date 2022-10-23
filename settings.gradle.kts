@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        mavenCentral()
         // ChangeMe: Remove. Fixed by: https://github.com/orgs/creek-service/projects/3
         maven {
             url = uri("https://maven.pkg.github.com/creek-service/*")
