@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         mavenCentral()
         // ChangeMe: Remove. Fixed by: https://github.com/orgs/creek-service/projects/3
         maven {
