@@ -159,6 +159,7 @@ fi
 
 echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
+rm -rf system-tests/src/system-test/example-suite
 
 echo Tidying up
 rm ./init.sh

@@ -6,8 +6,8 @@
 # Aggregate template
 
 This repository is intended as a template for anyone wanting to use Creek when writing microservices.
-It is not a requirement that Creek based microservices use this template. However, the template sets up
-a lot of boilerplate code for you. 
+It is not a requirement that Creek based microservices use this template. 
+However, the template sets up a lot of boilerplate code for you. 
 Organisations and individuals wanting to build their microservice echo system using Creek may want to
 create their own aggregate template, using this template as a starting point.
 
@@ -45,6 +45,8 @@ your repo from this template:
 
 ### Gradle commands
 
+* `./gradlew` should be the go-to local command to run when developing.
+              It will run `./gradlew format`, `./gradlew static` and `./gradlew check`.
 * `./gradlew format` will format the code using [Spotless][1].
 * `./gradlew static` will run static code analysis, i.e. [Spotbugs][2] and [Checkstyle][3].
 * `./gradlew check` will run all checks and tests.

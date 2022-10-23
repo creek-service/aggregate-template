@@ -15,11 +15,16 @@
  */
 
 plugins {
-    `java-library`
+    id("org.creekservice.system.test")
 }
 
-dependencies {
-    api(project(":api"))
+val creekVersion : String by extra
 
-    // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
+dependencies {
+    systemTestComponent(project(":services"))
+    systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
+}
+
+tasks.systemTest {
+    dependsOn(":example-service:buildAppImage")
 }
