@@ -30,7 +30,7 @@ import org.creekservice.api.platform.metadata.ComponentInternal;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 import org.creekservice.api.platform.metadata.ServiceDescriptor;
 
-public class ExampleServiceDescriptor implements ServiceDescriptor {
+public final class ExampleServiceDescriptor implements ServiceDescriptor {
 
     private static final List<ComponentInput> INPUTS = new ArrayList<>();
     private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
@@ -50,7 +50,7 @@ public class ExampleServiceDescriptor implements ServiceDescriptor {
 
     @Override
     public String dockerImage() {
-        return "acme.org/example-service";
+        return "ghcr.io/creekservice/aggregate-template-example-service";
     }
 
     @Override

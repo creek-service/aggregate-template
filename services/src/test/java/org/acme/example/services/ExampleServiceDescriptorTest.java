@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-plugins {
-    `java-library`
-}
+package org.acme.example.services;
 
-dependencies {
-    api(project(":api"))
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.instanceOf;
 
-    // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
+import java.util.List;
+import org.creekservice.api.platform.metadata.ComponentDescriptor;
+import org.creekservice.api.platform.metadata.ComponentDescriptors;
+import org.junit.jupiter.api.Test;
+
+class ExampleServiceDescriptorTest {
+
+    @Test
+    void shouldLoadDescriptor() {
+        final List<ComponentDescriptor> loaded = ComponentDescriptors.load();
+        assertThat(loaded, hasItem(instanceOf(ExampleServiceDescriptor.class)));
+    }
 }

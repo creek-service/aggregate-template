@@ -2,11 +2,12 @@ plugins {
     java
     jacoco
     `maven-publish`
-    id("com.github.spotbugs") version "5.0.13"                   // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-gradle-plugin
-    id("com.diffplug.spotless") version "6.11.0"                 // https://mvnrepository.com/artifact/com.diffplug.spotless/spotless-plugin-gradle
-    id("pl.allegro.tech.build.axion-release") version "1.14.2"  // https://mvnrepository.com/artifact/pl.allegro.tech.build.axion-release/pl.allegro.tech.build.axion-release.gradle.plugin?repo=gradle-plugins
-    id("com.github.kt3k.coveralls") version "2.12.0"            // https://plugins.gradle.org/plugin/com.github.kt3k.coveralls
+    id("com.github.spotbugs") version "5.0.13"                   // https://plugins.gradle.org/plugin/com.github.spotbugs
+    id("com.diffplug.spotless") version "6.11.0"                 // https://plugins.gradle.org/plugin/com.diffplug.spotless
+    id("pl.allegro.tech.build.axion-release") version "1.14.2"   // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
+    id("com.github.kt3k.coveralls") version "2.12.0"             // https://plugins.gradle.org/plugin/com.github.kt3k.coveralls
     id("org.javamodularity.moduleplugin") version "1.8.12" apply false  // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
+    id("org.creekservice.system.test") version "0.2.0-SNAPSHOT" apply false
 }
 
 project.version = scmVersion.version
@@ -55,7 +56,7 @@ subprojects {
     project.version = project.parent?.version!!
 
     configurations.all {
-        resolutionStrategy.cacheChangingModulesFor(10, TimeUnit.MINUTES)
+        resolutionStrategy.cacheChangingModulesFor(15, TimeUnit.MINUTES)
     }
 
     extra.apply {
