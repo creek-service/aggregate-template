@@ -24,24 +24,26 @@ The template comes with the following modules:
 The template sets up the following, though you can add and remove things to your hearts content once you've created
 your repo from this template:
 
-* Multi-module Gradle Java project, including:
+  * A bare [Kafka Streams][kafkaSteams] microservice.
+  * Unit testing of the Streams topology.
+  * Black-box [system-testing][systemTest] of each service's Docker container.
+  * Code coverage analysis by [Jacoco][5], including coverage during [system-testing][systemTest].
+  * Code coverage tracking by [Coveralls.io][6]
+  * Release versioning by the [Axion-release-plugin][4]
   * Code formatting by [Spotless][1]
   * Static code analysis by [Spotbugs][2] and [Checkstyle][3]
-  * Release versioning by the [Axion-release-plugin][4]
-  * Code coverage analysis by [Jacoco][5]
-  * Code coverage tracking by [Coveralls.io][6]
   * Default set of test dependencies:
     * [Unit5][7]
     * [Mockito][8]
     * [Hamcrest][9]
     * [Guava TestLib][10]
     * [Log4J 2.x][11]
-* [GitHub build workflow][12], including:
-  * Gradle build
-  * [Coveralls.io][6] reporting
-  * Automatic incrementing of patch version number
-  * Jars published to GitHub Package Repository
-* GitHub code owners and PR template.
+  * [GitHub build workflow][12], including:
+    * Gradle build
+    * [Coveralls.io][6] reporting
+    * Automatic incrementing of patch version number
+    * Jars published to GitHub Package Repository
+  * GitHub code owners and PR template.
 
 ### Gradle commands
 
@@ -92,3 +94,5 @@ finish initializing your new repo:
 [10]: https://github.com/google/guava/tree/master/guava-testlib
 [11]: https://logging.apache.org/log4j/2.x/
 [12]: .github/workflows/gradle.yml
+[systemTest]: https://github.com/creek-service/creek-system-test
+[kafkaSteams]: https://kafka.apache.org/documentation/streams/
