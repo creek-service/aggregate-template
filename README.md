@@ -1,6 +1,6 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
-[![build](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/gradle.yml)
+[![build](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml)
 
 # Aggregate template
@@ -10,6 +10,8 @@ It is not a requirement that Creek based microservices use this template.
 However, the template sets up a lot of boilerplate code for you. 
 Organisations and individuals wanting to build their microservice echo system using Creek may want to
 create their own aggregate template, using this template as a starting point.
+
+See [CreekService.org](https://www.creekservice.org) for info on Creek Service.
 
 ## Modules
 
@@ -53,6 +55,7 @@ your repo from this template:
 * `./gradlew static` will run static code analysis, i.e. [Spotbugs][2] and [Checkstyle][3].
 * `./gradlew check` will run all checks and tests.
 * `./gradlew coverage` will generate a cross-module [Jacoco][5] coverage report.
+* `./gradlew cV` to log out the repo's current version.
 
 ## Creating a new repo from the template
 
@@ -93,6 +96,6 @@ finish initializing your new repo:
 [9]: http://hamcrest.org/JavaHamcrest/index
 [10]: https://github.com/google/guava/tree/master/guava-testlib
 [11]: https://logging.apache.org/log4j/2.x/
-[12]: .github/workflows/gradle.yml
+[12]: .github/workflows/build.yml
 [systemTest]: https://github.com/creek-service/creek-system-test
 [kafkaSteams]: https://kafka.apache.org/documentation/streams/
