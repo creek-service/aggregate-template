@@ -104,4 +104,5 @@ git checkout -- ".github/workflows/*"
 echo Tidying up
 rm ./bootstrap.sh
 rm .github/CODEOWNERS
+./gradlew format
 

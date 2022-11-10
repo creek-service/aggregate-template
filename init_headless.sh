@@ -90,6 +90,6 @@ echo Tidying up
 rm ./init.sh
 rm ./init_headless.sh
 rm ./.github/workflows/bootstrap.yml
-rm ./.github/workflows/test-init-script.yml
+rm ./.github/workflows/test-scripts.yml
 find . -type d -empty -delete
 ./gradlew clean format
