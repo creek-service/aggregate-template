@@ -59,8 +59,12 @@ your repo from this template:
 
 ## Creating a new repo from the template
 
+Upon creating a new repository from this template in GitHub via the "Use this template" button,
+a workflow will be kicked off to bootstrap the repository. This will customise the new repository
+based on the repository's name and owner.
+
 Obviously, you're free to customise any repos you generate from this template as you see fit.
-There will be features set up on this project, e.g. using [Coveralls.io][6] for reporting code coverage,
+There may be features set up on this project, e.g. using [Coveralls.io][6] for reporting code coverage,
 that just don't fit with how you're doing things. Just remove any bits you don't want or need.
 Many are here simply because that's how Creek does things internally. 
 
@@ -68,22 +72,23 @@ Taking into account any features you don't need, you can also run through the fo
 finish initializing your new repo:
 
 1. Click the "Use this template" button on the main page and follow the instructions to clone the repo to your account.
-2. Initialise the new repo:
+2. Clone the repo locally.
+3. Initialise the new repo:
    1. Run the `init.sh` script to initialize the repo:
         Note: if on OS X, then first run `brew install gnu-sed` and update the path as indicated in the output 'caveats'.
         
         ```shell
         ./init.sh
         ``` 
-   2. Replace/remove this and other README.md!
-   3. Commit changes as a PR
-3. Customise services:
+   2. Replace/remove this and other README.md files
+   3. Commit changes.
+4. Customise services:
    1. The `init.sh` will have renamed the example service, 
       now duplicate the module to create any other services you need.
       One module for each service this aggregate will contain.
    2. Add new modules to `settings.grable.kts`. 
    3. Search for `ChangeMe` comments, following the instructions.
-   4. Commit changes as a PR
+   4. Commit changes
 
 [1]: https://github.com/diffplug/spotless
 [2]: https://spotbugs.github.io/

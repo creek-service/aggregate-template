@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 #
 # Copyright 2022 Creek Contributors (https://github.com/creek-service)
@@ -29,7 +29,7 @@ force=false
 while :; do
   case $1 in
     -h|--help)
-        echo $0 [-d] [-s]
+        echo "$0 [-d] [-s]"
         echo
         echo "   -d, --use-defaults   Use defaults for all questions (also enables -s)"
         echo "   -s, --succinct       Minimise output"
@@ -64,12 +64,12 @@ done
 function userOption() {
   if [ "$succinct" = false ]; then
     echo
-    echo -e $4
+    echo -e "$4"
   fi
   if [ "$useDefaults" = false ]; then
-    eval read -p \"$3 [$2]: \" $1
+    eval "read -r \"$1?$3 [$2]: \""
   fi
-  eval $1=\${$1:-$2}
+  eval "$1=\${$1:-$2}"
 }
 
 if [ "$succinct" = false ]; then
@@ -79,6 +79,9 @@ if [ "$succinct" = false ]; then
   echo Please answer the following questions to control the customisation:
 fi
 
+serviceName=""
+serviceClass=""
+
 userOption "serviceName" "example-service" "Service module name" \
  "The template contains a single service. Its name can be customised.\n
  It is recommended the name ends in '-service'.\n
@@ -86,61 +89,22 @@ userOption "serviceName" "example-service" "Service module name" \
  and adding them to settings.gradle.kts
  "
 
-defaultServiceClass=$(echo $serviceName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+defaultServiceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
 userOption "serviceClass" "$defaultServiceClass" "Service class name" \
  "The service descriptor is the class that forms the API of the service within the aggregate.\n
  It is the class that other services in the aggregate will use to access its inputs and outputs.\n
  The default name is based off the service name given above. Or you can provide a custom name.
  "
 
-userOption "repoName" $(basename $PWD) "New repository name" \
- "What is the name of the cloned repository in GitHub?\n
- This name is used to ensure the links to repository resources in Github are correct.\n
- The default is to root directory name of the local project.\n
- Only alpha-numerics and the dash(-) character are currently supported.
- "
-
-userOption "groupName" "org.acme" "Artefact group name" \
- "The artefact group name is the group name used when publishing artefacts.\n
- The default is to leave it as 'org.acme', which is fine for hacking about.
- "
-
-defaultAggregateClass=$(echo $repoName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
-userOption "aggregateClass" "$defaultAggregateClass" "Aggregate class name" \
- "The aggregate descriptor is the class that forms the API of this aggregate.\n
- It is the class that other aggregates will use to access its inputs and outputs.\n
- The default name is based off the repository name. Or you can provide a custom name.
- "
-
-defaultRootPackage=$groupName.$(echo $repoName | sed 's/-/./g')
-userOption "rootPackage" "$defaultRootPackage" "Root package name" \
- "All the code in the template sits under a 'org.acme.example' root package.\n
- The default is based of the group and repo names; '<group name>.<repo name>\n
- Or you can set a custom root package.
- "
-
-defaultModNamePrefix=$(echo $repoName | sed 's/-/./g')
-userOption "modNamePrefix" "$defaultModNamePrefix" "Module name prefix" \
- "The module name prefix is the prefix added to each JPMS module's name.\n
- For example, given a prefix of 'bob', then the api module's name would be 'bob.api'.\n
- This is only important if you're using the Java Platform's Module System, JPMS.\n
- The default is based of the repo name.
- "
-
 if [ "$force" = false ]; then
   echo
-  echo About to customise the repository using:
-  echo Service module name: $serviceName
-  echo Service class name: $serviceClass
-  echo Repository name: $repoName
-  echo Artefact Group name: $groupName
-  echo Aggregate class name: $aggregateClass
-  echo Root package name: $rootPackage
-  echo Module name prefix: $modNamePrefix
+  echo "About to customise the repository using:"
+  echo "Service module name: $serviceName"
+  echo "Service class name: $serviceClass"
   echo
 
-  read -p "Are you sure? (y/n): " -n 1 -r
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  read -rk "confirm?Are you sure? (y/n): "
+  if [[ ! $confirm =~ ^[Yy]$ ]]
   then
       exit 1
   fi
@@ -149,10 +113,5 @@ if [ "$force" = false ]; then
 fi
 
 ./init_headless.sh \
-  --aggregate-class "$aggregateClass" \
   --service-name "$serviceName" \
-  --service-class "$serviceClass" \
-  --repository-name "$repoName" \
-  --group-name "$groupName" \
-  --root-package "$rootPackage" \
-  --module-name-prefix "$modNamePrefix"
+  --service-class "$serviceClass"

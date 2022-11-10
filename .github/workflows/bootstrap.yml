@@ -6,21 +6,28 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   boostrap:
+    if: ${{ github.run_number == 1 }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
-      - name: Echo run number
-        run: |
-          "Run number: ${{ github.run_number }}"
+      - name: Install zsh
+        run: sudo apt install zsh
       - name: Run script
-        if: ${{ github.run_number }} == 1
+        shell: zsh {0}
         run: |
-          ./bootstrap.sh
+          ./bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
       - name: Commit changes
-        if: ${{ github.run_number }} == 1
         run: |
-          git add .
+          git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
+          git config --global user.name "Creek Bot"
+          echo "adding files"
+          git add -A
+          echo "status"
+          git status
           git commit -m "Bootstrap repo"
           git push
