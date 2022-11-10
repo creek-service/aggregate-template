@@ -1,0 +1,24 @@
+# A Workflow for bootstrapping repos created from this template.
+
+name: Bootstrap
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  boostrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: Echo run number
+        run: |
+          echo "Run number: ${{ github.run_number }}"
+      - name: Run script
+        run: |
+          echo ./bootstrap.sh
+      - name: Commit changes
+        run: |
+          echo git add .
+          echo git commit -m "Bootstrap repo"
+          echo git push
