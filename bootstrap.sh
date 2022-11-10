@@ -67,12 +67,15 @@ find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_
     ' "$newBaseDir" "$oldBasePattern" "$oldBaseDir" {} \;
 }
 
+echo Prepare
+find . -type d -empty -delete
+
 echo Removing test expectation
 echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
 echo "Updating repo name to: $repoName"
 replaceInCode "creek-service/aggregate-template" "$repoUserAndName"
-replaceInCode "aggregate-template" "$repoName"
+replaceInCode "aggregate-template" "${(L)${repoName}}"
 
 echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
@@ -104,5 +107,6 @@ git checkout -- ".github/workflows/*"
 echo Tidying up
 rm ./bootstrap.sh
 rm .github/CODEOWNERS
+find . -type d -empty -delete
 ./gradlew format
 
