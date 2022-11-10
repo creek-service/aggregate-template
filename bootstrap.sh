@@ -25,7 +25,7 @@ repoUser="$2"
 repoName="${repoUserAndName/${repoUser}\//}"
 aggregateClass=$(echo "${(L)${repoName}}" | sed 's/\([-_]\)\([a-z]\)/\U\2/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
 modNamePrefix=${(L)${repoName//([_-])/.}}
-groupName="io.github.${repoUser//([_-])/.}"
+groupName="io.github.${(L)${repoUser//([_-])/.}}"
 rootPackage="$groupName.$modNamePrefix"
 
 # todo: remove

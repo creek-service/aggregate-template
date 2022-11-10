@@ -28,7 +28,7 @@ jobs:
         run: chmod +x gradlew
       - name: Run boostrap script
         shell: zsh {0}
-        run: ./bootstrap.sh "some-user-name/a_New-REpo_name" "some-user-name"
+        run: ./bootstrap.sh "some-User-name/a_New-REpo_name" "some-User-name"
       - name: Check compiles & runs
         run: ./gradlew check
       - name: Run init script
