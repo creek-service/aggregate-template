@@ -3,17 +3,32 @@
 [![build](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml)
 
-# Aggregate template
+# Creek aggregate repo starter
 
-This repository is intended as a template for anyone wanting to use Creek when writing microservices.
-It is not a requirement that Creek based microservices use this template. 
-However, the template sets up a lot of boilerplate code for you. 
-Organisations and individuals wanting to build their microservice echo system using Creek may want to
-create their own aggregate template, using this template as a starting point.
+Click the [Use this template][useThisTemplate] button above and [initialize your repo](#initialize-your-repo) 
+for the quickest method of getting started with Creek microservices.
 
-See [CreekService.org](https://www.creekservice.org) for info on Creek Service.
+Your new repo will contain the following features:
 
-## Modules
+* A bare [Kafka Streams][kafkaSteams] microservice, utilising [Creek](https://www.creekservice.org).
+* Unit testing of the Streams topology.
+* Black-box [system-testing][systemTest] of Docker container based microservices.
+* Code coverage analysis by [Jacoco][5], including coverage during [system-testing][systemTest] execution.
+* Code coverage tracking by [Coveralls.io][6].
+* Release versioning by the [Axion-release-plugin][4], with each commit creating a unique patch version.
+* Code formatting by [Spotless][1].
+* Static code analysis by [Spotbugs][2], [Checkstyle][3] and [CodeQl][codeQL]
+* Jars publishing to [GitHub Packages][ghPackages].
+* Default set of test dependencies:
+    * [Unit5][7]
+    * [Mockito][8]
+    * [Hamcrest][9]
+    * [Guava TestLib][10]
+    * [Log4J 2.x][11]
+* The following [GitHub build workflow][12]:
+    * [CI build](.github/workflows/build.yml)
+    * [CodeQl][codeQL] [build](.github/workflows/codeql.yml)
+    * [Workflow to manually set the next version](.github/workflows/version.yml)
 
 The template comes with the following modules:
 
@@ -21,31 +36,41 @@ The template comes with the following modules:
 * **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
 * **[example-service](example-service)**: an example Kafka Streams microservice.
 
-## Gradle Configuration
+Replace sample content with your own and get writing business logic, not boilerplate.
 
-The template sets up the following, though you can add and remove things to your hearts content once you've created
-your repo from this template:
+## Initialize your repo
 
-  * A bare [Kafka Streams][kafkaSteams] microservice.
-  * Unit testing of the Streams topology.
-  * Black-box [system-testing][systemTest] of each service's Docker container.
-  * Code coverage analysis by [Jacoco][5], including coverage during [system-testing][systemTest].
-  * Code coverage tracking by [Coveralls.io][6]
-  * Release versioning by the [Axion-release-plugin][4]
-  * Code formatting by [Spotless][1]
-  * Static code analysis by [Spotbugs][2] and [Checkstyle][3]
-  * Default set of test dependencies:
-    * [Unit5][7]
-    * [Mockito][8]
-    * [Hamcrest][9]
-    * [Guava TestLib][10]
-    * [Log4J 2.x][11]
-  * [GitHub build workflow][12], including:
-    * Gradle build
-    * [Coveralls.io][6] reporting
-    * Automatic incrementing of patch version number
-    * Jars published to GitHub Package Repository
-  * GitHub code owners and PR template.
+After clicking the [Use this template][useThisTemplate] button above, you can clone your repo locally
+and initialize it by running the `init.sh` script in the root.  This will clean up some code specific 
+to this template and also give you the opportunity to customise the service module. 
+
+1. Click [Use this template][useThisTemplate] and chose where your new repo should live.
+2. [Clone the repo locally](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+3. Initialise the new repo:
+    1. Run the `init.sh` script to initialize the repo:
+       Note: if on OS X, then first run `brew install gnu-sed` and update the path as indicated in the output 'caveats'.
+
+         ```shell
+         ./init.sh
+         ``` 
+    2. Replace/remove this and other README.md files
+    3. Commit changes.
+4. Customise services:
+    4. The `init.sh` will have renamed the example service,
+       now duplicate the module to create any other services you need.
+       One module for each service this aggregate will contain.
+    5. Add new modules to `settings.grable.kts`.
+    6. Search for `ChangeMe` comments, following the instructions.
+    7. Commit changes
+
+## Creating your own template repo
+
+Teams utilising Creek to build an ecosystem of microservices will probably want to clone this template
+to create the basis of their own template. This can then be customised to meet your needs and simplify
+the creation of new team repos.
+
+If creating a template repo, take a look at the [bootstrap workflow](.github/workflows/bootstrap.yml), 
+which runs when a new repo is created from this template. You may want something similar in your template.  
 
 ### Gradle commands
 
@@ -56,39 +81,6 @@ your repo from this template:
 * `./gradlew check` will run all checks and tests.
 * `./gradlew coverage` will generate a cross-module [Jacoco][5] coverage report.
 * `./gradlew cV` to log out the repo's current version.
-
-## Creating a new repo from the template
-
-Upon creating a new repository from this template in GitHub via the "Use this template" button,
-a workflow will be kicked off to bootstrap the repository. This will customise the new repository
-based on the repository's name and owner.
-
-Obviously, you're free to customise any repos you generate from this template as you see fit.
-There may be features set up on this project, e.g. using [Coveralls.io][6] for reporting code coverage,
-that just don't fit with how you're doing things. Just remove any bits you don't want or need.
-Many are here simply because that's how Creek does things internally. 
-
-Taking into account any features you don't need, you can also run through the following list of steps to
-finish initializing your new repo:
-
-1. Click the "Use this template" button on the main page and follow the instructions to clone the repo to your account.
-2. Clone the repo locally.
-3. Initialise the new repo:
-   1. Run the `init.sh` script to initialize the repo:
-        Note: if on OS X, then first run `brew install gnu-sed` and update the path as indicated in the output 'caveats'.
-        
-        ```shell
-        ./init.sh
-        ``` 
-   2. Replace/remove this and other README.md files
-   3. Commit changes.
-4. Customise services:
-   1. The `init.sh` will have renamed the example service, 
-      now duplicate the module to create any other services you need.
-      One module for each service this aggregate will contain.
-   2. Add new modules to `settings.grable.kts`. 
-   3. Search for `ChangeMe` comments, following the instructions.
-   4. Commit changes
 
 [1]: https://github.com/diffplug/spotless
 [2]: https://spotbugs.github.io/
@@ -104,3 +96,6 @@ finish initializing your new repo:
 [12]: .github/workflows/build.yml
 [systemTest]: https://github.com/creek-service/creek-system-test
 [kafkaSteams]: https://kafka.apache.org/documentation/streams/
+[codeQL]: https://codeql.github.com/
+[ghPackages]: https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages
+[useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
