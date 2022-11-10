@@ -12,13 +12,13 @@ permissions:
 jobs:
   boostrap:
     if: ${{ github.run_number == 1 }}
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Echo
         run: echo "run_number ${{ github.run_number }}"
       - name: Run script
-        shell: zsh
+        shell: zsh {0}
         run: |
           ./bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
       - name: Commit changes
