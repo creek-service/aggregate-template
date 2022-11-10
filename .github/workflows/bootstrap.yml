@@ -20,9 +20,6 @@ jobs:
       - name: Run script
         run: |
           ./bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
-          # Changing workflows requires elevated privaleges, only available via a PAT:
-          # So revert changes:
-          git checkout -- .github/workflows/*
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"

@@ -57,6 +57,11 @@ echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
+echo Revert workflow changes
+# Changing workflows requires elevated privaleges, only available via a PAT:
+# So revert changes:
+git checkout -- ".github/workflows/*"
+
 echo Tidying up
 rm ./bootstrap.sh
 rm .github/CODEOWNERS
