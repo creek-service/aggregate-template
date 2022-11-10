@@ -29,7 +29,7 @@ force=false
 while :; do
   case $1 in
     -h|--help)
-        echo $0 [-d] [-s]
+        echo "$0 [-d] [-s]"
         echo
         echo "   -d, --use-defaults   Use defaults for all questions (also enables -s)"
         echo "   -s, --succinct       Minimise output"
@@ -64,12 +64,12 @@ done
 function userOption() {
   if [ "$succinct" = false ]; then
     echo
-    echo -e $4
+    echo -e "$4"
   fi
   if [ "$useDefaults" = false ]; then
-    eval read -p \"$3 [$2]: \" $1
+    eval "read -p \"$3 [$2]: \" $1"
   fi
-  eval $1=\${$1:-$2}
+  eval "$1=\${$1:-$2}"
 }
 
 if [ "$succinct" = false ]; then
@@ -79,7 +79,8 @@ if [ "$succinct" = false ]; then
   echo Please answer the following questions to control the customisation:
 fi
 
-repoName=$(basename "$PWD")
+serviceName=""
+serviceClass=""
 
 userOption "serviceName" "example-service" "Service module name" \
  "The template contains a single service. Its name can be customised.\n
@@ -88,42 +89,18 @@ userOption "serviceName" "example-service" "Service module name" \
  and adding them to settings.gradle.kts
  "
 
-defaultServiceClass=$(echo $serviceName | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+defaultServiceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
 userOption "serviceClass" "$defaultServiceClass" "Service class name" \
  "The service descriptor is the class that forms the API of the service within the aggregate.\n
  It is the class that other services in the aggregate will use to access its inputs and outputs.\n
  The default name is based off the service name given above. Or you can provide a custom name.
  "
 
-userOption "groupName" "org.acme" "Artefact group name" \
- "The artefact group name is the group name used when publishing artefacts.\n
- The default is to leave it as 'org.acme', which is fine for hacking about.
- "
-
-defaultRootPackage=$groupName.$(echo $repoName | sed 's/-/./g')
-userOption "rootPackage" "$defaultRootPackage" "Root package name" \
- "All the code in the template sits under a 'org.acme.example' root package.\n
- The default is based of the group and repo names; '<group name>.<repo name>\n
- Or you can set a custom root package.
- "
-
-defaultModNamePrefix=$(echo $repoName | sed 's/-/./g')
-userOption "modNamePrefix" "$defaultModNamePrefix" "Module name prefix" \
- "The module name prefix is the prefix added to each JPMS module's name.\n
- For example, given a prefix of 'bob', then the api module's name would be 'bob.api'.\n
- This is only important if you're using the Java Platform's Module System, JPMS.\n
- The default is based of the repo name.
- "
-
 if [ "$force" = false ]; then
   echo
-  echo About to customise the repository using:
-  echo Service module name: $serviceName
-  echo Service class name: $serviceClass
-  echo Repository name: $repoName
-  echo Artefact Group name: $groupName
-  echo Root package name: $rootPackage
-  echo Module name prefix: $modNamePrefix
+  echo "About to customise the repository using:"
+  echo "Service module name: $serviceName"
+  echo "Service class name: $serviceClass"
   echo
 
   read -p "Are you sure? (y/n): " -n 1 -r
@@ -137,8 +114,4 @@ fi
 
 ./init_headless.sh \
   --service-name "$serviceName" \
-  --service-class "$serviceClass" \
-  --repository-name "$repoName" \
-  --group-name "$groupName" \
-  --root-package "$rootPackage" \
-  --module-name-prefix "$modNamePrefix"
+  --service-class "$serviceClass"

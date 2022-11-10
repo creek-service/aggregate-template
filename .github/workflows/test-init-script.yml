@@ -13,10 +13,6 @@ jobs:
       matrix:
         serviceName: [ example-service, diff-service ]
         serviceClass: [ ExampleServiceDescriptor, DiffServiceDescriptor ]
-        repoName: [ aggregate-template, some-repo ]
-        groupName: [ org.acme, com.something ]
-        rootPackage: [ org.acme.aggregate.template, com.something.aggregate ]
-        modNamePrefix: [ aggregate.template, diff.prefix ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,17 +30,9 @@ jobs:
         run: |
           echo serviceName=${{ matrix.serviceName }}
           echo serviceClass=${{ matrix.serviceClass }}
-          echo repoName=${{ matrix.repoName }}
-          echo groupName=${{ matrix.groupName }}
-          echo rootPackage=${{ matrix.rootPackage }}
-          echo modNamePrefix=${{ matrix.modNamePrefix }}
           ./init_headless.sh \
             --service-name ${{ matrix.serviceName }} \
-            ${{ matrix.serviceClass }} \
-            ${{ matrix.repoName }} \
-            ${{ matrix.groupName }} \
-            ${{ matrix.rootPackage }} \
-            ${{ matrix.modNamePrefix }}
+            --service-class ${{ matrix.serviceClass }}
       - name: Build
         run: |
           ./gradlew format

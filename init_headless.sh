@@ -23,53 +23,25 @@ fi
 
 serviceName="example-service"
 serviceClass="ExampleServiceDescriptor"
-repoName="aggregate-template"
-groupName="org.acme"
-rootPackage="org.acme.example"
-modNamePrefix="example.mod"
 
 while :; do
   case $1 in
     -h|--help)
-        echo $0 [-sn NAME] [-sc NAME] [-rn NAME] [-gn NAME] [-an NAME] [-rp NAME] [-mn NAME]
+        echo "$0 [-sn NAME] [-sc NAME] [-rn NAME] [-gn NAME] [-an NAME] [-rp NAME] [-mn NAME]"
         echo
         echo "   -sn, --service-name NAME       the name of the service module in the project."
         echo "                                  Default: $serviceName"
         echo "   -sc, --service-class NAME      the class name for the service descriptor."
         echo "                                  Default: $serviceClass"
-        echo "   -rn, --repository-name NAME    the name of the current repository in GitHub"
-        echo "                                  Default: $repoName"
-        echo "   -gn, --group-name NAME         the group artefact name"
-        echo "                                  Default: $groupName"
-        echo "   -rp, --root-package NAME       the root package name for all code"
-        echo "                                  Default: $rootPackage"
-        echo "   -mn, --module-name-prefix NAME the prefix for all JPMS module names."
-        echo "                                  Default: $modNamePrefix"
         exit
         ;;
     -sn|--service-name)
         shift
-        serviceName=$1
+        serviceName="$1"
         ;;
     -sc|--service-class)
         shift
-        serviceClass=$1
-        ;;
-    -rn|--repository-name)
-        shift
-        repoName=$1
-        ;;
-    -gn|--group-name)
-        shift
-        groupName=$1
-        ;;
-    -rp|--root-package)
-        shift
-        rootPackage=$1
-        ;;
-    -mn|--module-name-prefix)
-        shift
-        modNamePrefix=$1
+        serviceClass="$1"
         ;;
     --)
         shift
@@ -87,7 +59,7 @@ done
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i $1
+  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -98,12 +70,12 @@ function replaceInCode() {
 # renamePackage(old-pkg-name, new-pkg-name)
 function renamePackage() {
   # Update code:
-  replaceInCode "$(echo $1 | sed 's/\./\\./g')\." "$2."
+  replaceInCode "$(echo "$1" | sed 's/\./\\./g')\." "$2."
 
   # Move code:
-  oldBasePattern=$(echo $1 | sed 's/\./\\\//g')
-  oldBaseDir=$(echo $1 | sed 's/\./\//g')
-  newBaseDir=$(echo $2 | sed 's/\./\//g')
+  oldBasePattern=$(echo "$1" | sed 's/\./\\\//g')
+  oldBaseDir=$(echo "$1" | sed 's/\./\//g')
+  newBaseDir=$(echo "$2" | sed 's/\./\//g')
 
 find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
     newPath=${3/$1/$0}
@@ -119,31 +91,15 @@ echo Removing test expectation
 echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
 if [ "$serviceName" != "example-service" ]; then
-  echo Renaming service
+  echo "Renaming service to: $serviceName"
   replaceInCode "example-service" "$serviceName"
   mv "example-service" "$serviceName"
+fi
 
-  echo Updating service descsriptor
+if [ "$serviceClass" != "ExampleServiceDescriptor" ]; then
+  echo "Updating service descriptor to $serviceClass"
   replaceInCode "ExampleServiceDescriptor" "$serviceClass"
   mv "services/src/main/java/org/acme/example/services/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
-fi
-
-echo Updating repo name
-replaceInCode "aggregate-template" "$repoName"
-
-if [ "$rootPackage" != "org.acme.example" ]; then
-  echo Updating root packages
-  renamePackage "org.acme.example" "$rootPackage"
-fi
-
-if [ "$groupName" != "org.acme" ]; then
-  echo Updating group name
-  replaceInCode "org.acme" "$groupName"
-fi
-
-if [ "$modNamePrefix" != "example" ]; then
-  echo Updating module names
-  replaceInCode "example.mod" "$modNamePrefix"
 fi
 
 echo Deleting Creek specific code

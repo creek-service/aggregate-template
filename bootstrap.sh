@@ -24,6 +24,8 @@ repoUserAndName="$1"
 repoUser="$2"
 repoName="${repoUserAndName/${repoUser}\//}"
 aggregateClass=$(echo "$repoName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
+modNamePrefix=${repoName//([_-])/.}
+groupName="org.github.$modNamePrefix"
 
 # todo: remove
 echo "1 = $1"
@@ -31,6 +33,9 @@ echo "2 = $2"
 echo "repoUserAndName = $repoUserAndName"
 echo "repoUser = $repoUser"
 echo "repoName = $repoName"
+echo "aggregateClass = $aggregateClass"
+echo "modNamePrefix = $modNamePrefix"
+echo "groupName = $groupName"
 
 # sedCode(sedCmd)
 function sedCode() {
@@ -45,13 +50,22 @@ function replaceInCode() {
 echo Removing test expectation
 echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
-echo Updating repo name
+echo "Updating repo name to: $repoName"
 replaceInCode "creek-service/aggregate-template" "$repoUserAndName"
 replaceInCode "aggregate-template" "$repoName"
 
-echo Updating aggregate descsriptor
+echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggregateClass.java"
+
+echo "Updating root packages to: $groupName"
+renamePackage "org.acme.example" "$groupName"
+
+echo "Updating group name to: $groupName"
+replaceInCode "org.acme" "$groupName"
+
+echo "Updating module names to have prefix: $modNamePrefix"
+replaceInCode "example.mod" "$modNamePrefix"
 
 if [ "$repoUser" != "creek-service" ]; then
   echo Updating repo user
