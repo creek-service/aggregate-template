@@ -73,7 +73,7 @@ tasks.test {
 
 spotless {
     java {
-        googleJavaFormat("1.12.0").aosp()
+        googleJavaFormat("1.15.0").aosp()
         indentWithSpaces()
         importOrder()
         removeUnusedImports()
