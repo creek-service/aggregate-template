@@ -20,11 +20,20 @@ if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
    exit 1;
 fi
 
-repoName="$(basename "$PWD")"
+repoUserAndName="$1"
+repoUser="$2"
+repoName="${repoUserAndName/${repoUser}\//}"
+
+# todo: remove
+echo "1 = $1"
+echo "2 = $2"
+echo "repoUserAndName = $repoUserAndName"
+echo "repoUser = $repoUser"
+echo "repoName = $repoName"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i $1
+  find . \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i $1
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -36,7 +45,13 @@ echo Removing test expectation
 echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
 echo Updating repo name
+replaceInCode "creek-service/aggregate-template" "$repoUserAndName"
 replaceInCode "aggregate-template" "$repoName"
+
+if [ "$repoUser" != "creek-service" ]; then
+  echo Updating repo user
+  replaceInCode "https://maven.pkg.github.com/creek-service/" "https://maven.pkg.github.com/$repoUser/"
+fi
 
 echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
@@ -44,4 +59,5 @@ rm -rf system-tests/src/system-test/example-suite
 
 echo Tidying up
 rm ./bootstrap.sh
+rm .github/CODEOWNERS
 
