@@ -23,8 +23,8 @@ fi
 repoUserAndName="$1"
 repoUser="$2"
 repoName="${repoUserAndName/${repoUser}\//}"
-aggregateClass=$(echo "$repoName" | sed 's/\([-_]\)\([a-z]\)/\U\2/g' | sed 's/\([-_]\)//g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
-modNamePrefix=${repoName//([_-])/.}
+aggregateClass=$(echo "${(L)${repoName}}" | sed 's/\([-_]\)\([a-z]\)/\U\2/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
+modNamePrefix=${(L)${repoName//([_-])/.}}
 groupName="io.github.${repoUser//([_-])/.}"
 rootPackage="$groupName.$modNamePrefix"
 
