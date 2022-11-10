@@ -14,7 +14,7 @@ Your new repo will contain the following features:
 * Unit testing of the Streams topology.
 * Black-box [system-testing][systemTest] of Docker container based microservices.
 * Code coverage analysis by [Jacoco][5], including coverage during [system-testing][systemTest] execution.
-* Code coverage tracking by [Coveralls.io][6].
+* Code coverage tracking by [Coveralls.io][coveralls].
 * Release versioning by the [Axion-release-plugin][4], with each commit creating a unique patch version.
 * Code formatting by [Spotless][1].
 * Static code analysis by [Spotbugs][2], [Checkstyle][3] and [CodeQl][codeQL]
@@ -61,7 +61,10 @@ to this template and also give you the opportunity to customise the service modu
        One module for each service this aggregate will contain.
     5. Add new modules to `settings.grable.kts`.
     6. Search for `ChangeMe` comments, following the instructions.
-    7. Commit changes
+    7. Commit changes.
+5. If you would like to use [Coveralls.io][coveralls] to track your code coverage,
+   then you'll need to set up an account, import your new repo, and store its Coveralls repo token 
+   in a [repo secret][ghSecret] named `COVERALLS_REPO_TOKEN`. 
 
 ## Creating your own template repo
 
@@ -87,7 +90,7 @@ which runs when a new repo is created from this template. You may want something
 [3]: https://checkstyle.sourceforge.io/
 [4]: https://github.com/allegro/axion-release-plugin
 [5]: https://www.jacoco.org/jacoco/trunk/doc/
-[6]: https://coveralls.io/
+[coveralls]: https://coveralls.io/
 [7]: https://junit.org/junit5/docs/current/user-guide/
 [8]: https://site.mockito.org/
 [9]: http://hamcrest.org/JavaHamcrest/index
@@ -99,3 +102,4 @@ which runs when a new repo is created from this template. You may want something
 [codeQL]: https://codeql.github.com/
 [ghPackages]: https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages
 [useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
+[ghSecret]: https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-encrypted-secrets-for-your-repository-and-organization-for-github-codespaces
