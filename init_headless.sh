@@ -25,7 +25,6 @@ serviceName="example-service"
 serviceClass="ExampleServiceDescriptor"
 repoName="aggregate-template"
 groupName="org.acme"
-aggClass="ExampleAggregateDescriptor"
 rootPackage="org.acme.example"
 modNamePrefix="example.mod"
 
@@ -42,8 +41,6 @@ while :; do
         echo "                                  Default: $repoName"
         echo "   -gn, --group-name NAME         the group artefact name"
         echo "                                  Default: $groupName"
-        echo "   -an, --aggregate-class NAME    the class name for the aggregate descriptor"
-        echo "                                  Default: $aggClass"
         echo "   -rp, --root-package NAME       the root package name for all code"
         echo "                                  Default: $rootPackage"
         echo "   -mn, --module-name-prefix NAME the prefix for all JPMS module names."
@@ -65,10 +62,6 @@ while :; do
     -gn|--group-name)
         shift
         groupName=$1
-        ;;
-    -an|--aggregate-class)
-        shift
-        aggClass=$1
         ;;
     -rp|--root-package)
         shift
@@ -138,10 +131,6 @@ fi
 echo Updating repo name
 replaceInCode "aggregate-template" "$repoName"
 
-echo Updating aggregate descsriptor
-replaceInCode "ExampleAggregateDescriptor" "$aggClass"
-mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggClass.java"
-
 if [ "$rootPackage" != "org.acme.example" ]; then
   echo Updating root packages
   renamePackage "org.acme.example" "$rootPackage"
@@ -165,4 +154,6 @@ echo Tidying up
 rm ./init.sh
 rm ./init_headless.sh
 rm ./.github/workflows/bootstrap.yml
+rm ./.github/workflows/test-init-script.yml
 find . -type d -empty -delete
+./gradlew clean format

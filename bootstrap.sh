@@ -23,6 +23,7 @@ fi
 repoUserAndName="$1"
 repoUser="$2"
 repoName="${repoUserAndName/${repoUser}\//}"
+aggregateClass=$(echo "$repoName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
 
 # todo: remove
 echo "1 = $1"
@@ -47,6 +48,10 @@ echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_t
 echo Updating repo name
 replaceInCode "creek-service/aggregate-template" "$repoUserAndName"
 replaceInCode "aggregate-template" "$repoName"
+
+echo Updating aggregate descsriptor
+replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
+mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggregateClass.java"
 
 if [ "$repoUser" != "creek-service" ]; then
   echo Updating repo user

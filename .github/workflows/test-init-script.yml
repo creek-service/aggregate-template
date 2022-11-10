@@ -15,7 +15,6 @@ jobs:
         serviceClass: [ ExampleServiceDescriptor, DiffServiceDescriptor ]
         repoName: [ aggregate-template, some-repo ]
         groupName: [ org.acme, com.something ]
-        aggregateClass: [ AggregateTemplateAggregateDescriptor, DiffAggregateDescriptor ]
         rootPackage: [ org.acme.aggregate.template, com.something.aggregate ]
         modNamePrefix: [ aggregate.template, diff.prefix ]
     runs-on: ubuntu-latest
@@ -29,21 +28,21 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run boostrap script
+        run: ./bootstrap.sh
       - name: Run init script
         run: |
           echo serviceName=${{ matrix.serviceName }}
           echo serviceClass=${{ matrix.serviceClass }}
           echo repoName=${{ matrix.repoName }}
           echo groupName=${{ matrix.groupName }}
-          echo aggregateClass=${{ matrix.aggregateClass }}
           echo rootPackage=${{ matrix.rootPackage }}
           echo modNamePrefix=${{ matrix.modNamePrefix }}
           ./init_headless.sh \
-            ${{ matrix.serviceName }} \
+            --service-name ${{ matrix.serviceName }} \
             ${{ matrix.serviceClass }} \
             ${{ matrix.repoName }} \
             ${{ matrix.groupName }} \
-            ${{ matrix.aggregateClass }} \
             ${{ matrix.rootPackage }} \
             ${{ matrix.modNamePrefix }}
       - name: Build
