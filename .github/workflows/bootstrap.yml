@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   boostrap:
-    if: (${{ github.run_number }} == 1)
+    if: ${{ github.run_number == 1 }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
