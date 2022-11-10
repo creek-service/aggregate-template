@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 #
 # Copyright 2022 Creek Contributors (https://github.com/creek-service)
