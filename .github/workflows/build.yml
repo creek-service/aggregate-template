@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
+      - name: Echo stuff
+        run: |
+          echo "repo ${{ github.repository }"
+          echo "user ${{ github.repository_owner }"
+          echo "github ${{ github }"
       - name: Fetch version history
         # Do NOT want to fetch all tags if building s specific tag.
         # Doing so could result in code published with wrong version, if newer tags have been pushed

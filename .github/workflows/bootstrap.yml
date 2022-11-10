@@ -20,6 +20,8 @@ jobs:
       - name: Run script
         run: |
           ./bootstrap.sh
+          # Changing workflows requires elevated privaleges, only available via a PAT:
+          # So revert changes:
           git checkout -- .github/workflows/*
       - name: Commit changes
         run: |
