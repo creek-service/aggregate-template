@@ -67,7 +67,7 @@ function userOption() {
     echo -e "$4"
   fi
   if [ "$useDefaults" = false ]; then
-    eval "read -p \"$3 [$2]: \" $1"
+    eval "read -r \"$1?$3 [$2]: \""
   fi
   eval "$1=\${$1:-$2}"
 }
@@ -103,8 +103,8 @@ if [ "$force" = false ]; then
   echo "Service class name: $serviceClass"
   echo
 
-  read -p "Are you sure? (y/n): " -n 1 -r
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  read -rk "confirm?Are you sure? (y/n): "
+  if [[ ! $confirm =~ ^[Yy]$ ]]
   then
       exit 1
   fi
