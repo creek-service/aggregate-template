@@ -13,12 +13,14 @@ jobs:
       - uses: actions/checkout@v3.1.0
       - name: Echo run number
         run: |
-          echo "Run number: ${{ github.run_number }}"
+          "Run number: ${{ github.run_number }}"
       - name: Run script
+        if: ${{ github.run_number }} == 1
         run: |
-          echo ./bootstrap.sh
+          ./bootstrap.sh
       - name: Commit changes
+        if: ${{ github.run_number }} == 1
         run: |
-          echo git add .
-          echo git commit -m "Bootstrap repo"
-          echo git push
+          git add .
+          git commit -m "Bootstrap repo"
+          git push
