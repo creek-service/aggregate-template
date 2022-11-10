@@ -25,7 +25,8 @@ repoUser="$2"
 repoName="${repoUserAndName/${repoUser}\//}"
 aggregateClass=$(echo "$repoName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')AggregateDescriptor
 modNamePrefix=${repoName//([_-])/.}
-groupName="org.github.$modNamePrefix"
+groupName="io.github.${repoUser//([_-])/.}"
+rootPackage="$groupName.$modNamePrefix"
 
 # todo: remove
 echo "1 = $1"
@@ -36,6 +37,7 @@ echo "repoName = $repoName"
 echo "aggregateClass = $aggregateClass"
 echo "modNamePrefix = $modNamePrefix"
 echo "groupName = $groupName"
+echo "rootPackage = $rootPackage"
 
 # sedCode(sedCmd)
 function sedCode() {
@@ -76,8 +78,8 @@ echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggregateClass.java"
 
-echo "Updating root packages to: $groupName"
-renamePackage "org.acme.example" "$groupName"
+echo "Updating root packages to: $rootPackage"
+renamePackage "org.acme.example" "$rootPackage"
 
 echo "Updating group name to: $groupName"
 replaceInCode "org.acme" "$groupName"
