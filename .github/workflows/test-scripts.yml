@@ -1,4 +1,4 @@
-# Checks the repo builds correctly once the init template has run...
+# Checks the repo builds correctly once the bootstrap & init template has run...
 
 name: Test Scripts
 
@@ -13,11 +13,6 @@ jobs:
       matrix:
         serviceName: [ example-service, diff-service ]
         serviceClass: [ ExampleServiceDescriptor, DiffServiceDescriptor ]
-        repoName: [ aggregate-template, some-repo ]
-        groupName: [ org.acme, com.something ]
-        aggregateClass: [ AggregateTemplateAggregateDescriptor, DiffAggregateDescriptor ]
-        rootPackage: [ org.acme.aggregate.template, com.something.aggregate ]
-        modNamePrefix: [ aggregate.template, diff.prefix ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,24 +24,16 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run boostrap script
+        run: ./bootstrap.sh
+      - name: Check compiles & runs
+        run: ./gradlew check
       - name: Run init script
         run: |
           echo serviceName=${{ matrix.serviceName }}
           echo serviceClass=${{ matrix.serviceClass }}
-          echo repoName=${{ matrix.repoName }}
-          echo groupName=${{ matrix.groupName }}
-          echo aggregateClass=${{ matrix.aggregateClass }}
-          echo rootPackage=${{ matrix.rootPackage }}
-          echo modNamePrefix=${{ matrix.modNamePrefix }}
           ./init_headless.sh \
-            ${{ matrix.serviceName }} \
-            ${{ matrix.serviceClass }} \
-            ${{ matrix.repoName }} \
-            ${{ matrix.groupName }} \
-            ${{ matrix.aggregateClass }} \
-            ${{ matrix.rootPackage }} \
-            ${{ matrix.modNamePrefix }}
-      - name: Build
-        run: |
-          ./gradlew format
-          ./gradlew check
+            --service-name ${{ matrix.serviceName }} \
+            --service-class ${{ matrix.serviceClass }}
+      - name: Check compiles & runs
+        run: ./gradlew check
