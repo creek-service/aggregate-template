@@ -1,6 +1,6 @@
 # Checks the repo builds correctly once the init template has run...
 
-name: Build
+name: Test Init Script
 
 on:
   pull_request:
