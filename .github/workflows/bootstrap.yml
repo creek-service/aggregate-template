@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 permissions:
-  workflow: write
+  workflows: write
 
 jobs:
   boostrap:
