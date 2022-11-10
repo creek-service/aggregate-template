@@ -6,6 +6,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  - workflow: write
+
 jobs:
   boostrap:
     if: ${{ github.run_number }} == 1
