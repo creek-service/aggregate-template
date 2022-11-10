@@ -34,7 +34,8 @@ java {
 
 publishing {
     repositories {
-        // ChangeMe: update to publish jars to your artefact store
+        // ChangeMe: will publish to GitHub package:
+        // update to publish jars to your artefact store, as required
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/creek-service/${rootProject.name}")

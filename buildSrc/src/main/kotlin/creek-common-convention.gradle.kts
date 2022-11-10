@@ -36,6 +36,16 @@ java {
 
 repositories {
     mavenCentral()
+
+    // ChangeMe: will publish to GitHub package:
+    // update to publish jars to your artefact store, as required
+    maven {
+        url = uri("https://maven.pkg.github.com/creek-service/*")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 configurations.all {
