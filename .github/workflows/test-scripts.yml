@@ -25,10 +25,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run boostrap script
+        shell: zsh
         run: ./bootstrap.sh
       - name: Check compiles & runs
         run: ./gradlew check
       - name: Run init script
+        shell: zsh
         run: |
           echo serviceName=${{ matrix.serviceName }}
           echo serviceClass=${{ matrix.serviceClass }}
