@@ -8,18 +8,13 @@ on:
 
 jobs:
   boostrap:
+    if: ${{ github.run_number }} == 1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
-      - name: Echo run number
-        run: |
-          "Run number: ${{ github.run_number }}"
       - name: Run script
-        if: ${{ github.run_number }} == 1
-        run: |
-          ./bootstrap.sh
+        run: ./bootstrap.sh
       - name: Commit changes
-        if: ${{ github.run_number }} == 1
         run: |
           git add .
           git commit -m "Bootstrap repo"
