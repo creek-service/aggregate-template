@@ -33,12 +33,12 @@ echo "repoName = $repoName"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i $1
+  find . \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
 function replaceInCode() {
-  sedCode "s/$1/$2/g"
+  sedCode "s:$1:$2:g"
 }
 
 echo Removing test expectation
@@ -50,7 +50,7 @@ replaceInCode "aggregate-template" "$repoName"
 
 if [ "$repoUser" != "creek-service" ]; then
   echo Updating repo user
-  replaceInCode "https://maven.pkg.github.com/creek-service/" "https://maven.pkg.github.com/$repoUser/"
+  replaceInCode "maven.pkg.github.com/creek-service/" "maven.pkg.github.com/$repoUser/"
 fi
 
 echo Deleting Creek specific code
