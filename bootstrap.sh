@@ -33,7 +33,7 @@ echo "repoName = $repoName"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "./.git/*" -o -path "./.gradle/*" \) -prune -o -type f -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -58,7 +58,7 @@ sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
 echo Revert workflow changes
-# Changing workflows requires elevated privaleges, only available via a PAT:
+# Changing workflows requires elevated privileges, only available via a PAT:
 # So revert changes:
 git checkout -- ".github/workflows/*"
 
