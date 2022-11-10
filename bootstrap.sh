@@ -82,7 +82,7 @@ echo "Updating root packages to: $rootPackage"
 renamePackage "org.acme.example" "$rootPackage"
 
 echo "Updating group name to: $groupName"
-replaceInCode "org.acme" "$groupName"
+replaceInCode "group = \"org.creekservice\"" "group = \"$groupName\""
 
 echo "Updating module names to have prefix: $modNamePrefix"
 replaceInCode "example.mod" "$modNamePrefix"
