@@ -47,6 +47,24 @@ function replaceInCode() {
   sedCode "s:$1:$2:g"
 }
 
+
+# renamePackage(old-pkg-name, new-pkg-name)
+function renamePackage() {
+  # Update code:
+  replaceInCode "$(echo "$1" | sed 's/\./\\./g')\." "$2."
+
+  # Move code:
+  oldBasePattern=$(echo "$1" | sed 's/\./\\\//g')
+  oldBaseDir=$(echo "$1" | sed 's/\./\//g')
+  newBaseDir=$(echo "$2" | sed 's/\./\//g')
+
+find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
+    newPath=${3/$1/$0}
+    mkdir -p "$(dirname $newPath)"
+    mv "$3" "$newPath"
+    ' "$newBaseDir" "$oldBasePattern" "$oldBaseDir" {} \;
+}
+
 echo Removing test expectation
 echo "Topologies:" > example-service/src/test/resources/kafka/streams/expected_topology.txt
 
