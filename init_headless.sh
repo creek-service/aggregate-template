@@ -164,4 +164,5 @@ rm -rf system-tests/src/system-test/example-suite
 echo Tidying up
 rm ./init.sh
 rm ./init_headless.sh
+rm ./.github/workflows/bootstrap.yml
 find . -type d -empty -delete

@@ -44,4 +44,4 @@ rm -rf system-tests/src/system-test/example-suite
 
 echo Tidying up
 rm ./bootstrap.sh
-rm ./.github/workflows/bootstrap.yml
+
