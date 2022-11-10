@@ -41,7 +41,7 @@ echo "rootPackage = $rootPackage"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -60,7 +60,7 @@ function renamePackage() {
   oldBaseDir=$(echo "$1" | sed 's/\./\//g')
   newBaseDir=$(echo "$2" | sed 's/\./\//g')
 
-find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
+find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -exec bash -c '
     newPath=${3/$1/$0}
     mkdir -p "$(dirname $newPath)"
     mv "$3" "$newPath"
