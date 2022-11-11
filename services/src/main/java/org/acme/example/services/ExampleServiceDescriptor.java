@@ -48,6 +48,8 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
             register(ExampleAggregateDescriptor.OutputTopic);                       // init:remove
     // formatting:on  init:remove
 
+    public ExampleServiceDescriptor() {}
+
     @Override
     public String dockerImage() {
         return "ghcr.io/creekservice/aggregate-template-example-service";

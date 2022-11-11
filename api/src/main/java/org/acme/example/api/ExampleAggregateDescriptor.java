@@ -43,6 +43,8 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
                             TopicConfigBuilder.withPartitions(2)));             // init:remove
     // formatting:on init:remove
 
+    public ExampleAggregateDescriptor() {}
+
     @Override
     public Collection<ComponentInput> inputs() {
         return List.copyOf(INPUTS);
