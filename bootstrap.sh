@@ -28,17 +28,6 @@ modNamePrefix=${(L)${repoName//([_-])/.}}
 groupName="io.github.${(L)${repoUser//([_-])/.}}"
 rootPackage="$groupName.$modNamePrefix"
 
-# todo: remove
-echo "1 = $1"
-echo "2 = $2"
-echo "repoUserAndName = $repoUserAndName"
-echo "repoUser = $repoUser"
-echo "repoName = $repoName"
-echo "aggregateClass = $aggregateClass"
-echo "modNamePrefix = $modNamePrefix"
-echo "groupName = $groupName"
-echo "rootPackage = $rootPackage"
-
 # sedCode(sedCmd)
 function sedCode() {
   find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"

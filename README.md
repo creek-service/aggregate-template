@@ -8,6 +8,12 @@
 Click the [Use this template][useThisTemplate] button above and [initialize your repo](#initialize-your-repo) 
 for the quickest method of getting started with Creek microservices.
 
+A Creek 'aggregate' is a repository containing a logical grouping of microservices that, collectively, 
+provide some business function. While the services within an aggregate can interact in what ever ways they need, 
+an aggregate defines an [api](api) by which other aggregates can interact with it. 
+i.e. An aggregate is a level of abstraction above a single service. 
+Large organisations may choose to create additional layers of abstraction by creating aggregates or aggregates.  
+
 Your new repo will contain the following features:
 
 * A bare [Kafka Streams][kafkaSteams] microservice, utilising [Creek](https://www.creekservice.org).
@@ -73,7 +79,8 @@ to create the basis of their own template. This can then be customised to meet y
 the creation of new team repos.
 
 If creating a template repo, take a look at the [bootstrap workflow](.github/workflows/bootstrap.yml), 
-which runs when a new repo is created from this template. You may want something similar in your template.  
+which runs when a new repo is created from this template. You may want something similar in your template.
+Note: this file is deleted by the `init.sh` script.
 
 ### Gradle commands
 

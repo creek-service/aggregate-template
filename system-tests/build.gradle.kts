@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 plugins {
+    id("com.bmuschko.docker-remote-api") version "8.1.0"
     id("org.creekservice.system.test")
 }
 
@@ -26,5 +28,10 @@ dependencies {
 }
 
 tasks.systemTest {
-    dependsOn(":example-service:buildAppImage")
+    // Make the systemTest task be dependent on the output of all Docker image build tasks:
+    rootProject.allprojects.flatMap {
+       it.tasks.withType(DockerBuildImage::class)
+    }.forEach {
+        inputs.files(it).withPropertyName("${it.name}-output)")
+    }
 }

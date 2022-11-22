@@ -36,7 +36,7 @@ while :; do
         echo "   -f, --force          Do not prompt for confirmation"
         exit
         ;;
-    -s|--succint)
+    -s|--succinct)
         succinct=true
         ;;
     -d|--use-defaults)
@@ -82,7 +82,7 @@ fi
 serviceName=""
 serviceClass=""
 
-userOption "serviceName" "example-service" "Service module name" \
+userOption "serviceName" "example-service" "Service name" \
  "The template contains a single service. Its name can be customised.\n
  It is recommended the name ends in '-service'.\n
  Additional services can be added by duplicating the service module
@@ -90,7 +90,7 @@ userOption "serviceName" "example-service" "Service module name" \
  "
 
 defaultServiceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
-userOption "serviceClass" "$defaultServiceClass" "Service class name" \
+userOption "serviceClass" "$defaultServiceClass" "Service descriptor class name" \
  "The service descriptor is the class that forms the API of the service within the aggregate.\n
  It is the class that other services in the aggregate will use to access its inputs and outputs.\n
  The default name is based off the service name given above. Or you can provide a custom name.
@@ -99,8 +99,8 @@ userOption "serviceClass" "$defaultServiceClass" "Service class name" \
 if [ "$force" = false ]; then
   echo
   echo "About to customise the repository using:"
-  echo "Service module name: $serviceName"
-  echo "Service class name: $serviceClass"
+  echo "Service name: $serviceName"
+  echo "Service descriptor class name: $serviceClass"
   echo
 
   read -rk "confirm?Are you sure? (y/n): "
@@ -115,3 +115,5 @@ fi
 ./init_headless.sh \
   --service-name "$serviceName" \
   --service-class "$serviceClass"
+
+todo: docs site.
