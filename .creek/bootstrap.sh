@@ -92,6 +92,7 @@ sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
 echo Creating service module template
+mkdir -p ".creek/service_template/example-service"
 mv "example-service" ".creek/service_template/example-service"
 
 find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "docs/*" \) -exec bash -c '
