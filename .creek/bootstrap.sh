@@ -92,12 +92,13 @@ sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
 echo Creating service module template
-mkdir -p ".creek/service_template/example-service"
+mkdir -p ".creek/service_template"
 mv "example-service" ".creek/service_template/example-service"
 
 find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "docs/*" \) -exec bash -c '
-    newPath="${0/ExampleServiceDescriptor/$1}";
-    mv "$0" ".creek/service_template/"
+    dest=".creek/service_template/$0"
+    mkdir -p $(dirname "$dest")
+    mv "$0" "$dest"
   ' {} \;
 
 echo Revert workflow changes
