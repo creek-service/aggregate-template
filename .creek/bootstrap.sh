@@ -91,13 +91,16 @@ echo Deleting Creek specific code
 sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
+echo Creating service module template
+mv "example-service" ".creek/service_template"
+
 echo Revert workflow changes
 # Changing workflows requires elevated privileges, only available via a PAT:
 # So revert changes:
 git checkout -- ".github/workflows/*"
 
 echo Tidying up
-rm ./bootstrap.sh
+rm ./.creek/bootstrap.sh
 rm .github/CODEOWNERS
 find . -type d -empty -delete
 ./gradlew format

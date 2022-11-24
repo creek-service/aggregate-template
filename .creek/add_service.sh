@@ -19,6 +19,13 @@
 # Usage:
 #   add_Service.sh serviceNamePrefix
 
+CREEK_DIR=${0:A:h}
+
+if [ -f "$CREEK_DIR/bootstrap.sh" ]; then
+   echo "bootstrap.sh has not run yet. Re-run once bootstrapping is complete." >&2
+   exit 1
+fi
+
 if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
    echo "ERROR: incompatible version of sed detected." >&2
    echo "If on Mac, 'brew install gnu-sed' and add to path" >&2
@@ -62,8 +69,8 @@ find . -type d -empty -delete
 
 echo "Creating $serviceName module, with $serviceClass descriptor"
 
+mv "$CREEK_DIR/service_template" "$serviceName"
 replaceInCode "example-service" "$serviceName"
-mv "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
 find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
@@ -72,4 +79,4 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
   ' {} "$serviceClass" \;
 
 find . -type d -empty -delete
-# ./gradlew clean format todo in workflow
+./gradlew format
