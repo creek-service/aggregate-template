@@ -61,7 +61,7 @@ rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "docs/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "docs/*" -o -path ".creek/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -74,7 +74,7 @@ find . -type d -empty -delete
 
 echo "Creating $serviceName module"
 
-cp "$creekDir/service_template/example-service" "$serviceName"
+cp -R "$creekDir/service_template/example-service" "$serviceName"
 replaceInCode "example-service" "$serviceName"
 
 echo "Creating $serviceName module"
@@ -83,7 +83,7 @@ replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 echo "Creating $serviceClass"
 cp "$creekDir/service_template/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
+find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path ".creek/*" \) -exec bash -c '
    newPath="${0/ExampleServiceDescriptor/$1}";
    mv "$0" "$newPath"
  ' {} "$serviceClass" \;

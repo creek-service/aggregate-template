@@ -34,7 +34,7 @@ rootPackage="$groupName.$modNamePrefix"
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./bootstrap.sh" -o -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path ".creek/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -52,7 +52,7 @@ function renamePackage() {
   oldBaseDir=$(echo "$1" | sed 's/\./\//g')
   newBaseDir=$(echo "$2" | sed 's/\./\//g')
 
-find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -exec bash -c '
+find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path ".creek/*" \) -exec bash -c '
     newPath=${3/$1/$0}
     mkdir -p "$(dirname $newPath)"
     mv "$3" "$newPath"
@@ -97,7 +97,7 @@ mkdir -p ".creek/service_template"
 echo "$rootPackage" > ".creek/service_template/root.package"
 mv "example-service" ".creek/service_template/example-service"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
+find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path ".creek/*" \) -exec bash -c '
     dest=".creek/service_template/$0"
     mkdir -p $(dirname "$dest")
     mv "$0" "$dest"
