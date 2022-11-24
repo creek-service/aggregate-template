@@ -91,5 +91,7 @@ rm ./init.sh
 rm ./init_headless.sh
 rm ./.github/workflows/bootstrap.yml
 rm ./.github/workflows/test-scripts.yml
+rm ./.github/workflows/gh-pages.yml
+rm -rf docs
 find . -type d -empty -delete
 ./gradlew clean format
