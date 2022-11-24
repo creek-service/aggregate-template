@@ -32,6 +32,6 @@ tasks.systemTest {
     rootProject.allprojects.flatMap {
        it.tasks.withType(DockerBuildImage::class)
     }.forEach {
-        inputs.files(it).withPropertyName("${it.name}-output)")
+        inputs.files(it)
     }
 }
