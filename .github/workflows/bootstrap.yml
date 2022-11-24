@@ -20,7 +20,7 @@ jobs:
       - name: Run script
         shell: zsh {0}
         run: |
-          ./bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
+          ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
