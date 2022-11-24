@@ -17,14 +17,7 @@
 
 # Script for adding a new service module to the repo.
 # Usage:
-#   add_Service.sh serviceNamePrefix
-
-CREEK_DIR=${0:A:h}
-
-if [ -f "$CREEK_DIR/bootstrap.sh" ]; then
-   echo "bootstrap.sh has not run yet. Re-run once bootstrapping is complete." >&2
-   exit 1
-fi
+#   add_Service.sh serviceName
 
 if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
    echo "ERROR: incompatible version of sed detected." >&2
@@ -32,12 +25,23 @@ if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
    exit 1
 fi
 
+creekDir=${0:A:h}
 serviceName=$1
+
+if [ -f "$creekDir/bootstrap.sh" ]; then
+   echo "bootstrap.sh has not run yet. Re-run once bootstrapping is complete." >&2
+   exit 1
+fi
 
 if [ -z "$serviceName" ]
 then
     echo "serviceName can not be blank" >&2
     exit 1
+fi
+
+if [ -d "$serviceName" ]; then
+   echo "module already exists" >&2
+   exit 1
 fi
 
 if [[ "$serviceName" = "example-service" ]]
@@ -56,7 +60,7 @@ serviceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "docs/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -67,16 +71,19 @@ function replaceInCode() {
 echo Prepare
 find . -type d -empty -delete
 
-echo "Creating $serviceName module, with $serviceClass descriptor"
+echo "Creating $serviceName module"
 
-mv "$CREEK_DIR/service_template" "$serviceName"
+cp "$creekDir/service_template/example-service" "$serviceName"
 replaceInCode "example-service" "$serviceName"
+
+echo "Creating $serviceName module"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
-  newPath="${0/ExampleServiceDescriptor/$1}";
-  mv "$0" "$newPath"
-  ' {} "$serviceClass" \;
+echo "Creating $serviceClass"
+cp "$creekDir/service_template/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
+
+echo adding new service module to settings.gradle.kts
+sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts
 
 find . -type d -empty -delete
 ./gradlew format

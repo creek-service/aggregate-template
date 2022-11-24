@@ -92,7 +92,8 @@ sedCode "/.*init:remove.*/d"
 rm -rf system-tests/src/system-test/example-suite
 
 echo Creating service module template
-mv "example-service" ".creek/service_template"
+mv "example-service" ".creek/service_template/"
+mv "services/src/main/java/org/acme/example/services/ExampleServiceDescriptor.java" ".creek/service_template/"
 
 echo Revert workflow changes
 # Changing workflows requires elevated privileges, only available via a PAT:
