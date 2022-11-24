@@ -2,7 +2,7 @@ rootProject.name = "aggregate-template"
 
 include(
     "api",
-    "example-service",
+    "example-service",  // init:remove
     "services",
     "system-tests"
 )
