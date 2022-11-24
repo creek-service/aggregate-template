@@ -61,7 +61,7 @@ rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "docs/*" -o -path ".creek/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
