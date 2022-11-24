@@ -15,6 +15,10 @@
 # limitations under the License.
 #
 
+# Script for updating repositories created from the template.
+# Usage:
+#   bootstrap.sh repoUserAndName repoUser
+
 if [[ $(echo "ab-cd" | sed 's/-\([a-z]\)/\U\1/g') != "abCd" ]]; then
    echo "ERROR: incompatible version of sed detected." >&2
    exit 1;
@@ -37,7 +41,6 @@ function sedCode() {
 function replaceInCode() {
   sedCode "s:$1:$2:g"
 }
-
 
 # renamePackage(old-pkg-name, new-pkg-name)
 function renamePackage() {
