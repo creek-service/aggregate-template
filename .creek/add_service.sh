@@ -73,7 +73,7 @@ echo Prepare
 find . -type d -empty -delete
 
 echo "Creating $serviceClass"
-cp "$creekDir/service_template/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
+cp -R "$creekDir/service_template/services" "./"
 
 find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path ".creek/*" \) -exec bash -c '
    newPath="${0/ExampleServiceDescriptor/$1}";
@@ -95,7 +95,7 @@ replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
 echo adding new service module to settings.gradle.kts
-sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts
+sed -i "s/include(/include(\n    ""$serviceName"",/g" settings.gradle.kts
 
 echo Tidy up
 find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
