@@ -72,14 +72,6 @@ function replaceInCode() {
 echo Prepare
 find . -type d -empty -delete
 
-echo "Creating $serviceName module"
-
-cp -R "$creekDir/service_template/example-service" "$serviceName"
-replaceInCode "example-service" "$serviceName"
-
-echo "Creating $serviceName module"
-replaceInCode "ExampleServiceDescriptor" "$serviceClass"
-
 echo "Creating $serviceClass"
 cp "$creekDir/service_template/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
 
@@ -95,6 +87,12 @@ if grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.ja
 fi
 
 sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n$rootPackage.$serviceClass}/g" "services/src/main/java/module-info.java"
+
+echo "Creating $serviceName module"
+
+cp -R "$creekDir/service_template/example-service" "$serviceName"
+replaceInCode "example-service" "$serviceName"
+replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
 echo adding new service module to settings.gradle.kts
 sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts
