@@ -90,5 +90,7 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
 echo adding new service module to settings.gradle.kts
 sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts
 
+echo Tidy up
+find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
 find . -type d -empty -delete
 ./gradlew format
