@@ -60,6 +60,7 @@ find . -type f -path "*$oldBaseDir*" -not \( -path "./init.sh" -o -path "./init_
 }
 
 echo Prepare
+rm -rf docs
 find . -type d -empty -delete
 
 echo Removing test expectation
@@ -95,7 +96,7 @@ echo Creating service module template
 mkdir -p ".creek/service_template"
 mv "example-service" ".creek/service_template/example-service"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "docs/*" \) -exec bash -c '
+find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
     dest=".creek/service_template/$0"
     mkdir -p $(dirname "$dest")
     mv "$0" "$dest"

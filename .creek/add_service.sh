@@ -82,6 +82,11 @@ replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 echo "Creating $serviceClass"
 cp "$creekDir/service_template/ExampleServiceDescriptor.java" "services/src/main/java/org/acme/example/services/$serviceClass.java"
 
+find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '
+   newPath="${0/ExampleServiceDescriptor/$1}";
+   mv "$0" "$newPath"
+ ' {} "$serviceClass" \;
+
 echo adding new service module to settings.gradle.kts
 sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts
 
