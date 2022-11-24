@@ -57,6 +57,7 @@ then
 fi
 
 serviceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
 function sedCode() {
@@ -86,6 +87,14 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
    newPath="${0/ExampleServiceDescriptor/$1}";
    mv "$0" "$newPath"
  ' {} "$serviceClass" \;
+
+echo "Registering $serviceClass"
+
+if grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.java"; then
+  sed -i 's/}/    provides ComponentDescriptor with\n}/g' "services/src/main/java/module-info.java"
+fi
+
+sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n$rootPackage.$serviceClass}/g" "services/src/main/java/module-info.java"
 
 echo adding new service module to settings.gradle.kts
 sed -i 's/include(/include(\n    "$serviceName",/g' settings.gradle.kts

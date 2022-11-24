@@ -94,6 +94,7 @@ rm -rf system-tests/src/system-test/example-suite
 
 echo Creating service module template
 mkdir -p ".creek/service_template"
+echo "$rootPackage" > ".creek/service_template/root.package"
 mv "example-service" ".creek/service_template/example-service"
 
 find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec bash -c '

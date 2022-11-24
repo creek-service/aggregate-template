@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.acme.example.services.ExampleServiceDescriptor
+org.acme.example.services.ExampleServiceDescriptor   # init:remove
