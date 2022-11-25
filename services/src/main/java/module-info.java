@@ -6,6 +6,6 @@ module example.mod.services {
 
     exports org.acme.example.services;
 
-    provides ComponentDescriptor with                              // init:remove
-            org.acme.example.services.ExampleServiceDescriptor;    // init:remove
+    provides ComponentDescriptor with // init:remove
+            org.acme.example.services.ExampleServiceDescriptor; // init:remove
 }
