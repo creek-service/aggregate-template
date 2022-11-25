@@ -17,4 +17,6 @@
 package org.acme.example.services;
 
 /** Class that can be deleted once at least one service module has been created. */
-public final class Keep {}
+public final class Keep {
+    private Keep() {}
+}
