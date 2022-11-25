@@ -1,17 +1,20 @@
-# A Workflow for bootstrapping repos created from this template.
+# A Workflow for adding new service modules to a repo.
 
 name: Bootstrap
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: "Service name, e.g. my-service. Lowercase alphanumerics and dashes only."
+        required: true
 
 permissions:
   contents: write
 
 jobs:
   boostrap:
-    if: ${{ github.run_number == 1 }}
+    if: ${{ github.repository != "creek-service/aggregate-template" }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
@@ -20,7 +23,9 @@ jobs:
       - name: Run script
         shell: zsh {0}
         run: |
-          ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
+          ./.creek/add_service.sh "${{ github.event.inputs.service_name }}"
+      - name: Check it builds
+        run: ./gradlew check
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
@@ -29,5 +34,5 @@ jobs:
           git add -A
           echo "status"
           git status
-          git commit -m "Bootstrap repo"
+          git commit -m "Adding service '${{ github.event.inputs.service_name }}'"
           git push
