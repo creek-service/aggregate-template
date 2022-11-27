@@ -1,6 +1,6 @@
 # A Workflow for adding new service modules to a repo.
 
-name: Bootstrap
+name: Add service module
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ permissions:
   contents: write
 
 jobs:
-  boostrap:
-    if: ${{ github.repository != "creek-service/aggregate-template" }}
+  add_service:
+    if: github.repository != "creek-service/aggregate-template"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3.1.0
