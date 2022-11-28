@@ -14,6 +14,7 @@ For example, publishing jars to a different location.
 
 todo
 
+`com.bmuschko.docker-remote-api` Gradle plugin
 
 
 When you first publish a package, the default visibility is private. To change the visibility or set access permissions, see "Configuring a package's access control and visibility."
