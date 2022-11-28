@@ -1,4 +1,5 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 import java.nio.file.Paths
 
 plugins {
@@ -33,6 +34,7 @@ val buildAppImage = tasks.create("buildAppImage", DockerBuildImage::class) {
     buildArgs.put("APP_NAME", project.name)
     buildArgs.put("APP_VERSION", "${project.version}")
     images.add("ghcr.io/creekservice/${rootProject.name}-${project.name}:latest")
+    images.add("ghcr.io/creekservice/${rootProject.name}-${project.name}:${project.version}")
 }
 
 tasks.register<Copy>("prepareDocker") {
@@ -55,4 +57,10 @@ tasks.register<Copy>("prepareDocker") {
     }
 
     into(buildAppImage.inputDir)
+}
+
+tasks.create("pushAppImage", DockerPushImage::class) {
+    dependsOn("buildAppImage")
+    images.add("ghcr.io/creekservice/${rootProject.name}-${project.name}:latest")
+    images.add("ghcr.io/creekservice/${rootProject.name}-${project.name}:${project.version}")
 }
