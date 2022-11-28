@@ -52,7 +52,7 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
 
     @Override
     public String dockerImage() {
-        return "ghcr.io/creekservice/aggregate-template-example-service";
+        return "ghcr.io/creek-service/aggregate-template-example-service";
     }
 
     @Override

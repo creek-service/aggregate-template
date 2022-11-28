@@ -84,8 +84,10 @@ echo "Updating module names to have prefix: $modNamePrefix"
 replaceInCode "example.mod" "$modNamePrefix"
 
 if [ "$repoUser" != "creek-service" ]; then
-  echo Updating repo user
+  echo "Updating repo user to $repoUser"
   replaceInCode "maven.pkg.github.com/creek-service/" "maven.pkg.github.com/$repoUser/"
+  replaceInCode "ghcr.io/creek-service/" "ghcr.io/$repoUser/"
+  replaceInCode "github.com/creek-service/" "github.com/$repoUser/"
 fi
 
 echo Deleting Creek specific code
