@@ -64,4 +64,4 @@ jobs:
         run: |
           ./gradlew pushAppImage
           # Above is not failing, but is also not working... try manual
-          docker push ghcr.io/creekservice/aggregate-template-example-service:latest
+          docker push ghcr.io/creek-service/aggregate-template-example-service:latest

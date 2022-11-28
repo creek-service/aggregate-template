@@ -3,6 +3,8 @@ ARG APP_NAME
 ARG APP_VERSION
 ENV VERSION=$APP_VERSION
 
+LABEL org.opencontainers.image.source=https://github.com/creek-service/aggregate-template
+
 RUN yum update -y
 RUN yum install -y tar lsof
 
