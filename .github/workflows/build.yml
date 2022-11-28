@@ -28,7 +28,7 @@ jobs:
 
   release:
     if: github.event_name == 'push'
-    needs: build_pages
+    needs: build
     runs-on: ubuntu-latest
     concurrency:
       group: release
