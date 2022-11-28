@@ -61,7 +61,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew publish
       - name: Push Docker images
-        run: |
-          ./gradlew pushAppImage
-          # Above is not failing, but is also not working... try manual
-          docker push ghcr.io/creek-service/aggregate-template-example-service:latest
+        run: ./gradlew pushAppImage
