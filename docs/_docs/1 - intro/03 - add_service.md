@@ -32,6 +32,6 @@ The workflow will add a module container the boilerplate code for a new service.
 Once the workflow is complete, it's ready for you to [build your Kafka Streams Topology][topology] 
 and add [system tests][systemTests].
 
-[topology]: {{ "/topology" | relative_url }}
-[systemTests]: {{ "/system-tests" | relative_url }}
+[topology]: {{ "/structure/service#topology-builder" | relative_url }}
+[systemTests]: {{ "/structure/system-tests" | relative_url }}
 

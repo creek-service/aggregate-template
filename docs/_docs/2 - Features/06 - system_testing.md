@@ -1,6 +1,6 @@
 ---
 title: System Testing
-permalink: /system-testing
+permalink: /features/system-testing
 layout: single
 ---
 

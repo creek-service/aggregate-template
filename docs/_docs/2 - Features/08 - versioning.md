@@ -1,6 +1,6 @@
 ---
 title: Versioning
-permalink: /versioning
+permalink: /features/versioning
 layout: single
 ---
 

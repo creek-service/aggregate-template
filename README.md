@@ -11,33 +11,11 @@ Click the [Use this template][useThisTemplate] to create a new repository from t
 
 See the [docs](https://www.creekservice.org/aggregate-template) for more information.
 
+## Using this template to create a Creek tutorial
 
+If using this template to create a new Creek Tutorial, then there are some additional steps required:
 
-
-
-
-
-
-
-* A bare [Kafka Streams][kafkaSteams] microservice, utilising [Creek](https://www.creekservice.org).
-
-
-
-   
-* The following [GitHub build workflow][12]:
-    * [Add service]
-    * [CI build](.github/workflows/build.yml)
-    * [CodeQl][codeQL] [build](.github/workflows/codeql.yml)
-    * [Workflow to manually set the next version](.github/workflows/version.yml)
-
-The template comes with the following modules:
-
-* **[api](api)**: defines the public api of the aggregate, i.e. the service descriptor and associated types.
-* **[services](services)**: defines all the services in the aggregate, i.e. service descriptors and their associated types.
-* **[example-service](example-service)**: an example Kafka Streams microservice.
-
-
-1. Repo settings:
+1. Customise the repositories settings in GitHub:
     1. General
         1. disable wiki
         2. enable discussions
@@ -53,20 +31,12 @@ The template comes with the following modules:
                 1. CodeQL
                 2. build
                 3. build_pages
+                4. coveralls
     3. Pages
         1. Build from actions
         2. enforce https
+2. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
+3. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml (steps: TBD)
 
-### Gradle commands
-
-
-
-
-
-[12]: .github/workflows/build.yml
-
-[kafkaSteams]: https://kafka.apache.org/documentation/streams/
-
-[ghPackages]:
 [useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
-[ghSecret]: https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-encrypted-secrets-for-your-repository-and-organization-for-github-codespaces
+[tutorials]: https://github.com/creek-service/creek-service.github.io/blob/main/_pages/tutorials.md

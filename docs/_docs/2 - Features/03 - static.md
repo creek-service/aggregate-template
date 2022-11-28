@@ -1,6 +1,6 @@
 ---
 title: Static code analysis
-permalink: /static
+permalink: /features/static
 layout: single
 ---
 

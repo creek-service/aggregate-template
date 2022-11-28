@@ -10,27 +10,33 @@
 - title: Features
   children:
     - title: Gradle
-      url: /gradle
+      url: /features/gradle
     - title: Code formatting
-      url: /formatting
+      url: /features/formatting
     - title: Static code analysis
-      url: /static
+      url: /features/static
     - title: Unit Testing
-      url: /unit-testing
+      url: /features/unit-testing
     - title: System testing
-      url: /system-testing
+      url: /features/system-testing
     - title: Coverage
-      url: /coverage
+      url: /features/coverage
     - title: Versioning
-      url: /versioning
+      url: /features/versioning
     - title: Publishing
-      url: /publishing
+      url: /features/publishing
 
-- title: Structures
+- title: Structure
   children:
-    - title: Streams Topology
-      url: /topology
-    - title: System Tests
-      url: /system-tests
-    - title: Aggregate API
-      url: /api
+    - title: Service Modules
+      url: /structure/service
+    - title: Services Module
+      url: /structure/services
+    - title: Api Module
+      url: /structure/api
+    - title: System Tests Module
+      url: /structure/system-tests
+    - title: .creek directory
+      url: /structure/.creek
+    - title: .gitHub directory
+      url: /structure/.github

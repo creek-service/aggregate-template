@@ -1,6 +1,6 @@
 ---
 title: Code formatting
-permalink: /formatting
+permalink: /features/formatting
 layout: single
 ---
 

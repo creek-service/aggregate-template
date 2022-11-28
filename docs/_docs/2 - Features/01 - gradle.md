@@ -1,6 +1,6 @@
 ---
 title: Gradle
-permalink: /gradle
+permalink: /features/gradle
 layout: single
 ---
 

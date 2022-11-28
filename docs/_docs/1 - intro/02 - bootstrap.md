@@ -37,12 +37,13 @@ To create a new GitHub aggregate repository from the template, follow the steps 
 The repository is now ready to start developing a new microservice or services. 
 See [Add a service][addService] for more info.
 
-In addition, the new repository can be easily configured to publish [jars][pubJars] and [code coverage][pubCoverage].
+In addition, the new repository can be easily configured to publish [jars and Docker images][pubJars] 
+and [code coverage][pubCoverage].
 
 
 [useTemplate]: https://github.com/creek-service/aggregate-template/generate
 [bootstrapWorkflow]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/bootstrap.yml
 [cloneRepo]: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 [addService]: {{ "/add-service" | relative_url }}
-[pubJars]: {{ "/publishing" | relative_url }}
-[pubCoverage]: {{ "/coverage" | relative_url }}
+[pubJars]: {{ "/features/publishing" | relative_url }}
+[pubCoverage]: {{ "/features/coverage" | relative_url }}

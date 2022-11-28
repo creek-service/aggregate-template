@@ -1,6 +1,6 @@
 ---
 title: Code Coverage
-permalink: /coverage
+permalink: /features/coverage
 layout: single
 ---
 

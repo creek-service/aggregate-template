@@ -1,6 +1,6 @@
 ---
 title: Unit Testing
-permalink: /unit-testing
+permalink: /features/unit-testing
 layout: single
 ---
 
