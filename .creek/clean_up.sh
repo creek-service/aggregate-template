@@ -24,7 +24,7 @@ creekDir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
 baseDir="$(dirname "$creekDir")"
 
 echo Tidying up
-rm "$creekDir/init.sh"
+rm "$creekDir/clean_up.sh"
 rm "$baseDir/.github/workflows/bootstrap.yml"
 rm "$baseDir/.github/workflows/gh-pages.yml"
 rm "$baseDir/.github/workflows/test-scripts.yml"

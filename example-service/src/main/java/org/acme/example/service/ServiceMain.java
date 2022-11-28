@@ -16,7 +16,6 @@
 
 package org.acme.example.service;
 
-
 import org.acme.example.service.kafka.streams.TopologyBuilder;
 import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.Topology;

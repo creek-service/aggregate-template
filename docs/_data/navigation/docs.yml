@@ -1,0 +1,36 @@
+- title: Getting Started
+  children:
+    - title: Introduction
+      url: /
+    - title: Creating a new aggregate
+      url: /bootstrap
+    - title: Adding a new service
+      url: /add-service
+
+- title: Features
+  children:
+    - title: Gradle
+      url: /gradle
+    - title: Code formatting
+      url: /formatting
+    - title: Static code analysis
+      url: /static
+    - title: Unit Testing
+      url: /unit-testing
+    - title: System testing
+      url: /system-testing
+    - title: Coverage
+      url: /coverage
+    - title: Versioning
+      url: /versioning
+    - title: Publishing
+      url: /publishing
+
+- title: Structures
+  children:
+    - title: Streams Topology
+      url: /topology
+    - title: System Tests
+      url: /system-tests
+    - title: Aggregate API
+      url: /api
