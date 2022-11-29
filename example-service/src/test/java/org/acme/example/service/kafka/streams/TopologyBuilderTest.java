@@ -85,7 +85,6 @@ class TopologyBuilderTest {
         assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));      // init:remove
     }                                                                                // init:remove
     // formatting:on  init:remove
-    // ChangeMe: add tests for your topology here.
 
     /**
      * A test that intentionally fails when ever the topology changes.

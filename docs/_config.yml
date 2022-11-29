@@ -6,11 +6,10 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # `jekyll serve`. If you change this file, please restart the server process.
 
-theme             : "creek-jekyll-theme"
-
 # Site Settings
-baseurl                  : "/aggregate-template"
-repository               : "creek-service/aggregate-template"
+theme      : "creek-jekyll-theme"
+baseurl    : "/aggregate-template"
+repository : "creek-service/aggregate-template"
 
 # Reading Files
 include:
@@ -21,7 +20,7 @@ exclude:
 
 # Collections
 collections:
-  demo:
+  docs:
     output: true
     permalink: /:collection/:path
 
@@ -34,12 +33,14 @@ defaults:
     values:
       layout: single
       author_profile: false
+      sidebar:
+        nav: pages
       toc: true
       toc_sticky: true
-  # _demo
+  # _docs
   - scope:
       path: ""
-      type: demo
+      type: docs
     values:
       layout: single
       read_time: false
@@ -47,6 +48,6 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "demo"
+        nav: docs
       toc: false
       toc_sticky: true

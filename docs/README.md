@@ -40,4 +40,4 @@ bundle exec jekyll serve --livereload --baseurl /aggregate-template
 ```
 
 This will launch a web server so that you can work on the site locally.
-Check it out on [http://localhost:4000/basic-kafka-streams-demo](http://localhost:4000/basic-kafka-streams-demo).
+Check it out on [http://localhost:4000/aggregate-template](http://localhost:4000/aggregate-template).
