@@ -4,13 +4,11 @@ permalink: /add-service
 layout: single
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-
 Aggregates contain one or more services. Each service is contained in its own directory and Gradle subproject.
 
 ## Adding services
 
-Services can be added using a GitHub workflow at any time. Foolow:
+Services can be added using a [GitHub workflow][addServiceWf] at any time. Follow:
 
 1. To add a service, navigate to the `Actions` tab in your GitHub repository.
 2. Select `Add service module` from the list of available actions on the left
@@ -32,6 +30,6 @@ The workflow will add a module container the boilerplate code for a new service.
 Once the workflow is complete, it's ready for you to [build your Kafka Streams Topology][topology] 
 and add [system tests][systemTests].
 
+[addServiceWf]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/add-service.yml
 [topology]: {{ "/structure/service#topology-builder" | relative_url }}
 [systemTests]: {{ "/structure/system-tests" | relative_url }}
-

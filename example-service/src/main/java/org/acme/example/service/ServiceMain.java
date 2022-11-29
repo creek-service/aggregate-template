@@ -29,12 +29,13 @@ public final class ServiceMain {
 
     private ServiceMain() {}
 
+    // init:remove // begin-snippet: entry-point
     public static void main(final String... args) {
         final CreekContext ctx =
                 CreekServices.builder(new ExampleServiceDescriptor())
                         .with(
                                 KafkaStreamsExtensionOptions.builder()
-                                        // Customize the Kafka streams extension...
+                                        // Customize the Kafka streams extension here...
                                         .build())
                         .build();
 
@@ -42,4 +43,5 @@ public final class ServiceMain {
         final Topology topology = new TopologyBuilder(ext).build();
         ext.execute(topology);
     }
+    // end-snippet  init:remove
 }
