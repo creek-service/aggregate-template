@@ -24,8 +24,8 @@ Services can be added using a [GitHub workflow][addServiceWf] at any time. Follo
    {: .notice--info}
 4. Click [Run workflow](){: .btn .btn--small .btn--disabled .btn--success} button below.
 
-This will kick off a workflow that adds the new service module, though you may need to refresh the page to view it.
-The workflow will add a module container the boilerplate code for a new service.
+This will kick off a workflow that adds the new module containing the boilerplate code for a new service, 
+though you may need to refresh the page to view it.
 
 Once the workflow is complete, it's ready for you to [build your Kafka Streams Topology][topology] 
 and add [system tests][systemTests].
