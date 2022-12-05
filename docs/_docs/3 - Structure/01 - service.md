@@ -72,10 +72,12 @@ will be built with the AttachMe agent in the `/opt/creek/agent` to enable Docker
 Images built on CI build servers, which should be used for Production releases, will not have the agent installed. 
 {: .notice--info}
 
-## include directory
+## Include directory
 
 The `include` directory defines the `run.sh` script referenced by the services `Dockerfile`, and other configuration,
 such as a `log4j2.xml` file to configure service logging.
+
+These files are copied to the service's Docker image.
 
 ## Backwards compatability
 

@@ -2,6 +2,7 @@
 title: .github Directory
 permalink: /structure/.github
 layout: single
+toc: true
 ---
 
 The `.github` directory contains files to customise your GitHub experience.
