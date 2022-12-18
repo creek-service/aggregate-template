@@ -13,7 +13,7 @@ permissions:
 
 # Allow one concurrent deployment
 concurrency:
-  group: pages
+  group: "${{ github.repository }}-pages"
 
 jobs:
   build_pages:
