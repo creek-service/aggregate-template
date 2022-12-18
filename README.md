@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
 [![build](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template/badge)](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template/badge)](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template) <!--- init:remove --->
 
 # Creek aggregate repo starter
 
