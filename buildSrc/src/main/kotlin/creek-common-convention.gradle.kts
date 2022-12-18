@@ -38,14 +38,6 @@ java {
 
 repositories {
     mavenCentral()
-
-    maven {
-        url = uri("https://maven.pkg.github.com/creek-service/*")
-        credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
-        }
-    }
 }
 
 configurations.all {
