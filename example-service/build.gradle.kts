@@ -48,6 +48,7 @@ tasks.register<Copy>("prepareDocker") {
 
     // Include the AttachMe agent files if present in user's home directory:
     from (Paths.get(System.getProperty("user.home")).resolve(".attachme")) {
+        include("**/*.jar")
         into("agent")
     }
 
