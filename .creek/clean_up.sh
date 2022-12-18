@@ -27,6 +27,7 @@ echo Tidying up
 rm "$creekDir/clean_up.sh"
 rm "$baseDir/.github/workflows/bootstrap.yml"
 rm "$baseDir/.github/workflows/gh-pages.yml"
+rm "$baseDir/.github/workflows/scorecards.yml"
 rm "$baseDir/.github/workflows/test-scripts.yml"
 find . -type d -empty -delete
 ./gradlew clean format
