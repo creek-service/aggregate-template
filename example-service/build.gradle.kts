@@ -4,7 +4,7 @@ import java.nio.file.Paths
 
 plugins {
     application
-    id("com.bmuschko.docker-remote-api") version "9.1.0"
+    id("com.bmuschko.docker-remote-api")
 }
 
 val creekVersion : String by extra
@@ -29,7 +29,7 @@ application {
     mainClass.set("org.acme.example.service.ServiceMain")
 }
 
-val buildAppImage = tasks.create("buildAppImage", DockerBuildImage::class) {
+val buildAppImage = tasks.register<DockerBuildImage>("buildAppImage") {
     dependsOn("prepareDocker")
     buildArgs.put("APP_NAME", project.name)
     buildArgs.put("APP_VERSION", "${project.version}")
@@ -46,21 +46,10 @@ tasks.register<Copy>("prepareDocker") {
         layout.projectDirectory.dir("include"),
     )
 
-    // Include the AttachMe agent files if present in user's home directory:
-    from (Paths.get(System.getProperty("user.home")).resolve(".attachme")) {
-        include("**/*.jar")
-        into("agent")
-    }
-
-    // Ensure the agent dir exists even if the agent is not installed
-    from (layout.projectDirectory.file(".ensureAgent")) {
-        into("agent")
-    }
-
-    into(buildAppImage.inputDir)
+    into(buildAppImage.get().inputDir)
 }
 
-tasks.create("pushAppImage", DockerPushImage::class) {
+tasks.register<DockerPushImage>("pushAppImage") {
     dependsOn("buildAppImage")
     images.add("ghcr.io/creek-service/${rootProject.name}-${project.name}:latest")
     images.add("ghcr.io/creek-service/${rootProject.name}-${project.name}:${project.version}")

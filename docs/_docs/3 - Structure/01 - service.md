@@ -67,11 +67,6 @@ A `Dockerfile` is included in the root of each service's directory and the `buil
 defines several Docker related tasks. Combined, these controls how the Docker image for the service is built
 and published.
 
-**ProTip:** Images built on developer machines that have the [AttachMe][attachMe] plugin installed,
-will be built with the AttachMe agent in the `/opt/creek/agent` to enable Docker container debugging. 
-Images built on CI build servers, which should be used for Production releases, will not have the agent installed. 
-{: .notice--info}
-
 ## Include directory
 
 The `include` directory defines the `run.sh` script referenced by the services `Dockerfile`, and other configuration,
@@ -96,7 +91,6 @@ Creek recommends always naming operators in the Kafka Streams DSL. (See the [Kaf
 [ksTestUtil]: https://kafka.apache.org/documentation/streams/developer-guide/testing.html
 [creekKafka]: https://github.com/creek-service/creek-kafka
 [tutorial]: https://www.creekservice.org/basic-kafka-streams-demo/
-[attachMe]: https://plugins.jetbrains.com/plugin/13263-attachme
 [addService]: {{ "/add-service" | relative_url }}
 [services]: {{ "/structure/services" | relative_url }}
 
