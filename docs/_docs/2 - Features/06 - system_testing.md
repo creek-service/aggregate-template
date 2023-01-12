@@ -7,7 +7,7 @@ layout: single
 Creek system tests provide black box testing of your completed service, running in a Docker container.
 
 The repository contains a `system-tests` subproject configured with the [Creek system-test Gradle plugin][sysTestGradle]
-already applied, and preconfigured to re-run the system tests on any code changes. 
+already applied, and preconfigured to re-run the system tests, and capture code coverage metrics, on any code changes. 
 
 Learn more about [Creek system tests][systemTest].
 
