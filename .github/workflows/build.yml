@@ -28,7 +28,7 @@ jobs:
       - name: Build
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: ./gradlew check coveralls
+        run: ./gradlew build coveralls
 
   release:
     if: github.event_name == 'push'
