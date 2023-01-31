@@ -1,7 +1,5 @@
-import org.creekservice.api.system.test.gradle.plugin.coverage.SystemTestCoverageExtension
-
 /*
- * Copyright 2022 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2022-2023 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +13,8 @@ import org.creekservice.api.system.test.gradle.plugin.coverage.SystemTestCoverag
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.creekservice.api.system.test.gradle.plugin.coverage.SystemTestCoverageExtension
 
 /**
  * Standard coverage configuration of Creek aggregates, utilising Jacoco and Coveralls.io
