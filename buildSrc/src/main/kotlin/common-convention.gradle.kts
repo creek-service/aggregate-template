@@ -71,7 +71,7 @@ tasks.test {
 
 spotless {
     java {
-        googleJavaFormat("1.15.0").aosp()
+        googleJavaFormat("1.15.0").aosp().reflowLongStrings()
         indentWithSpaces()
         importOrder()
         removeUnusedImports()
