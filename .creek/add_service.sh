@@ -84,9 +84,9 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
 echo "Registering $serviceClass"
 
 if ! grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.java"; then
-  sed -i "s/}/    provides ComponentDescriptor with\n\t\t$rootPackage.$serviceClass;\n}/g" "services/src/main/java/module-info.java"
+  sed -i "s/}/    provides ComponentDescriptor with\n\t\t$rootPackage.services.$serviceClass;\n}/g" "services/src/main/java/module-info.java"
 else
-  sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n\t\t$rootPackage.$serviceClass,/g" "services/src/main/java/module-info.java"
+  sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n\t\t$rootPackage.services.$serviceClass,/g" "services/src/main/java/module-info.java"
 fi
 
 echo "Creating $serviceName module"
