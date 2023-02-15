@@ -39,6 +39,9 @@ then
     exit 1
 fi
 
+echo Prepare
+find . -type d -empty -delete
+
 if [ -d "$serviceName" ]; then
    echo "module already exists" >&2
    exit 1
@@ -69,9 +72,6 @@ function sedCode() {
 function replaceInCode() {
   sedCode "s/$1/$2/g"
 }
-
-echo Prepare
-find . -type d -empty -delete
 
 echo "Creating $serviceClass"
 cp -R "$creekDir/service_template/services" "./"
