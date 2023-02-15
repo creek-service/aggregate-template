@@ -83,7 +83,7 @@ find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o
 
 echo "Registering $serviceClass"
 
-if grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.java"; then
+if ! grep -q "provides ComponentDescriptor" "services/src/main/java/module-info.java"; then
   sed -i 's/}/    provides ComponentDescriptor with\n}/g' "services/src/main/java/module-info.java"
 fi
 
