@@ -3,6 +3,5 @@ module example.mod.api {
 
     exports org.acme.example.api;
     exports org.acme.example.internal to
-            example.mod.services,
-            example.mod.service;
+            example.mod.services;
 }
