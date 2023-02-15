@@ -16,7 +16,6 @@
 
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
-import java.nio.file.Paths
 
 plugins {
     application
@@ -41,8 +40,8 @@ dependencies {
 modularity.patchModule("kafka.streams", "kafka-streams-test-utils-$kafkaVersion.jar")
 
 application {
-    mainModule.set("example.mod.service")
-    mainClass.set("org.acme.example.service.ServiceMain")
+    mainModule.set("example.mod.example.service")
+    mainClass.set("org.acme.example.example.service.ServiceMain")
 }
 
 val buildAppImage = tasks.register<DockerBuildImage>("buildAppImage") {

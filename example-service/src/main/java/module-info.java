@@ -1,4 +1,4 @@
-module example.mod.service {
+module example.mod.example.service {
     requires example.mod.services;
     requires creek.service.context;
     requires creek.kafka.streams.extension;

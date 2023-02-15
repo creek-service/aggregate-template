@@ -30,16 +30,23 @@ jobs:
         run: |
           ./gradlew check
           ./gradlew clean
+      - name: Run clean_up script
+        shell: zsh {0}
+        run: ./.creek/clean_up.sh
+      - name: Check compiles & runs
+        run: |
+          ./gradlew check
+          ./gradlew clean
       - name: Add service
         shell: zsh {0}
-        run: ./.creek/add_service.sh my-service
+        run: ./.creek/add_service.sh first-service
       - name: Check compiles & runs
         run: |
           ./gradlew check
           ./gradlew clean
       - name: Add 2nd service
         shell: zsh {0}
-        run: ./.creek/add_service.sh other-service
+        run: ./.creek/add_service.sh second-service
       - name: Check compiles & runs
         run: |
           ./gradlew check

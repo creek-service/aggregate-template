@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.acme.example.service.kafka.streams;
+package org.acme.example.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;

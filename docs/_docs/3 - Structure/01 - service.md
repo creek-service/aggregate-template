@@ -20,7 +20,7 @@ The entry point to the service is defined in the `ServiceMain` class.
 The entry point initialised Creek, [builds a Kafka Streams topology](#topology-builder) and executes it.
 
 {% highlight java %}
-{% include_snippet entry-point from ../example-service/src/main/java/org/acme/example/service/ServiceMain.java %}
+{% include_snippet entry-point from ../example-service/src/main/java/org/acme/example/example/service/ServiceMain.java %}
 {% endhighlight %}
 
 **ProTip:** The application will terminate if the Kafka Streams application fails.

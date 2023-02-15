@@ -20,4 +20,4 @@ exec java \
  -Xms64m -Xmx256m \
  -Dlog4j.configurationFile=/log/log4j2.xml \
  --module-path "/opt/creek/service/lib" \
- --module example.mod.service/org.acme.example.service.ServiceMain
+ --module example.mod.example.service/org.acme.example.example.service.ServiceMain
