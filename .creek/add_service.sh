@@ -92,7 +92,7 @@ sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n$
 echo "Creating $serviceName module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
-replaceInCode "example.service" "$serviceModPostFix"
+replaceInCode "example\.service" "$serviceModPostFix"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
