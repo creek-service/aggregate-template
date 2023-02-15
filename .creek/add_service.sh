@@ -57,11 +57,12 @@ then
 fi
 
 serviceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
+serviceModPostFix=$(echo "$serviceName" | sed 's/-/./g')
 rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
 function sedCode() {
-  find . -type f -not \( -path "./init.sh" -o -path "./init_headless.sh" -o -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -print0 | xargs -0 sed -i "$1"
+  find . -type f -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -print0 | xargs -0 sed -i "$1"
 }
 
 # replaceInCode(text-to-replace, replacement)
@@ -91,11 +92,14 @@ sed -i "s/provides ComponentDescriptor with/provides ComponentDescriptor with\n$
 echo "Creating $serviceName module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
+replaceInCode "example.service" "$serviceModPostFix"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
 echo adding new service module to settings.gradle.kts
 sed -i "s/include(/include(\n    \"$serviceName\",/g" settings.gradle.kts
+
+# Todo: add to dependencies.yml
 
 echo Tidy up
 find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
