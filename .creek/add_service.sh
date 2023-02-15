@@ -60,7 +60,7 @@ then
 fi
 
 serviceClass=$(echo "$serviceName" | sed 's/-\([a-z]\)/\U\1/g' | sed 's/^\([a-z]\)/\U\1/')Descriptor
-serviceModPostFix=$(echo "$serviceName" | sed 's/-/./g')
+serviceDotName=$(echo "$serviceName" | sed 's/-/./g')
 rootPackage=$(<.creek/service_template/root.package)
 
 # sedCode(sedCmd)
@@ -89,10 +89,12 @@ else
   sed -i "s/ComponentDescriptor with/ComponentDescriptor with\n\t\t$rootPackage.services.$serviceClass,/g" "services/src/main/java/module-info.java"
 fi
 
+echo "\n$rootPackage.services.$serviceClass" >> services/src/main/resources/META-INF/services/org.creekservice.api.platform.metadata.ComponentDescriptor
+
 echo "Creating $serviceName module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
-replaceInCode "example\.service" "$serviceModPostFix"
+replaceInCode "example\.service" "$serviceDotName"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
@@ -102,7 +104,6 @@ sed -i "s/include(/include(\n    \"$serviceName\",/g" settings.gradle.kts
 echo "adding new service's Docker image to Dependabot"
 echo "\n  - package-ecosystem: docker
     directory: /$serviceName
-    open-pull-requests-limit: 50
     schedule:
       interval: monthly" >> .github/dependabot.yml
 

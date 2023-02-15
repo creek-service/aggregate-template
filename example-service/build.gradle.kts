@@ -41,7 +41,7 @@ modularity.patchModule("kafka.streams", "kafka-streams-test-utils-$kafkaVersion.
 
 application {
     mainModule.set("example.mod.example.service")
-    mainClass.set("org.acme.example.service.ServiceMain")
+    mainClass.set("org.acme.example.example.service.ServiceMain")
 }
 
 val buildAppImage = tasks.register<DockerBuildImage>("buildAppImage") {

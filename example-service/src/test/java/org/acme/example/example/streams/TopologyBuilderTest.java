@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.creek.service.basic.kafka.streams.demo.service.kafka.streams;
+package org.acme.example.example.streams;
 
 import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
@@ -24,7 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
-import io.github.creek.service.basic.kafka.streams.demo.services.FirstServiceDescriptor;
+import org.acme.example.example.service.kafka.streams.TopologyBuilder;
+import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
@@ -45,11 +46,15 @@ class TopologyBuilderTest {
 
     private TopologyTestDriver testDriver;
     private Topology topology;
+    // formatting:off                                                           // init:remove
+    private TestInputTopic<String, Long> inputTopic;                            // init:remove
+    private TestOutputTopic<Long, String> outputTopic;                          // init:remove
+    // formatting:on                                                            // init:remove
 
     @BeforeAll
     public static void classSetup() {
         ctx =
-                CreekServices.builder(new FirstServiceDescriptor())
+                CreekServices.builder(new ExampleServiceDescriptor())
                         .with(TestKafkaStreamsExtensionOptions.defaults())
                         .build();
     }
@@ -60,6 +65,10 @@ class TopologyBuilderTest {
 
         topology = new TopologyBuilder(ext).build();
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
+        // formatting:off init:remove
+        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);   // init:remove
+        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);// init:remove
+        // formatting:on  init:remove
     }
 
     @AfterEach
@@ -67,6 +76,16 @@ class TopologyBuilderTest {
         testDriver.close();
     }
 
+    // formatting:off init:remove
+    @Test                                                                            // init:remove
+    void shouldSwitchKeyAndValue() {                                                 // init:remove
+        // When:                                                                     // init:remove
+        inputTopic.pipeInput("a", 1L);                                               // init:remove
+                                                                                     // init:remove
+        // Then:                                                                     // init:remove
+        assertThat(outputTopic.readKeyValuesToList(), contains(pair(1L, "a")));      // init:remove
+    }                                                                                // init:remove
+    // formatting:on  init:remove
 
     /**
      * A test that intentionally fails when ever the topology changes.
@@ -89,7 +108,7 @@ class TopologyBuilderTest {
         // Given:
         final String expectedTopology =
                 TestPaths.readString(
-                        TestPaths.moduleRoot("first-service")
+                        TestPaths.moduleRoot("example-service")
                                 .resolve("src/test/resources/kafka/streams/expected_topology.txt"));
 
         // When:
