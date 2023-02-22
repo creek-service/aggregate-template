@@ -1,6 +1,7 @@
 ---
 title: .github Directory
 permalink: /structure/.github
+description: Learn about the structure and features of the '.github' directory that Creek adds to your aggregate repositories.
 layout: single
 toc: true
 ---

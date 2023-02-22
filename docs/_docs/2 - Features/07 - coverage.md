@@ -1,6 +1,7 @@
 ---
 title: Code Coverage
 permalink: /features/coverage
+description: Learn about the code coverage analysis the Creek aggregate template sets up. This includes coverage from unit test and your service code running in Docker containers
 layout: single
 ---
 

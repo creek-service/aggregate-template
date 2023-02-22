@@ -1,6 +1,7 @@
 ---
 title: System Tests Module
 permalink: /structure/system-tests
+description: Learn about aggregate wide system testing that Creek provides
 layout: single
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: .creek Directory
 permalink: /structure/.creek
+description: Learn about the structure and features of the '.creek' directory Creek creates in your aggregate repositories.
 layout: single
 ---
 

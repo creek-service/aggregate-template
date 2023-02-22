@@ -1,6 +1,7 @@
 ---
 title: Static code analysis
 permalink: /features/static
+description: Learn about the static code analysis the Creek aggregate template sets up for you
 layout: single
 ---
 

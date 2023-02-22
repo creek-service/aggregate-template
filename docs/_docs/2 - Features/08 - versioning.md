@@ -1,6 +1,7 @@
 ---
 title: Versioning
 permalink: /features/versioning
+description: Learn about the automated semantic versioning the Creek aggregate template sets up for you
 layout: single
 ---
 
@@ -24,12 +25,10 @@ The [Version GitHub workflow][versionYml] can be used to manual set the version 
 
 1. Navigate to the `Actions` tab in your GitHub repository.
 2. Select `Set next version` from the list of available actions on the left.
-3. Click the `Run workflow ▾` button and either enter the version part to increment, (`Marjor`, `Minor` or `Patch`),
-   or enter a complete version number to set, e.g. `1.3.19`
-   <figure>
-     <img src="{{ '/assets/images/creek-set-version-workflow.png' | relative_url }}" alt="Create new aggregate repo">
-   </figure>
-4. Click [Run workflow](){: .btn .btn--small .btn--disabled .btn--success} button below.
+3. Click the `Run workflow ▾`{: .btn .btn--small .btn--disabled} button and either enter the version part to increment, 
+   (`Marjor`, `Minor` or `Patch`), or enter a complete version number to set, e.g. `1.3.19`
+   {% include figure image_path="/assets/images/creek-set-version-workflow.png" alt="Run set version workflow" %}   
+4. Click the [Run workflow](){: .btn .btn--small .btn--disabled .btn--success} button below the version info you entered
 
 This will kick off a workflow that sets the new version umber, though you may need to refresh the page to view it.
 Wait for the workflow to complete before committing any new code.

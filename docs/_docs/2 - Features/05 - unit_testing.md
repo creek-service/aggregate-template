@@ -1,6 +1,7 @@
 ---
 title: Unit Testing
 permalink: /features/unit-testing
+description: Learn about the Kafka Streams topology unit testing the Creek aggregate template sets up for you
 layout: single
 ---
 

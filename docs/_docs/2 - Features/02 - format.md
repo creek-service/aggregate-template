@@ -1,6 +1,7 @@
 ---
 title: Code formatting
 permalink: /features/formatting
+description: Learn about the code formatting the Creek aggregate template sets up for you
 layout: single
 ---
 

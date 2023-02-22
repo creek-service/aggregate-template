@@ -1,6 +1,7 @@
 ---
 title: API module
 permalink: /structure/api
+description: Learn about the structure and features of the api module, which defines the public API of the repository / aggregate.
 layout: single
 ---
 
