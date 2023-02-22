@@ -1,6 +1,7 @@
 ---
 title: System Testing
 permalink: /features/system-testing
+description: Learn about the black-box functional testing the Creek aggregate template sets up for you
 layout: single
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Publishing
 permalink: /features/publishing
+description: Learn about the Java library and Docker image publishing the Creek aggregate template sets up for you
 layout: single
 toc: true
 ---

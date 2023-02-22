@@ -1,6 +1,7 @@
 ---
 title: Services Module
 permalink: /structure/services
+description: Learn about the structure and features of the 'services' module, which defines metadata for each microservice defined in the repository / aggregate
 layout: single
 ---
 

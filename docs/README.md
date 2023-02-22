@@ -36,7 +36,7 @@ git push --set-upstream origin gems-update
 #### 3. Run the local server
 
 ```shell
-bundle exec jekyll serve --livereload --baseurl /aggregate-template
+(cd docs && bundle exec jekyll serve --livereload --baseurl /aggregate-template)
 ```
 
 This will launch a web server so that you can work on the site locally.

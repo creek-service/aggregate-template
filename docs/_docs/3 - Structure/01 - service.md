@@ -1,6 +1,7 @@
 ---
-title: Service Modules
 permalink: /structure/service
+title: Service Modules
+description: Learn about the structure and features of the microservice modules / subprojects that Creek creates to help you quickly develop and test microservices.
 layout: single
 toc: true
 snippet_comment_prefix: "//"
