@@ -76,7 +76,7 @@ function replaceInCode() {
 echo "Creating $serviceClass"
 cp -R "$creekDir/service_template/services" "./"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
+find . -type f -regex ".*[\//]ExampleServiceDescriptor.*\.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
    newPath="${0/ExampleServiceDescriptor/$1}";
    mv "$0" "$newPath"
  ' {} "$serviceClass" \;
