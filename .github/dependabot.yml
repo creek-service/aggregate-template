@@ -9,14 +9,14 @@ updates:
     directory: /
     open-pull-requests-limit: 50
     schedule:
-      interval: monthly
+      interval: daily
   - package-ecosystem: gradle
     directory: /
     open-pull-requests-limit: 50
     schedule:
-      interval: monthly
+      interval: daily
   - package-ecosystem: "docker" # init:remove
     directory: /example-service # init:remove
     open-pull-requests-limit: 50 # init:remove
     schedule: # init:remove
-      interval: monthly # init:remove
+      interval: daily # init:remove
