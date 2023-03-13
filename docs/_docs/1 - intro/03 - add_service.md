@@ -16,6 +16,7 @@ Services can be added using a [GitHub workflow][addServiceWf] at any time. Follo
 
 1. To add a service, navigate to the `Actions` tab in your GitHub repository.
 2. Select `Add service module` from the list of available actions on the left
+   {% include figure image_path="/assets/images/creek-add-service-workflow.png" alt="Add new service module workflow" %}
 3. Click the `Run workflow ▾` button and enter the name of your new service.
    {% include figure image_path="/assets/images/creek-add-service.png" alt="Add service module" %}
 
@@ -28,6 +29,8 @@ Services can be added using a [GitHub workflow][addServiceWf] at any time. Follo
 
 This will kick off a workflow that adds the new module containing the boilerplate code for a new service, 
 though you may need to refresh the page to view it.
+
+{% include figure image_path="/assets/images/creek-add-service-workflow-running.png" alt="Running workflow" %}
 
 Once the workflow is complete, it's ready for you to [build your Kafka Streams Topology][topology] 
 and add [system tests][systemTests].

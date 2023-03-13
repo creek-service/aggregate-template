@@ -16,14 +16,20 @@ See the [docs](https://www.creekservice.org/aggregate-template) for more informa
 
 If using this template to create a new Creek Tutorial, then there are some additional steps required:
 
-1. Add the new repo to coveralls.io, noting the repo token.
+1. Add the new repo to coveralls.io
+   1. Enable "Leave comments"
+   2. Set "Coverage threshold for failure" to `80`
+   3. Set "Coverage decrease threshold for failure" to `1`
+   4. note the repo token.
 2. Customise the repositories settings in GitHub:
    1. General
         1. disable wiki
-        2. enable discussions
-        3. only allow squash merging
-        4. allow auto-merge
-        5. auto delete branches
+        2. disable issues
+        3. enable discussions
+        4. disable projects 
+        5. only allow squash merging
+        6. allow auto-merge
+        7. auto delete branches
    2. Branches
        1. Protect main branch
            1. Require PR
@@ -38,9 +44,9 @@ If using this template to create a new Creek Tutorial, then there are some addit
        1. Build from actions
        2. enforce https
    4. Secrets
-       2. Set the `COVERALLS_REPO_TOKEN` secret in GitHub for the repository
+       1. Set the `COVERALLS_REPO_TOKEN` secret in GitHub for the repository
 3. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
-4. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml (steps: TBD)
+4. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml: todo
 
 [useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
 [tutorials]: https://github.com/creek-service/creek-service.github.io/blob/main/_pages/tutorials.md
