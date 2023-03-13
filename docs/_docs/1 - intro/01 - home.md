@@ -2,6 +2,11 @@
 title: Aggregate Repository
 permalink: /
 layout: single
+header:
+  overlay_color: "#000"
+  overlay_filter: "0.5"
+  overlay_image: /assets/images/background-1.png
+excerpt: Quickly bootstrap a new repository that's preconfigured for rapid development & testing of Kafka Streams based microservices.
 ---
 
 The [aggregate-template][aggTemp] repository is a GitHub template repository that can be used to quickly boostrap 
