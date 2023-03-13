@@ -99,7 +99,7 @@ mkdir -p ".creek/service_template"
 echo "$rootPackage" > ".creek/service_template/root.package"
 mv "example-service" ".creek/service_template/example-service"
 
-find . -type f -name "ExampleServiceDescriptor.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
+find . -type f -regex ".*[\//]ExampleServiceDescriptor.*\.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
     dest=".creek/service_template/$0"
     mkdir -p $(dirname "$dest")
     mv "$0" "$dest"
