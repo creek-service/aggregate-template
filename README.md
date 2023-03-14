@@ -44,7 +44,8 @@ If using this template to create a new Creek Tutorial, then there are some addit
        1. Build from actions
        2. enforce https
    4. Secrets
-       1. Set the `COVERALLS_REPO_TOKEN` secret in GitHub for the repository
+       1. Actions: Add the `COVERALLS_REPO_TOKEN` secret for the repository
+       2. Dependabot: Add the `COVERALLS_REPO_TOKEN` secret for the repository
 3. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
 4. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml: todo
 
