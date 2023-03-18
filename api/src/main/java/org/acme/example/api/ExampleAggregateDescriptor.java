@@ -26,6 +26,7 @@ import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
 import org.creekservice.api.platform.metadata.AggregateDescriptor;
 import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentOutput;
+import org.creekservice.api.platform.metadata.OwnedResource;
 
 public final class ExampleAggregateDescriptor implements AggregateDescriptor {
 
@@ -56,12 +57,12 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     }
 
     // Uncomment if needed
-    // private static <T extends ComponentInput> T register(final T input) {
+    // private static <T extends ComponentInput & OwnedResource> T register(final T input) {
     //     INPUTS.add(input);
     //     return input;
     // }
 
-    private static <T extends ComponentOutput> T register(final T output) {
+    private static <T extends ComponentOutput & OwnedResource> T register(final T output) {
         OUTPUTS.add(output);
         return output;
     }

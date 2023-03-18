@@ -46,8 +46,9 @@ If using this template to create a new Creek Tutorial, then there are some addit
    4. Secrets
        1. Actions: Add the `COVERALLS_REPO_TOKEN` secret for the repository
        2. Dependabot: Add the `COVERALLS_REPO_TOKEN` secret for the repository
-3. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
-4. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml: todo
+3. On the main page in GitHub, in about, set `Use your GitHub Pages website`.
+4. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
+5. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml: todo
 
 [useThisTemplate]: https://github.com/creek-service/aggregate-template/generate
 [tutorials]: https://github.com/creek-service/creek-service.github.io/blob/main/_pages/tutorials.md
