@@ -22,6 +22,6 @@ section of the [Basic Kafka Streams Tutorial][tutorial] for a quick example.
 
 [system-test]: https://github.com/creek-service/creek-system-test
 [sysTestPlugin]: https://github.com/creek-service/creek-system-test-gradle-plugin
-[creekKafkaTestExt]: https://github.com/creek-service/creek-kafka/tree/main/test-extension
+[creekKafkaTestExt]: https://www.creekservice.org/creek-kafka/#system-test-extension
 [tutorial]: https://www.creekservice.org/basic-kafka-streams-demo/
 [tutorialSysTest]: https://www.creekservice.org/basic-kafka-streams-demo/system-testing
