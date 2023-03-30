@@ -24,6 +24,6 @@ which can be enhanced to test the service's Kafka Streams topology, making use o
 [hamcrest]: http://hamcrest.org/JavaHamcrest/index
 [guavaTest]: https://github.com/google/guava/tree/master/guava-testlib
 [log4j]: https://logging.apache.org/log4j/2.x/
-[addService]: {{ "/add-service" | relative_url }}
 [ksTest]: https://kafka.apache.org/documentation/streams/developer-guide/testing.html
-[creekKsTest]: https://github.com/creek-service/creek-kafka/tree/main/streams-test
+[creekKsTest]: https://www.creekservice.org/creek-kafka/#unit-testing-topologies
+[addService]: {{ "/add-service" | relative_url }}

@@ -8,7 +8,7 @@ snippet_comment_prefix: "//"
 ---
 
 Each service module added via the [add service module GitHub workflow][addService] is created in its own
-directory a.k.a. module, with its descriptor created in the [services module][services].
+directory a.k.a. module, with its descriptor created in the [`services` module][services].
 
 The workflow creates a bare [Kafka Streams][kafkaStreams] based microservice that utilises the [Creek Kafka][creekKafka]
 service and test extensions to simplify development and testing.
@@ -90,7 +90,7 @@ Creek recommends always naming operators in the Kafka Streams DSL. (See the [Kaf
 
 [kafkaStreams]: https://kafka.apache.org/documentation/streams/
 [ksTestUtil]: https://kafka.apache.org/documentation/streams/developer-guide/testing.html
-[creekKafka]: https://github.com/creek-service/creek-kafka
+[creekKafka]: https://www.creekservice.org/creek-kafka/
 [tutorial]: https://www.creekservice.org/basic-kafka-streams-demo/
 [addService]: {{ "/add-service" | relative_url }}
 [services]: {{ "/structure/services" | relative_url }}
