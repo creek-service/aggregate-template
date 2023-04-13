@@ -114,5 +114,4 @@ echo Tidying up
 rm ./.creek/bootstrap.sh
 rm .github/CODEOWNERS
 find . -type d -empty -delete
-./gradlew format
 
