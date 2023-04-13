@@ -21,16 +21,14 @@ jobs:
         run: sudo apt install zsh
       - name: Run script
         shell: zsh {0}
-        run: |
-          ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
-          ./gradlew format
+        run: ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
+      - name: Format code
+        run: ./gradlew format
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
           git config --global user.name "Creek Bot"
-          echo "adding files"
           git add -A
-          echo "status"
           git status
           git commit -m "Bootstrap repo"
           git push

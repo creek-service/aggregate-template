@@ -128,4 +128,3 @@ echo "\n  - package-ecosystem: docker
 echo Tidy up
 find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
 find . -type d -empty -delete
-./gradlew format
