@@ -23,6 +23,7 @@ jobs:
         shell: zsh {0}
         run: |
           ./.creek/bootstrap.sh "${{ github.repository }}" "${{ github.repository_owner }}"
+          ./gradlew format
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"

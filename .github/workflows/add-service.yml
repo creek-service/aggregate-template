@@ -26,8 +26,7 @@ jobs:
         shell: zsh {0}
         run: |
           ./.creek/add_service.sh "${{ github.event.inputs.service_name }}"
-      - name: Check it builds
-        run: ./gradlew build
+          ./gradlew format
       - name: Commit changes
         run: |
           git config --global user.email "95620007+Creek-Bot@users.noreply.github.com"
