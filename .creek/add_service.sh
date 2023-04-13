@@ -112,6 +112,7 @@ echo "Creating $serviceName microservice module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
 renamePackage "$rootPackage.example.service" "$rootPackage.$serviceDotName"
+replaceInCode "example\.service" "$serviceDotName"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
