@@ -1,6 +1,7 @@
 # A Workflow for adding new service modules to a repo.
 
 name: Add service module
+run-name: "Add service module: (${{ inputs.service_name }})"
 
 on:
   workflow_dispatch:

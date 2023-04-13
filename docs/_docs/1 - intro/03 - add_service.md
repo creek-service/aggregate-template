@@ -27,20 +27,17 @@ Services can be added using a [GitHub workflow][addServiceWf] at any time. Follo
    {: .notice--info}
 4. Click the [Run workflow](){: .btn .btn--small .btn--disabled .btn--success} button below the service name you entered.
 
-This will kick off a workflow that adds the new module containing the boilerplate code for a new service, 
+This will kick off a workflow that adds a new module containing the boilerplate code for a new service, 
 though you may need to refresh the page to view it.
 
 {% include figure image_path="/assets/images/creek-add-service-workflow-running.png" alt="Running workflow" %}
 
-Once the workflow is complete, it's ready for you to [build your Kafka Streams Topology][topology] 
-and add [system tests][systemTests].
+The workflow will create a PR containing the new service's module:
 
-**Note:** At the time of writing, the add-service GitHub workflow attempts to commit changes to the main branch.
-This is not compatible with GitHub's branch protection. 
-Temporarily remove any branch protection before running the workflow.
-[Issue 141](https://github.com/creek-service/aggregate-template/issues/141) tracks the work of enhancing the workflow
-to be compatible with branch protection.
-{: .notice--warning}
+{% include figure image_path="/assets/images/creek-new-service-pr.png" alt="Pull Request adding new service" %}
+
+Once the workflow is complete, review and merge the PR.
+Once merged, the new service is ready for you to [build your Kafka Streams Topology][topology] and add [system tests][systemTests].
 
 [addServiceWf]: https://github.com/creek-service/aggregate-template/blob/main/.github/workflows/add-service.yml
 [topology]: {{ "/structure/service#topology-builder" | relative_url }}
