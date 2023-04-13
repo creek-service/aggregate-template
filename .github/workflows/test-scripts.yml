@@ -27,27 +27,25 @@ jobs:
         shell: zsh {0}
         run: ./.creek/bootstrap.sh "some-User-name/a_Nother-REpo_name" "some-User-name"
       - name: Check compiles & runs
-        run: |
-          ./gradlew format check
-          ./gradlew clean
+        run: ./gradlew format check
+      - name: Clean
+        run: ./gradlew clean
       - name: Run clean_up script
         shell: zsh {0}
         run: ./.creek/clean_up.sh
       - name: Check compiles & runs
-        run: |
-          ./gradlew format check
-          ./gradlew clean
+        run:  ./gradlew format check
+      - name: Clean
+        run: ./gradlew clean
       - name: Add service
         shell: zsh {0}
         run: ./.creek/add_service.sh first-service
       - name: Check compiles & runs
-        run: |
-          ./gradlew format check
-          ./gradlew clean
+        run: ./gradlew format check
+      - name: Clean
+        run: ./gradlew clean
       - name: Add 2nd service
         shell: zsh {0}
         run: ./.creek/add_service.sh second-service
       - name: Check compiles & runs
-        run: |
-          ./gradlew format check
-          ./gradlew clean
+        run: ./gradlew format check
