@@ -22,7 +22,7 @@ plugins {
     `coverage-convention`
     `publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.15.0" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
-    id("com.bmuschko.docker-remote-api") version "9.3.0" apply false
+    id("com.bmuschko.docker-remote-api") version "9.3.1" apply false
 }
 
 project.version = scmVersion.version
@@ -57,7 +57,7 @@ subprojects {
 
         set("junitVersion", "5.9.2")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.0.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
-        set("mockitoVersion", "5.2.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+        set("mockitoVersion", "5.3.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
         set("hamcrestVersion", "2.2")           // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
     }
 
