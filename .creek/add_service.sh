@@ -73,6 +73,23 @@ function replaceInCode() {
   sedCode "s/$1/$2/g"
 }
 
+# renamePackage(old-pkg-name, new-pkg-name)
+function renamePackage() {
+  # Update code:
+  replaceInCode "$(echo "$1" | sed 's/\./\\./g')\." "$2."
+
+  # Move code:
+  oldBasePattern=$(echo "$1" | sed 's/\./\\\//g')
+  oldBaseDir=$(echo "$1" | sed 's/\./\//g')
+  newBaseDir=$(echo "$2" | sed 's/\./\//g')
+
+  find . -type f -path "*$oldBaseDir*" -not \( -path "*/.git/*" -o -path "*/build/*" -o -path "*/.gradle/*" -o -path "*/.creek/*" \) -exec bash -c '
+    newPath=${3/$1/$0}
+    mkdir -p "$(dirname $newPath)"
+    mv "$3" "$newPath"
+    ' "$newBaseDir" "$oldBasePattern" "$oldBaseDir" {} \;
+}
+
 echo "Creating $serviceClass"
 cp -R "$creekDir/service_template/services" "./"
 
@@ -91,17 +108,18 @@ fi
 
 echo "\n$rootPackage.services.$serviceClass" >> services/src/main/resources/META-INF/services/org.creekservice.api.platform.metadata.ComponentDescriptor
 
-echo "Creating $serviceName module"
+echo "Creating $serviceName microservice module"
 
 cp -R "$creekDir/service_template/example-service" "$serviceName"
+renamePackage "$rootPackage.example.service" "$rootPackage.$serviceDotName"
 replaceInCode "example\.service" "$serviceDotName"
 replaceInCode "example-service" "$serviceName"
 replaceInCode "ExampleServiceDescriptor" "$serviceClass"
 
-echo adding new service module to settings.gradle.kts
+echo "adding new microservice's module to settings.gradle.kts"
 sed -i "s/include(/include(\n    \"$serviceName\",/g" settings.gradle.kts
 
-echo "adding new service's Docker image to Dependabot"
+echo "adding new microservice's Docker image to Dependabot"
 echo "\n  - package-ecosystem: docker
     directory: /$serviceName
     schedule:
@@ -110,4 +128,3 @@ echo "\n  - package-ecosystem: docker
 echo Tidy up
 find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*" \) -exec rm {} \;
 find . -type d -empty -delete
-./gradlew format
