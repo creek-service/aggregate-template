@@ -29,6 +29,20 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: ./gradlew build coveralls
+      - name: Upload Checkstyle reports
+        if: failure()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: reports
+          path: '**/build/reports/**/*.xml'
+          retention-days: 5
+      - name: Upload Test Results
+        if: failure()
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: test-results-linux
+          path: '**/build/test-results/**/*.xml'
+          retention-days: 5
 
   release:
     if: github.event_name == 'push'
