@@ -48,6 +48,7 @@ repositories {
 
 dependencies {
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0")
+    checkstyle("com.puppycrawl.tools:checkstyle:10.17.0")
 }
 
 configurations.all {
@@ -61,9 +62,13 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.test {
-    useJUnitPlatform()
-    setForkEvery(1)
-    maxParallelForks = 4
+    useJUnitPlatform() {
+        if (project.hasProperty("excludeContainerised")) {
+            excludeTags("ContainerisedTest")
+        }
+    }
+    setForkEvery(5)
+    maxParallelForks = Runtime.getRuntime().availableProcessors()
     testLogging {
         showStandardStreams = true
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
