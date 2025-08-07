@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  ~ Copyright 2023 Creek Contributors (https://github.com/creek-service)
+  ~ Copyright 2023-2025 Creek Contributors (https://github.com/creek-service)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -106,7 +106,7 @@
   <!-- Checks for Headers            init:remove                    -->
   <!-- See https://checkstyle.org/config_header.html  init:remove -->
   <module name="RegexpHeader">  <!-- init:remove -->
-    <property name="header" value="/\*\n\* Copyright (\d\d\d\d-)?2023 Creek Contributors \(https://github.com/creek-service\)$\n \*$\n \* Licensed under the Apache License, Version 2.0"/> <!-- init:remove -->
+    <property name="header" value="/\*\n\* Copyright (\d\d\d\d-)?2025 Creek Contributors \(https://github.com/creek-service\)$\n \*$\n \* Licensed under the Apache License, Version 2.0"/> <!-- init:remove -->
   </module> <!-- init:remove -->
 
   <module name="TreeWalker">
