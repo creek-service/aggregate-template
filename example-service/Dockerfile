@@ -1,4 +1,4 @@
-FROM amazoncorretto:25@sha256:6ba4f6ca82ac3f8bad2e514a1ba060e6314e8dff2d46b06c3bd6af063a7c2eb6
+FROM amazoncorretto:26@sha256:a246774eaa249c020893dc0eeacbfc3cfeeada938dd41d94086ba489afee1ead
 ARG APP_NAME
 ARG APP_VERSION
 ENV VERSION=$APP_VERSION
