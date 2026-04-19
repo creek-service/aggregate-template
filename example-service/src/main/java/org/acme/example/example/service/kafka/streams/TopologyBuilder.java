@@ -65,6 +65,7 @@ public final class TopologyBuilder {
 
         return builder.build(ext.properties(DEFAULT_CLUSTER_NAME));
     }
+
     // formatting:off  init:remove
     private KeyValueMapper<String, Long, KeyValue<Long, String>>                    // init:remove
         switchKeyAndValue() {                                                       // init:remove
