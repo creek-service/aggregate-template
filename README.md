@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Coverage Status](https://coveralls.io/repos/github/creek-service/aggregate-template/badge.svg?branch=main)](https://coveralls.io/github/creek-service/aggregate-template?branch=main)
+[![codecov](https://codecov.io/gh/creek-service/aggregate-template/branch/main/graph/badge.svg)](https://codecov.io/gh/creek-service/aggregate-template)
 [![build](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/build.yml)
 [![CodeQL](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml/badge.svg)](https://github.com/creek-service/aggregate-template/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template/badge)](https://api.securityscorecards.dev/projects/github.com/creek-service/aggregate-template) <!--- init:remove --->
@@ -16,12 +16,7 @@ See the [docs](https://www.creekservice.org/aggregate-template) for more informa
 
 If using this template to create a new Creek Tutorial, then there are some additional steps required:
 
-1. Add the new repo to coveralls.io
-   1. Enable "Leave comments"
-   2. Set "Coverage threshold for failure" to `80`
-   3. Set "Coverage decrease threshold for failure" to `1`
-   4. note the repo token.
-2. Customise the repositories settings in GitHub:
+1. Customise the repositories settings in GitHub:
    1. General
         1. disable wiki
         2. disable issues
@@ -39,13 +34,10 @@ If using this template to create a new Creek Tutorial, then there are some addit
                1. CodeQL
                2. build
                3. build_pages
-               4. coveralls
+               4. codecov/patch
    3. Pages
        1. Build from actions
        2. enforce https
-   4. Secrets
-       1. Actions: Add the `COVERALLS_REPO_TOKEN` secret for the repository
-       2. Dependabot: Add the `COVERALLS_REPO_TOKEN` secret for the repository
 3. On the main page in GitHub, in about, set `Use your GitHub Pages website`.
 4. Add the new tutorial to the [tutorials page][tutorials] on creekservice.org
 5. Add the new tutorial sitemap.xml to the root aggregate sitemap.xml: todo
