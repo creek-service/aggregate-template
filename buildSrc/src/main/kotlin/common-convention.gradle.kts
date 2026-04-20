@@ -49,14 +49,6 @@ java {
 
 repositories {
     mavenCentral()
-
-    maven {
-        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        mavenContent {
-            includeGroup("org.creekservice")
-            snapshotsOnly()
-        }
-    }
 }
 
 dependencies {
