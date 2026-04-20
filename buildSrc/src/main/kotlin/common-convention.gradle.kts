@@ -75,11 +75,7 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.test {
-    useJUnitPlatform() {
-        if (project.hasProperty("excludeContainerised")) {
-            excludeTags("ContainerisedTest")
-        }
-    }
+    useJUnitPlatform()
 
     forkEvery = 5
     maxParallelForks = Runtime.getRuntime().availableProcessors()
@@ -162,3 +158,4 @@ tasks.test {
 
 // See: https://solidsoft.wordpress.com/2014/11/13/gradle-tricks-display-dependencies-for-all-subprojects-in-multi-project-build/
 tasks.register<DependencyReportTask>("allDeps") {}
+
