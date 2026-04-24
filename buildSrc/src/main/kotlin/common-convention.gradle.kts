@@ -48,7 +48,22 @@ java {
 }
 
 repositories {
+    maven {
+        url = uri("file://${System.getProperty("user.home")}/.m2/repository")
+        mavenContent {
+            includeGroup("org.creekservice")
+        }
+    }
     mavenCentral()
+
+    // TODO: remove once next release available
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        mavenContent {
+            includeGroup("org.creekservice")
+            snapshotsOnly()
+        }
+    }
 }
 
 dependencies {
