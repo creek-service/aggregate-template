@@ -36,10 +36,9 @@ import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 /**
  * Helper for creating topic descriptors.
  *
- * <p>Wondering where the builds are for {@link KafkaTopicInput}
- * or {@link KafkaTopicOutput}? These should only be created by
- * calling {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an
- * owned topic descriptor, respectively.
+ * <p>Wondering where the builds are for {@link KafkaTopicInput} or {@link KafkaTopicOutput}? These
+ * should only be created by calling {@link OwnedKafkaTopicInput#toOutput()} and {@link
+ * OwnedKafkaTopicOutput#toInput()} on an owned topic descriptor, respectively.
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicDescriptors {
@@ -52,8 +51,9 @@ public final class TopicDescriptors {
      * Create an input Kafka topic descriptor.
      *
      * <p>Looking for a version that returns {@link
-     * org.creekservice.api.kafka.metadata.topic.KafkaTopicInput}? Get one of those by calling {@link
-     * OwnedKafkaTopicOutput#toInput()} on the topic descriptor defined in the upstream component.
+     * org.creekservice.api.kafka.metadata.topic.KafkaTopicInput}? Get one of those by calling
+     * {@link OwnedKafkaTopicOutput#toInput()} on the topic descriptor defined in the upstream
+     * component.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
@@ -119,8 +119,9 @@ public final class TopicDescriptors {
      * Create an output Kafka topic descriptor.
      *
      * <p>Looking for a version that returns {@link
-     * org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput}? Get one of those by calling {@link
-     * OwnedKafkaTopicInput#toOutput()} on the topic descriptor defined in the downstream component.
+     * org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput}? Get one of those by calling
+     * {@link OwnedKafkaTopicInput#toOutput()} on the topic descriptor defined in the downstream
+     * component.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
