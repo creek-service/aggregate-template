@@ -34,4 +34,12 @@ tasks.systemTest {
     }.forEach {
         inputs.files(it)
     }
+
+    // Ensure coverage directory exists before system tests run.
+    // Required by creek-system-test 0.4.4-SNAPSHOT+ which copies files into/out of containers
+    // rather than using Docker volume mounts, and requires the host directory to pre-exist.
+    doFirst {
+        val coverageDir = layout.buildDirectory.dir("creek/mounts/coverage").get().asFile
+        coverageDir.mkdirs()
+    }
 }
