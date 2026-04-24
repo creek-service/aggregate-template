@@ -17,7 +17,7 @@
 package org.acme.example.example.service.kafka.streams;
 
 import static java.util.Objects.requireNonNull;
-import static org.creekservice.api.kafka.metadata.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
+import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 
 import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.KeyValue;
