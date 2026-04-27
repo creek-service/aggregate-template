@@ -45,3 +45,9 @@ allprojects {
         }
     }
 }
+
+tasks.register("coverage") {
+    group = "creek"
+    description = "generate coverage report"
+    dependsOn("jacocoTestReport")
+}
