@@ -17,19 +17,19 @@
 /**
  * Standard coverage configuration of Creek aggregates, utilising Jacoco and Codecov.
  *
- * <p>Version: 1.5
+ * <p>Version:
+ * <ul>
+ * <li> 1.5: Removed wiring of system test execution data, as its handled by the plugin</li>
+ * </ul>
  *
- * <p>Apply to root project only
+ *
+ * <p>Apply to the root project only
  */
 
 plugins {
     java
     jacoco
 }
-
-// Applied imperatively to avoid versionCatalogs conflict in generatePrecompiledScriptPluginAccessors
-// when using Gradle 8.1+ (where versionCatalogs became stable and is registered in synthetic projects)
-apply(plugin = "org.creekservice.system.test")
 
 repositories {
     mavenCentral()
@@ -40,16 +40,9 @@ allprojects {
     apply(plugin = "java")
 
     tasks.withType<JacocoReport>().configureEach {
-        dependsOn(tasks.test)
-
-        // Include system test coverage data (collected via Jacoco agent running inside Docker).
-        // Uses lazy file providers so missing files (subprojects with no system tests) are ignored.
-        rootProject.subprojects.forEach { sub ->
-            executionData.from(sub.layout.buildDirectory.file("creek/mounts/coverage/systemTest.exec"))
-        }
-
         reports {
             xml.required.set(true)
+            html.required.set(true)
         }
     }
 }
@@ -57,5 +50,5 @@ allprojects {
 tasks.register("coverage") {
     group = "creek"
     description = "generate coverage report"
-    dependsOn("jacocoTestReport")
+    dependsOn("test", "jacocoTestReport")
 }
