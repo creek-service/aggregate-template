@@ -41,5 +41,5 @@ dependencies {
     implementation("com.diffplug.spotless:spotless-plugin-gradle:8.4.0")                   // https://plugins.gradle.org/plugin/com.diffplug.spotless
     implementation("org.javamodularity:moduleplugin:1.8.12")                                // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
     implementation("com.gradle.publish:plugin-publish-plugin:2.1.1")                        // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    implementation("org.creekservice:creek-system-test-gradle-plugin:0.4.1")                // https://plugins.gradle.org/plugin/org.creekservice.system.test
+    implementation("org.creekservice:creek-system-test-gradle-plugin:0.4.4")                          // https://plugins.gradle.org/plugin/org.creekservice.system.test
 }

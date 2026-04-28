@@ -24,7 +24,7 @@ val creekVersion : String by extra
 
 dependencies {
     systemTestComponent(project(":services"))
-    systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
+    systemTestExtension("org.creekservice:creek-kafka-test-extension:${creekVersion}")
 }
 
 tasks.systemTest {
