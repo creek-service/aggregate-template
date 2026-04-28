@@ -24,14 +24,10 @@ val creekVersion : String by extra
 
 dependencies {
     systemTestComponent(project(":services"))
-    systemTestExtension("org.creekservice:creek-kafka-test-extension:$creekVersion")
+    systemTestExtension("org.creekservice:creek-kafka-test-extension:${creekVersion}")
 }
 
 tasks.systemTest {
-    doFirst {
-        // Ensure the coverage mount directory exists before the system test executor tries to mount it:
-        layout.buildDirectory.dir("creek/mounts/coverage").get().asFile.mkdirs()
-    }
     // Make the systemTest task be dependent on the output of all Docker image build tasks:
     rootProject.allprojects.flatMap {
        it.tasks.withType(DockerBuildImage::class)
