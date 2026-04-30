@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2025 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2021-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +26,13 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.when;
 
-import org.creekservice.api.kafka.metadata.CreatableKafkaTopicInternal;
-import org.creekservice.api.kafka.metadata.KafkaTopicConfig;
-import org.creekservice.api.kafka.metadata.KafkaTopicInput;
-import org.creekservice.api.kafka.metadata.KafkaTopicInternal;
-import org.creekservice.api.kafka.metadata.KafkaTopicOutput;
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicInput;
-import org.creekservice.api.kafka.metadata.OwnedKafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.topic.CreatableKafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicInput;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicInternal;
+import org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
+import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

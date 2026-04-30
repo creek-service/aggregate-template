@@ -1,5 +1,5 @@
 /*
- * Copyright 2023-2025 Creek Contributors (https://github.com/creek-service)
+ * Copyright 2023-2026 Creek Contributors (https://github.com/creek-service)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ subprojects {
     }
 
     extra.apply {
-        set("creekVersion", "0.4.1")            // https://mvnrepository.com/artifact/org.creekservice
-        set("kafkaVersion", "3.7.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+        set("creekVersion", "0.4.4")             // https://mvnrepository.com/artifact/org.creekservice
+        set("kafkaVersion", "4.2.0")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
         set("guavaVersion", "33.6.0-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.25.4")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
