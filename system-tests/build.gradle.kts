@@ -20,7 +20,7 @@ plugins {
     id("org.creekservice.system.test")
 }
 
-val creekVersion : String by extra
+val creekVersion : String by project
 
 dependencies {
     systemTestComponent(project(":services"))
