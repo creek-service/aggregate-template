@@ -50,18 +50,15 @@ import org.creekservice.api.platform.metadata.ResourceDescriptor;
  *
  * <p>By default, the methods below give topics a schema-validated JSON value and a Kafka-native key
  * - see the {@code org.creekservice.schema.json} Gradle plugin applied in this module's {@code
- * build.gradle.kts}. If a topic shouldn't use JSON, call the overload that accepts explicit
- * key/value {@link SerializationFormat}s and pass {@link #KAFKA_FORMAT} for the value instead.
+ * build.gradle.kts}. For anything else, use the overload that takes explicit key/value {@link
+ * SerializationFormat}s, e.g. passing {@link #KAFKA_FORMAT} for the value.
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicDescriptors {
 
     public static final SerializationFormat KAFKA_FORMAT = serializationFormat("kafka");
 
-    // Default value format - see the class Javadoc. Safe to remove, along with the other
-    // JSON-related bits of this file (and this module's `creek.schema.json` config, and the
-    // `creek-kafka-json-serde` dependency in service modules), if this aggregate doesn't use JSON
-    // payloads.
+    // Default value format - see the class Javadoc. Remove if not using JSON:
     public static final SerializationFormat JSON_FORMAT = JsonSchemaKafkaSerde.format();
 
     private TopicDescriptors() {}
@@ -160,13 +157,11 @@ public final class TopicDescriptors {
     }
 
     /**
-     * Create a Kafka topic descriptor for a topic that is implicitly created, with a JSON value and
+     * Create a Kafka topic descriptor for a topic Creek should create, with a JSON value and
      * Kafka-native key.
      *
-     * <p>Most internal topics, e.g. Kafka Streams changelog and repartition topics, are implicitly
-     * created For such topics use {@link #internalTopic}
-     *
-     * <p>For an internal topic that you want Creek to create, use this method.
+     * <p>For an internal topic that is implicitly created, e.g. a Kafka Streams changelog or
+     * repartition topic, use {@link #internalTopic}.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
@@ -187,8 +182,8 @@ public final class TopicDescriptors {
     }
 
     /**
-     * Create a Kafka topic descriptor for a topic that is implicitly created, with custom
-     * serialization formats.
+     * Create a Kafka topic descriptor for a topic Creek should create, with custom serialization
+     * formats.
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
@@ -299,15 +294,6 @@ public final class TopicDescriptors {
             return config.orElseThrow();
         }
 
-        /**
-         * Describes one part (key or value) of a topic's records.
-         *
-         * <p>This is an inner class of the topic it describes, so that a JSON schema descriptor can
-         * be typed as {@link OwnedJsonSchemaDescriptor} or {@link UnownedJsonSchemaDescriptor}
-         * according to the ownership of the enclosing topic: a schema is owned by the service that
-         * owns the topic, and unowned when the topic is an unowned input obtained from another
-         * service's output via {@link OwnedKafkaTopicOutput#toInput()}.
-         */
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         private final class KeyValueDescriptor<T> implements PartDescriptor<T> {
 
@@ -356,13 +342,6 @@ public final class TopicDescriptors {
                 return schema.stream();
             }
 
-            /**
-             * Common behaviour of the owned and unowned schema descriptors.
-             *
-             * <p>These are inner classes of the part descriptor so that {@link #part()} can return
-             * the enclosing part: the mutual self-reference is what lets a schema descriptor point
-             * back at the topic part it describes, which the metadata API requires.
-             */
             private abstract class BaseJsonSchema implements JsonSchemaDescriptor<T> {
 
                 private final String schemaRegistryName;

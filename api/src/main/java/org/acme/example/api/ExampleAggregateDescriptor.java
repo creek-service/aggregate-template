@@ -43,7 +43,7 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
                             Long.class,                                         // init:remove
                             KAFKA_FORMAT,                                       // init:remove
                             String.class,                                       // init:remove
-                            KAFKA_FORMAT, // native, not JSON: String has no schema // init:remove
+                            KAFKA_FORMAT, // init:remove
                             TopicConfigBuilder.withPartitions(2)));             // init:remove
     // formatting:on init:remove
 

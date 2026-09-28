@@ -44,7 +44,7 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
                             String.class,                                           // init:remove
                             KAFKA_FORMAT,                                           // init:remove
                             Long.class,                                             // init:remove
-                            KAFKA_FORMAT, // native, not JSON: Long has no schema   // init:remove
+                            KAFKA_FORMAT,                                           // init:remove
                             TopicConfigBuilder.withPartitions(3)));                 // init:remove
                                                                                     // init:remove
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =           // init:remove

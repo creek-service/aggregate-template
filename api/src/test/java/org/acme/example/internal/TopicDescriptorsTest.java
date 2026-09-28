@@ -193,7 +193,7 @@ class TopicDescriptorsTest {
         // When:
         final KafkaTopicInput<Long, String> input = output.toInput();
 
-        // Then: the schema is still described, but it is no longer claimed as owned
+        // Then:
         assertThat(input.value().resources().toList(), hasSize(1));
         final ResourceDescriptor schema = input.value().resources().toList().get(0);
         assertThat(schema, is(instanceOf(JsonSchemaDescriptor.class)));
@@ -226,7 +226,7 @@ class TopicDescriptorsTest {
         // When:
         final KafkaTopicInput<Long, String> input = output.toInput();
 
-        // Then: ownership changes, identity does not
+        // Then:
         final ResourceDescriptor owned = output.value().resources().toList().get(0);
         final ResourceDescriptor unowned = input.value().resources().toList().get(0);
         assertThat(unowned.id(), is(owned.id()));

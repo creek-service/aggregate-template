@@ -16,29 +16,25 @@
 
 plugins {
     `java-library`
-    // Generates JSON schemas from @GeneratesSchema-annotated types. Remove this plugin, and the
-    // creek.schema.json block below, if this aggregate doesn't use JSON payloads:
+    // Generates JSON schemas from @GeneratesSchema-annotated types. Remove if not using JSON.
     id("org.creekservice.schema.json")
 }
 
 dependencies {
     api("org.creekservice:creek-kafka-metadata:${property("creekVersion")}")
-    // Provides @GeneratesSchema, used to annotate topic value types so Creek can generate their
-    // JSON schema. Remove if not using JSON payloads:
+    // Remove both if not using JSON payloads:
     implementation("org.creekservice:creek-base-annotation:${property("creekVersion")}")
-    // Used to annotate topic value types so Creek can generate their JSON schema. Remove if not
-    // using JSON payloads:
     api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonVersion")}")
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
 
     testImplementation("org.apache.kafka:kafka-clients:${property("kafkaVersion")}")
 
-    // Remove if not using JSON payloads:
+    // Remove if not using JSON:
     jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
 }
 
-// Remove if not using JSON payloads:
+// Remove if not using JSON:
 creek.schema.json {
     typeScanning.moduleWhiteList(moduleName)
     subTypeScanning.moduleWhiteList(moduleName)
