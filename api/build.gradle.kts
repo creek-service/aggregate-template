@@ -21,25 +21,21 @@ plugins {
     id("org.creekservice.schema.json")
 }
 
-val kafkaVersion: String by extra
-val creekVersion : String by extra
-val jacksonVersion : String by extra
-
 dependencies {
-    api("org.creekservice:creek-kafka-metadata:$creekVersion")
+    api("org.creekservice:creek-kafka-metadata:${property("creekVersion")}")
     // Provides @GeneratesSchema, used to annotate topic value types so Creek can generate their
     // JSON schema. Remove if not using JSON payloads:
-    implementation("org.creekservice:creek-base-annotation:$creekVersion")
+    implementation("org.creekservice:creek-base-annotation:${property("creekVersion")}")
     // Used to annotate topic value types so Creek can generate their JSON schema. Remove if not
     // using JSON payloads:
-    api("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+    api("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonVersion")}")
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
 
-    testImplementation("org.apache.kafka:kafka-clients:$kafkaVersion")
+    testImplementation("org.apache.kafka:kafka-clients:${property("kafkaVersion")}")
 
     // Remove if not using JSON payloads:
-    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:$creekVersion")
+    jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
 }
 
 // Remove if not using JSON payloads:

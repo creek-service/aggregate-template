@@ -20,15 +20,13 @@ plugins {
     id("org.creekservice.system.test")
 }
 
-val creekVersion : String by extra
-
 dependencies {
     systemTestComponent(project(":services"))
-    systemTestExtension("org.creekservice:creek-kafka-test-extension:${creekVersion}")
+    systemTestExtension("org.creekservice:creek-kafka-test-extension:${property("creekVersion")}")
     // Installs the JSON serde system-test extension. This causes a Schema Registry container to
     // be started automatically for system-test runs, and schemas to be registered against it
     // before services under test start. Remove if not using JSON payloads:
-    systemTestExtension("org.creekservice:creek-kafka-json-serde:${creekVersion}")
+    systemTestExtension("org.creekservice:creek-kafka-json-serde:${property("creekVersion")}")
 }
 
 tasks.systemTest {
