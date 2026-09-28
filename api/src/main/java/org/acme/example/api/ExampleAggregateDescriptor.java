@@ -16,6 +16,7 @@
 
 package org.acme.example.api;
 
+import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.outputTopic;
 
 import java.util.ArrayList;
@@ -40,7 +41,9 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
                     outputTopic(                                                // init:remove
                             AGGREGATE_PREFIX + "output",                        // init:remove
                             Long.class,                                         // init:remove
+                            KAFKA_FORMAT,                                       // init:remove
                             String.class,                                       // init:remove
+                            KAFKA_FORMAT, // native, not JSON: String has no schema // init:remove
                             TopicConfigBuilder.withPartitions(2)));             // init:remove
     // formatting:on init:remove
 

@@ -16,6 +16,7 @@
 
 package org.acme.example.services;
 
+import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.inputTopic;
 
 import java.util.ArrayList;
@@ -41,7 +42,9 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
                     inputTopic(                                                     // init:remove
                             "input",                                                // init:remove
                             String.class,                                           // init:remove
+                            KAFKA_FORMAT,                                           // init:remove
                             Long.class,                                             // init:remove
+                            KAFKA_FORMAT, // native, not JSON: Long has no schema   // init:remove
                             TopicConfigBuilder.withPartitions(3)));                 // init:remove
                                                                                     // init:remove
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =           // init:remove

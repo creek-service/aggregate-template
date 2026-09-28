@@ -19,9 +19,13 @@ package org.acme.example.internal;
 import static java.util.Objects.requireNonNull;
 import static org.creekservice.api.kafka.metadata.SerializationFormat.serializationFormat;
 
-import java.net.URI;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.creekservice.api.kafka.metadata.SerializationFormat;
+import org.creekservice.api.kafka.metadata.schema.JsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.schema.OwnedJsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.schema.UnownedJsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.serde.JsonSchemaKafkaSerde;
 import org.creekservice.api.kafka.metadata.topic.CreatableKafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor;
@@ -32,6 +36,8 @@ import org.creekservice.api.kafka.metadata.topic.KafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
+import org.creekservice.api.platform.metadata.OwnedResource;
+import org.creekservice.api.platform.metadata.ResourceDescriptor;
 
 /**
  * Helper for creating topic descriptors.
@@ -41,16 +47,27 @@ import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
  * org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput}? These should only be created by
  * calling {@link OwnedKafkaTopicInput#toOutput()} and {@link OwnedKafkaTopicOutput#toInput()} on an
  * owned topic descriptor, respectively.
+ *
+ * <p>By default, the methods below give topics a schema-validated JSON value and a Kafka-native key
+ * - see the {@code org.creekservice.schema.json} Gradle plugin applied in this module's {@code
+ * build.gradle.kts}. If a topic shouldn't use JSON, call the overload that accepts explicit
+ * key/value {@link SerializationFormat}s and pass {@link #KAFKA_FORMAT} for the value instead.
  */
 @SuppressWarnings("unused") // What is unused today may be used tomorrow...
 public final class TopicDescriptors {
 
     public static final SerializationFormat KAFKA_FORMAT = serializationFormat("kafka");
 
+    // Default value format - see the class Javadoc. Safe to remove, along with the other
+    // JSON-related bits of this file (and this module's `creek.schema.json` config, and the
+    // `creek-kafka-json-serde` dependency in service modules), if this aggregate doesn't use JSON
+    // payloads.
+    public static final SerializationFormat JSON_FORMAT = JsonSchemaKafkaSerde.format();
+
     private TopicDescriptors() {}
 
     /**
-     * Create an input Kafka topic descriptor.
+     * Create an input Kafka topic descriptor, with a JSON value and Kafka-native key.
      *
      * <p>Looking for a version that returns {@link
      * org.creekservice.api.kafka.metadata.topic.KafkaTopicInput}? Get one of those by calling
@@ -59,7 +76,8 @@ public final class TopicDescriptors {
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
-     * @param valueType the type serialized into the Kafka record value.
+     * @param valueType the type serialized into the Kafka record value. Must be annotated with
+     *     {@code @GeneratesSchema} so its JSON schema can be generated.
      * @param config the config of the topic.
      * @param <K> the type serialized into the Kafka record key.
      * @param <V> the type serialized into the Kafka record value.
@@ -70,11 +88,36 @@ public final class TopicDescriptors {
             final Class<K> keyType,
             final Class<V> valueType,
             final TopicConfigBuilder config) {
-        return new InputTopicDescriptor<>(topicName, keyType, valueType, config);
+        return inputTopic(topicName, keyType, KAFKA_FORMAT, valueType, JSON_FORMAT, config);
     }
 
     /**
-     * Create a Kafka topic descriptor for a topic that is implicitly created.
+     * Create an input Kafka topic descriptor with custom serialization formats.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param keyFormat the serialization format for the key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param valueFormat the serialization format for the value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the input topic descriptor.
+     */
+    public static <K, V> OwnedKafkaTopicInput<K, V> inputTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final SerializationFormat keyFormat,
+            final Class<V> valueType,
+            final SerializationFormat valueFormat,
+            final TopicConfigBuilder config) {
+        return new InputTopicDescriptor<>(
+                topicName, keyType, keyFormat, valueType, valueFormat, config);
+    }
+
+    /**
+     * Create a Kafka topic descriptor for a topic that is implicitly created, with a JSON value and
+     * Kafka-native key.
      *
      * <p>Most internal topics, e.g. Kafka Streams changelog and repartition topics, are implicitly
      * created, and this is the method to use to build a descriptor for them.
@@ -83,18 +126,42 @@ public final class TopicDescriptors {
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
-     * @param valueType the type serialized into the Kafka record value.
+     * @param valueType the type serialized into the Kafka record value. Must be annotated with
+     *     {@code @GeneratesSchema} so its JSON schema can be generated.
      * @param <K> the type serialized into the Kafka record key.
      * @param <V> the type serialized into the Kafka record value.
      * @return the internal topic descriptor.
      */
     public static <K, V> KafkaTopicInternal<K, V> internalTopic(
             final String topicName, final Class<K> keyType, final Class<V> valueType) {
-        return new InternalTopicDescriptor<>(topicName, keyType, valueType);
+        return internalTopic(topicName, keyType, KAFKA_FORMAT, valueType, JSON_FORMAT);
     }
 
     /**
-     * Create a Kafka topic descriptor for a topic that is implicitly created.
+     * Create a Kafka topic descriptor for a topic that is implicitly created, with custom
+     * serialization formats.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param keyFormat the serialization format for the key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param valueFormat the serialization format for the value.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the internal topic descriptor.
+     */
+    public static <K, V> KafkaTopicInternal<K, V> internalTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final SerializationFormat keyFormat,
+            final Class<V> valueType,
+            final SerializationFormat valueFormat) {
+        return new InternalTopicDescriptor<>(topicName, keyType, keyFormat, valueType, valueFormat);
+    }
+
+    /**
+     * Create a Kafka topic descriptor for a topic that is implicitly created, with a JSON value and
+     * Kafka-native key.
      *
      * <p>Most internal topics, e.g. Kafka Streams changelog and repartition topics, are implicitly
      * created For such topics use {@link #internalTopic}
@@ -103,7 +170,8 @@ public final class TopicDescriptors {
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
-     * @param valueType the type serialized into the Kafka record value.
+     * @param valueType the type serialized into the Kafka record value. Must be annotated with
+     *     {@code @GeneratesSchema} so its JSON schema can be generated.
      * @param config the config of the topic.
      * @param <K> the type serialized into the Kafka record key.
      * @param <V> the type serialized into the Kafka record value.
@@ -114,11 +182,37 @@ public final class TopicDescriptors {
             final Class<K> keyType,
             final Class<V> valueType,
             final TopicConfigBuilder config) {
-        return new CreatableInternalTopicDescriptor<>(topicName, keyType, valueType, config);
+        return creatableInternalTopic(
+                topicName, keyType, KAFKA_FORMAT, valueType, JSON_FORMAT, config);
     }
 
     /**
-     * Create an output Kafka topic descriptor.
+     * Create a Kafka topic descriptor for a topic that is implicitly created, with custom
+     * serialization formats.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param keyFormat the serialization format for the key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param valueFormat the serialization format for the value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the internal topic descriptor.
+     */
+    public static <K, V> CreatableKafkaTopicInternal<K, V> creatableInternalTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final SerializationFormat keyFormat,
+            final Class<V> valueType,
+            final SerializationFormat valueFormat,
+            final TopicConfigBuilder config) {
+        return new CreatableInternalTopicDescriptor<>(
+                topicName, keyType, keyFormat, valueType, valueFormat, config);
+    }
+
+    /**
+     * Create an output Kafka topic descriptor, with a JSON value and Kafka-native key.
      *
      * <p>Looking for a version that returns {@link
      * org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput}? Get one of those by calling
@@ -127,7 +221,8 @@ public final class TopicDescriptors {
      *
      * @param topicName the name of the topic
      * @param keyType the type serialized into the Kafka record key.
-     * @param valueType the type serialized into the Kafka record value.
+     * @param valueType the type serialized into the Kafka record value. Must be annotated with
+     *     {@code @GeneratesSchema} so its JSON schema can be generated.
      * @param config the config of the topic.
      * @param <K> the type serialized into the Kafka record key.
      * @param <V> the type serialized into the Kafka record value.
@@ -138,44 +233,37 @@ public final class TopicDescriptors {
             final Class<K> keyType,
             final Class<V> valueType,
             final TopicConfigBuilder config) {
-        return new OutputTopicDescriptor<>(topicName, keyType, valueType, config);
+        return outputTopic(topicName, keyType, KAFKA_FORMAT, valueType, JSON_FORMAT, config);
     }
 
-    private static final class KafkaPart<T> implements PartDescriptor<T> {
-
-        private final Part part;
-        private final Class<T> type;
-        private final KafkaTopicDescriptor<?, ?> topic;
-
-        KafkaPart(final Part part, final Class<T> type, final KafkaTopicDescriptor<?, ?> topic) {
-            this.part = requireNonNull(part, "part");
-            this.type = requireNonNull(type, "type");
-            this.topic = requireNonNull(topic, "topic");
-        }
-
-        @Override
-        public Part name() {
-            return part;
-        }
-
-        @Override
-        public SerializationFormat format() {
-            return KAFKA_FORMAT;
-        }
-
-        @Override
-        public Class<T> type() {
-            return type;
-        }
-
-        @Override
-        public KafkaTopicDescriptor<?, ?> topic() {
-            return topic;
-        }
+    /**
+     * Create an output Kafka topic descriptor with custom serialization formats.
+     *
+     * @param topicName the name of the topic
+     * @param keyType the type serialized into the Kafka record key.
+     * @param keyFormat the serialization format for the key.
+     * @param valueType the type serialized into the Kafka record value.
+     * @param valueFormat the serialization format for the value.
+     * @param config the config of the topic.
+     * @param <K> the type serialized into the Kafka record key.
+     * @param <V> the type serialized into the Kafka record value.
+     * @return the output topic descriptor.
+     */
+    public static <K, V> OwnedKafkaTopicOutput<K, V> outputTopic(
+            final String topicName,
+            final Class<K> keyType,
+            final SerializationFormat keyFormat,
+            final Class<V> valueType,
+            final SerializationFormat valueFormat,
+            final TopicConfigBuilder config) {
+        return new OutputTopicDescriptor<>(
+                topicName, keyType, keyFormat, valueType, valueFormat, config);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private abstract static class TopicDescriptor<K, V> implements KafkaTopicDescriptor<K, V> {
+
+        private static final String DEFAULT_SCHEMA_REGISTRY_NAME = "default";
 
         private final String topicName;
         private final PartDescriptor<K> key;
@@ -185,11 +273,13 @@ public final class TopicDescriptors {
         TopicDescriptor(
                 final String topicName,
                 final Class<K> keyType,
+                final SerializationFormat keyFormat,
                 final Class<V> valueType,
+                final SerializationFormat valueFormat,
                 final Optional<TopicConfigBuilder> config) {
             this.topicName = requireNonNull(topicName, "topicName");
-            this.key = new KafkaPart<>(Part.key, keyType, this);
-            this.value = new KafkaPart<>(Part.value, valueType, this);
+            this.key = new KeyValueDescriptor<>(Part.key, keyType, keyFormat);
+            this.value = new KeyValueDescriptor<>(Part.value, valueType, valueFormat);
             this.config = requireNonNull(config, "config").map(TopicConfigBuilder::build);
         }
 
@@ -208,6 +298,105 @@ public final class TopicDescriptors {
         public KafkaTopicConfig config() {
             return config.orElseThrow();
         }
+
+        /**
+         * Describes one part (key or value) of a topic's records.
+         *
+         * <p>This is an inner class of the topic it describes, so that a JSON schema descriptor can
+         * be typed as {@link OwnedJsonSchemaDescriptor} or {@link UnownedJsonSchemaDescriptor}
+         * according to the ownership of the enclosing topic: a schema is owned by the service that
+         * owns the topic, and unowned when the topic is an unowned input obtained from another
+         * service's output via {@link OwnedKafkaTopicOutput#toInput()}.
+         */
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        private final class KeyValueDescriptor<T> implements PartDescriptor<T> {
+
+            private final Part part;
+            private final Class<T> type;
+            private final SerializationFormat format;
+            private final Optional<? extends JsonSchemaDescriptor<T>> schema;
+
+            KeyValueDescriptor(
+                    final Part part, final Class<T> type, final SerializationFormat format) {
+                this.part = requireNonNull(part, "part");
+                this.type = requireNonNull(type, "type");
+                this.format = requireNonNull(format, "format");
+                this.schema =
+                        JsonSchemaKafkaSerde.format().equals(format)
+                                ? Optional.of(
+                                        topic() instanceof OwnedResource
+                                                ? new OwnedJsonSchema(DEFAULT_SCHEMA_REGISTRY_NAME)
+                                                : new UnownedJsonSchema(
+                                                        DEFAULT_SCHEMA_REGISTRY_NAME))
+                                : Optional.empty();
+            }
+
+            @Override
+            public Part name() {
+                return part;
+            }
+
+            @Override
+            public SerializationFormat format() {
+                return format;
+            }
+
+            @Override
+            public Class<T> type() {
+                return type;
+            }
+
+            @Override
+            public KafkaTopicDescriptor<?, ?> topic() {
+                return TopicDescriptor.this;
+            }
+
+            @Override
+            public Stream<? extends ResourceDescriptor> resources() {
+                return schema.stream();
+            }
+
+            /**
+             * Common behaviour of the owned and unowned schema descriptors.
+             *
+             * <p>These are inner classes of the part descriptor so that {@link #part()} can return
+             * the enclosing part: the mutual self-reference is what lets a schema descriptor point
+             * back at the topic part it describes, which the metadata API requires.
+             */
+            private abstract class BaseJsonSchema implements JsonSchemaDescriptor<T> {
+
+                private final String schemaRegistryName;
+
+                private BaseJsonSchema(final String schemaRegistryName) {
+                    this.schemaRegistryName =
+                            requireNonNull(schemaRegistryName, "schemaRegistryName");
+                }
+
+                @Override
+                public String schemaRegistryName() {
+                    return schemaRegistryName;
+                }
+
+                @Override
+                public PartDescriptor<T> part() {
+                    return KeyValueDescriptor.this;
+                }
+            }
+
+            private final class OwnedJsonSchema extends BaseJsonSchema
+                    implements OwnedJsonSchemaDescriptor<T> {
+                private OwnedJsonSchema(final String schemaRegistryName) {
+                    super(schemaRegistryName);
+                }
+            }
+
+            private final class UnownedJsonSchema extends BaseJsonSchema
+                    implements UnownedJsonSchemaDescriptor<T> {
+                private UnownedJsonSchema(final String schemaRegistryName) {
+                    super(schemaRegistryName);
+                }
+            }
+        }
     }
 
     private static final class OutputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
@@ -216,34 +405,17 @@ public final class TopicDescriptors {
         OutputTopicDescriptor(
                 final String topicName,
                 final Class<K> keyType,
+                final SerializationFormat keyFormat,
                 final Class<V> valueType,
+                final SerializationFormat valueFormat,
                 final TopicConfigBuilder config) {
-            super(topicName, keyType, valueType, Optional.of(config));
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.of(config));
         }
 
         @Override
         public KafkaTopicInput<K, V> toInput() {
-            return new KafkaTopicInput<>() {
-                @Override
-                public URI id() {
-                    return OutputTopicDescriptor.this.id();
-                }
-
-                @Override
-                public String name() {
-                    return OutputTopicDescriptor.this.name();
-                }
-
-                @Override
-                public PartDescriptor<K> key() {
-                    return OutputTopicDescriptor.this.key();
-                }
-
-                @Override
-                public PartDescriptor<V> value() {
-                    return OutputTopicDescriptor.this.value();
-                }
-            };
+            return new UnownedInputTopicDescriptor<>(
+                    name(), key().type(), key().format(), value().type(), value().format());
         }
     }
 
@@ -253,34 +425,43 @@ public final class TopicDescriptors {
         InputTopicDescriptor(
                 final String topicName,
                 final Class<K> keyType,
+                final SerializationFormat keyFormat,
                 final Class<V> valueType,
+                final SerializationFormat valueFormat,
                 final TopicConfigBuilder config) {
-            super(topicName, keyType, valueType, Optional.of(config));
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.of(config));
         }
 
         @Override
         public KafkaTopicOutput<K, V> toOutput() {
-            return new KafkaTopicOutput<>() {
-                @Override
-                public URI id() {
-                    return InputTopicDescriptor.this.id();
-                }
+            return new UnownedOutputTopicDescriptor<>(
+                    name(), key().type(), key().format(), value().type(), value().format());
+        }
+    }
 
-                @Override
-                public String name() {
-                    return InputTopicDescriptor.this.name();
-                }
+    private static final class UnownedInputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements KafkaTopicInput<K, V> {
 
-                @Override
-                public PartDescriptor<K> key() {
-                    return InputTopicDescriptor.this.key();
-                }
+        UnownedInputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final SerializationFormat keyFormat,
+                final Class<V> valueType,
+                final SerializationFormat valueFormat) {
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.empty());
+        }
+    }
 
-                @Override
-                public PartDescriptor<V> value() {
-                    return InputTopicDescriptor.this.value();
-                }
-            };
+    private static final class UnownedOutputTopicDescriptor<K, V> extends TopicDescriptor<K, V>
+            implements KafkaTopicOutput<K, V> {
+
+        UnownedOutputTopicDescriptor(
+                final String topicName,
+                final Class<K> keyType,
+                final SerializationFormat keyFormat,
+                final Class<V> valueType,
+                final SerializationFormat valueFormat) {
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.empty());
         }
     }
 
@@ -288,8 +469,12 @@ public final class TopicDescriptors {
             implements KafkaTopicInternal<K, V> {
 
         InternalTopicDescriptor(
-                final String topicName, final Class<K> keyType, final Class<V> valueType) {
-            super(topicName, keyType, valueType, Optional.empty());
+                final String topicName,
+                final Class<K> keyType,
+                final SerializationFormat keyFormat,
+                final Class<V> valueType,
+                final SerializationFormat valueFormat) {
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.empty());
         }
     }
 
@@ -299,9 +484,11 @@ public final class TopicDescriptors {
         CreatableInternalTopicDescriptor(
                 final String topicName,
                 final Class<K> keyType,
+                final SerializationFormat keyFormat,
                 final Class<V> valueType,
+                final SerializationFormat valueFormat,
                 final TopicConfigBuilder config) {
-            super(topicName, keyType, valueType, Optional.of(config));
+            super(topicName, keyType, keyFormat, valueType, valueFormat, Optional.of(config));
         }
     }
 }

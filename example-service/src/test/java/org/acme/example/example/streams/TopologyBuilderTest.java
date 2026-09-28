@@ -16,10 +16,10 @@
 
 package org.acme.example.example.streams;
 
+import static org.acme.example.example.streams.TestTopics.inputTopic;
+import static org.acme.example.example.streams.TestTopics.outputTopic;
 import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
-import static org.creekservice.api.kafka.streams.test.TestTopics.inputTopic;
-import static org.creekservice.api.kafka.streams.test.TestTopics.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -30,8 +30,9 @@ import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.TopologyTestDriver;
+import org.creekservice.api.kafka.serde.json.JsonSerdeExtensionOptions;
 import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtension;
-import org.creekservice.api.kafka.streams.test.TestKafkaStreamsExtensionOptions;
+import org.creekservice.api.kafka.streams.extension.KafkaStreamsExtensionOptions;
 import org.creekservice.api.service.context.CreekContext;
 import org.creekservice.api.service.context.CreekServices;
 import org.creekservice.api.test.util.TestPaths;
@@ -55,7 +56,10 @@ class TopologyBuilderTest {
     public static void classSetup() {
         ctx =
                 CreekServices.builder(new ExampleServiceDescriptor())
-                        .with(TestKafkaStreamsExtensionOptions.defaults())
+                        .with(KafkaStreamsExtensionOptions.testBuilder().build())
+                        // Required when using JSON serialization for topic values/keys. Remove
+                        // if not using JSON payloads:
+                        .with(JsonSerdeExtensionOptions.testBuilder().build())
                         .build();
     }
 
@@ -66,8 +70,8 @@ class TopologyBuilderTest {
         topology = new TopologyBuilder(ext).build();
         testDriver = new TopologyTestDriver(topology, ext.properties(DEFAULT_CLUSTER_NAME));
         // formatting:off init:remove
-        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ctx, testDriver);   // init:remove
-        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ctx, testDriver);// init:remove
+        inputTopic = inputTopic(ExampleServiceDescriptor.InputTopic, ext, testDriver);   // init:remove
+        outputTopic = outputTopic(ExampleServiceDescriptor.OutputTopic, ext, testDriver);// init:remove
         // formatting:on  init:remove
     }
 

@@ -30,6 +30,9 @@ dependencies {
     implementation(project(":services"))
     implementation("org.creekservice:creek-service-context:$creekVersion")
     implementation("org.creekservice:creek-kafka-streams-extension:$creekVersion")
+    // Required when using JSON serialization for topic values/keys. Remove if not using JSON
+    // payloads:
+    implementation("org.creekservice:creek-kafka-json-serde:$creekVersion")
     implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 

@@ -14,6 +14,20 @@
  * limitations under the License.
  */
 
+// Temporary, until Creek 0.5.0 is released - remove once the plugins block in build.gradle.kts
+// no longer pins a -SNAPSHOT version:
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+        // Public, unauthenticated repo Creek publishes SNAPSHOTs of every library & plugin to on
+        // every push to main:
+        maven {
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
+    }
+}
+
 rootProject.name = "aggregate-template"
 
 include(

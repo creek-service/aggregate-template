@@ -20,6 +20,7 @@
  * <p>Apply to all java modules, usually excluding the root project in multi-module sets.
  *
  * <p>Versions:
+ *  - 1.14: Add temporary SNAPSHOT repo, plus Confluent/JitPack repos for JSON payload support
  *  - 1.13: indentWithSpaces -> leadingTabsToSpaces and a few others
  *  - 1.12: XML reporting for spotbugs
  *  - 1.11: Add explicit checkstyle tool version
@@ -49,6 +50,23 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    // Temporary, until Creek 0.5.0 is released - public, unauthenticated repo Creek publishes
+    // SNAPSHOTs of every library & plugin to on every push to main:
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+    // Required for Confluent Schema Registry and JSON Schema Provider dependencies used by
+    // Creek's JSON serialization support (kafka-json-serde module). Remove if not using JSON
+    // payloads:
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
+    // Required for everit-json-schema dependency (transitive from Confluent's JSON schema
+    // provider). Remove if not using JSON payloads:
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
 dependencies {

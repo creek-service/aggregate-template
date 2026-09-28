@@ -16,16 +16,24 @@
 
 package org.acme.example.internal;
 
+import static org.acme.example.internal.TopicDescriptors.JSON_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.creatableInternalTopic;
 import static org.acme.example.internal.TopicDescriptors.inputTopic;
 import static org.acme.example.internal.TopicDescriptors.internalTopic;
 import static org.acme.example.internal.TopicDescriptors.outputTopic;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.Mockito.when;
 
+import org.creekservice.api.kafka.metadata.schema.JsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.schema.OwnedJsonSchemaDescriptor;
+import org.creekservice.api.kafka.metadata.schema.UnownedJsonSchemaDescriptor;
 import org.creekservice.api.kafka.metadata.topic.CreatableKafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicConfig;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicInput;
@@ -33,6 +41,7 @@ import org.creekservice.api.kafka.metadata.topic.KafkaTopicInternal;
 import org.creekservice.api.kafka.metadata.topic.KafkaTopicOutput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
+import org.creekservice.api.platform.metadata.ResourceDescriptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,9 +74,20 @@ class TopicDescriptorsTest {
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
-        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().format(), is(JSON_FORMAT));
         assertThat(topic.value().type(), is(String.class));
         assertThat(topic.config(), is(sameInstance(CONFIG)));
+    }
+
+    @Test
+    void shouldCreateInputTopicWithExplicitFormats() {
+        // When:
+        final OwnedKafkaTopicInput<Long, String> topic =
+                inputTopic("name", Long.class, KAFKA_FORMAT, String.class, KAFKA_FORMAT, config);
+
+        // Then:
+        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.resources().toList(), is(empty()));
     }
 
     @Test
@@ -84,7 +104,7 @@ class TopicDescriptorsTest {
         assertThat(output.name(), is("name"));
         assertThat(output.key().format(), is(KAFKA_FORMAT));
         assertThat(output.key().type(), is(Long.class));
-        assertThat(output.value().format(), is(KAFKA_FORMAT));
+        assertThat(output.value().format(), is(JSON_FORMAT));
         assertThat(output.value().type(), is(String.class));
     }
 
@@ -98,7 +118,7 @@ class TopicDescriptorsTest {
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
-        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().format(), is(JSON_FORMAT));
         assertThat(topic.value().type(), is(String.class));
     }
 
@@ -112,7 +132,7 @@ class TopicDescriptorsTest {
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
-        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().format(), is(JSON_FORMAT));
         assertThat(topic.value().type(), is(String.class));
         assertThat(topic.config(), is(sameInstance(CONFIG)));
     }
@@ -128,7 +148,7 @@ class TopicDescriptorsTest {
         assertThat(topic.name(), is("name"));
         assertThat(topic.key().format(), is(KAFKA_FORMAT));
         assertThat(topic.key().type(), is(Long.class));
-        assertThat(topic.value().format(), is(KAFKA_FORMAT));
+        assertThat(topic.value().format(), is(JSON_FORMAT));
         assertThat(topic.value().type(), is(String.class));
         assertThat(topic.config(), is(sameInstance(CONFIG)));
     }
@@ -147,7 +167,80 @@ class TopicDescriptorsTest {
         assertThat(input.name(), is("name"));
         assertThat(input.key().format(), is(KAFKA_FORMAT));
         assertThat(input.key().type(), is(Long.class));
-        assertThat(input.value().format(), is(KAFKA_FORMAT));
+        assertThat(input.value().format(), is(JSON_FORMAT));
         assertThat(input.value().type(), is(String.class));
+    }
+
+    @Test
+    void shouldOwnJsonSchemaOnOwnedOutputTopic() {
+        // When:
+        final OwnedKafkaTopicOutput<Long, String> topic =
+                outputTopic("name", Long.class, String.class, config);
+
+        // Then:
+        assertThat(topic.resources().toList(), hasSize(1));
+        assertThat(
+                topic.value().resources().toList().get(0),
+                is(instanceOf(OwnedJsonSchemaDescriptor.class)));
+    }
+
+    @Test
+    void shouldNotOwnJsonSchemaOnUnownedInput() {
+        // Given:
+        final OwnedKafkaTopicOutput<Long, String> output =
+                outputTopic("name", Long.class, String.class, config);
+
+        // When:
+        final KafkaTopicInput<Long, String> input = output.toInput();
+
+        // Then: the schema is still described, but it is no longer claimed as owned
+        assertThat(input.value().resources().toList(), hasSize(1));
+        final ResourceDescriptor schema = input.value().resources().toList().get(0);
+        assertThat(schema, is(instanceOf(JsonSchemaDescriptor.class)));
+        assertThat(schema, is(not(instanceOf(OwnedJsonSchemaDescriptor.class))));
+        assertThat(schema, is(instanceOf(UnownedJsonSchemaDescriptor.class)));
+    }
+
+    @Test
+    void shouldNotOwnJsonSchemaOnUnownedOutput() {
+        // Given:
+        final OwnedKafkaTopicInput<Long, String> input =
+                inputTopic("name", Long.class, String.class, config);
+
+        // When:
+        final KafkaTopicOutput<Long, String> output = input.toOutput();
+
+        // Then:
+        assertThat(output.value().resources().toList(), hasSize(1));
+        assertThat(
+                output.value().resources().toList().get(0),
+                is(instanceOf(UnownedJsonSchemaDescriptor.class)));
+    }
+
+    @Test
+    void shouldGiveOwnedAndUnownedSchemaTheSameResourceId() {
+        // Given:
+        final OwnedKafkaTopicOutput<Long, String> output =
+                outputTopic("name", Long.class, String.class, config);
+
+        // When:
+        final KafkaTopicInput<Long, String> input = output.toInput();
+
+        // Then: ownership changes, identity does not
+        final ResourceDescriptor owned = output.value().resources().toList().get(0);
+        final ResourceDescriptor unowned = input.value().resources().toList().get(0);
+        assertThat(unowned.id(), is(owned.id()));
+    }
+
+    @Test
+    void shouldPointSchemaPartBackAtEnclosingPartDescriptor() {
+        // When:
+        final OwnedKafkaTopicOutput<Long, String> topic =
+                outputTopic("name", Long.class, String.class, config);
+
+        // Then:
+        final JsonSchemaDescriptor<?> schema =
+                (JsonSchemaDescriptor<?>) topic.value().resources().toList().get(0);
+        assertThat(schema.part(), is(sameInstance(topic.value())));
     }
 }

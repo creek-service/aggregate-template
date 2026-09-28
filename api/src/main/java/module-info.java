@@ -3,6 +3,9 @@ import org.creekservice.api.platform.metadata.ComponentDescriptor;
 
 module example.mod.api {
     requires transitive creek.kafka.metadata;
+    // Remove both if not using JSON payloads:
+    requires com.fasterxml.jackson.annotation;
+    requires creek.base.annotation;
 
     exports org.acme.example.api;
     exports org.acme.example.internal to

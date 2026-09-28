@@ -23,6 +23,9 @@ plugins {
     `publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.21.4" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.bmuschko.docker-remote-api") version "10.0.0" apply false
+    // Generates JSON schemas from @GeneratesSchema-annotated types. Remove if this aggregate
+    // doesn't use JSON payloads (see api/build.gradle.kts and TopicDescriptors.java):
+    id("org.creekservice.schema.json") version "0.4.5-SNAPSHOT" apply false
 }
 
 project.version = scmVersion.version
@@ -49,11 +52,16 @@ subprojects {
     }
 
     extra.apply {
-        set("creekVersion", "0.4.4")             // https://mvnrepository.com/artifact/org.creekservice
+        // 0.4.5-SNAPSHOT until 0.5.0 is released - see settings.gradle.kts, buildSrc/build.gradle.kts
+        // and buildSrc/src/main/kotlin/common-convention.gradle.kts for the temporary SNAPSHOT
+        // repository entries this requires.
+        set("creekVersion", "0.4.5-SNAPSHOT")   // https://mvnrepository.com/artifact/org.creekservice
         set("kafkaVersion", "4.3.1")            // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
         set("spotBugsVersion", "4.4.2")         // https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations
         set("guavaVersion", "33.7.1-jre")         // https://mvnrepository.com/artifact/com.google.guava/guava
         set("log4jVersion", "2.26.1")           // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+        // Used to control the fidelity of generated JSON schemas. Remove if not using JSON payloads:
+        set("jacksonVersion", "2.18.3")         // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
 
         set("junitVersion", "6.1.3")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
