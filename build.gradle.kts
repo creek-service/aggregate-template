@@ -57,7 +57,7 @@ subprojects {
 
         set("junitVersion", "6.1.3")            // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
         set("junitPioneerVersion", "2.3.0")     // https://mvnrepository.com/artifact/org.junit-pioneer/junit-pioneer
-        set("mockitoVersion", "5.23.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+        set("mockitoVersion", "5.24.0")          // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
     }
 
     val creekVersion : String by extra
