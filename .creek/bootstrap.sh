@@ -80,6 +80,7 @@ replaceInCode "aggregate-template" "${(L)${repoName}}"
 echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggregateClass.java"
+mv "api/src/test/java/org/acme/example/api/ExampleAggregateDescriptorTest.java" "api/src/test/java/org/acme/example/api/${aggregateClass}Test.java"
 
 echo "Updating root packages to: $rootPackage"
 renamePackage "org.acme.example" "$rootPackage"
