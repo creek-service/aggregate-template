@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.acme.example.example.streams;
+package org.acme.example.example.service.kafka.streams;
 
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;

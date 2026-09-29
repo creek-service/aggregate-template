@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package org.acme.example.example.streams;
+package org.acme.example.example.service.kafka.streams;
 
-import static org.acme.example.example.streams.TestTopics.inputTopic;
-import static org.acme.example.example.streams.TestTopics.outputTopic;
+import static org.acme.example.example.service.kafka.streams.TestTopics.inputTopic;
+import static org.acme.example.example.service.kafka.streams.TestTopics.outputTopic;
 import static org.apache.kafka.streams.KeyValue.pair;
 import static org.creekservice.api.kafka.metadata.topic.KafkaTopicDescriptor.DEFAULT_CLUSTER_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 
-import org.acme.example.example.service.kafka.streams.TopologyBuilder;
 import org.acme.example.services.ExampleServiceDescriptor;
 import org.apache.kafka.streams.TestInputTopic;
 import org.apache.kafka.streams.TestOutputTopic;
