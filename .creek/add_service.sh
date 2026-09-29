@@ -130,6 +130,4 @@ find . -type f -name "Keep.java" -not \( -path "*/.git/*" -o -path "*/.gradle/*"
 find . -type d -empty -delete
 
 echo Formatting
-# bootstrap.sh's init:remove stripping can leave now-unused imports in the copied template
-# files, so re-run spotless now that the module is wired into the build to remove them:
 ./gradlew format
