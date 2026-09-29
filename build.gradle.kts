@@ -23,8 +23,7 @@ plugins {
     `publishing-convention` apply false
     id("pl.allegro.tech.build.axion-release") version "1.21.4" // https://plugins.gradle.org/plugin/pl.allegro.tech.build.axion-release
     id("com.bmuschko.docker-remote-api") version "10.0.0" apply false
-    // Generates JSON schemas from @GeneratesSchema-annotated types. Remove if this aggregate
-    // doesn't use JSON payloads (see api/build.gradle.kts and TopicDescriptors.java):
+    // Remove if not using JSON payloads:
     id("org.creekservice.schema.json") version "0.4.5-SNAPSHOT" apply false
 }
 

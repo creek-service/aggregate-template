@@ -57,8 +57,7 @@ class TopologyBuilderTest {
         ctx =
                 CreekServices.builder(new ExampleServiceDescriptor())
                         .with(KafkaStreamsExtensionOptions.testBuilder().build())
-                        // Required when using JSON serialization for topic values/keys. Remove
-                        // if not using JSON payloads:
+                        // Remove if not using JSON payloads:
                         .with(JsonSerdeExtensionOptions.testBuilder().build())
                         .build();
     }

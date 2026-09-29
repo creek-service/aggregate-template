@@ -58,7 +58,7 @@ public final class TopicDescriptors {
 
     public static final SerializationFormat KAFKA_FORMAT = serializationFormat("kafka");
 
-    // Default value format - see the class Javadoc. Remove if not using JSON:
+    // Remove if not using JSON:
     public static final SerializationFormat JSON_FORMAT = JsonSchemaKafkaSerde.format();
 
     private TopicDescriptors() {}
