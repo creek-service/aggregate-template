@@ -48,7 +48,17 @@ java {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    // Temporary, until Creek 0.5.0 is released - public, unauthenticated repo Creek publishes
+    // SNAPSHOTs of every library & plugin to on every push to main:
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+    // Required for Confluent's JSON schema provider deps. Remove if not using JSON payloads:
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
 }
 
 dependencies {
