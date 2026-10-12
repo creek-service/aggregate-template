@@ -33,22 +33,18 @@ import org.creekservice.api.platform.metadata.ServiceDescriptor;
 
 public final class ExampleServiceDescriptor implements ServiceDescriptor {
 
-    private static final List<ComponentInput> INPUTS = new ArrayList<>();
-    private static final List<ComponentInternal> INTERNALS = new ArrayList<>();
-    private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
     // formatting:off init:remove
-    public static final OwnedKafkaTopicInput<String, Long> InputTopic =             // init:remove
-            register(                                                               // init:remove
-                    inputTopic(                                                     // init:remove
-                            "input",                                                // init:remove
-                            String.class,                                           // init:remove
-                            KAFKA_FORMAT,                                           // init:remove
-                            Long.class,                                             // init:remove
-                            KAFKA_FORMAT,                                           // init:remove
-                            TopicConfigBuilder.withPartitions(3)));                 // init:remove
-                                                                                    // init:remove
-    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =           // init:remove
-            register(ExampleAggregateDescriptor.OutputTopic);                       // init:remove
+    public static final OwnedKafkaTopicInput<String, Long> InputTopic =     // init:remove
+            inputTopic(                                                     // init:remove
+                    "input",                                                // init:remove
+                    String.class,                                           // init:remove
+                    KAFKA_FORMAT,                                           // init:remove
+                    Long.class,                                             // init:remove
+                    KAFKA_FORMAT,                                           // init:remove
+                    TopicConfigBuilder.withPartitions(3));                  // init:remove
+                                                                            // init:remove
+    public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =   // init:remove
+            ExampleAggregateDescriptor.OutputTopic;                         // init:remove
     // formatting:on  init:remove
 
     public ExampleServiceDescriptor() {}
@@ -57,35 +53,14 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
     public String dockerImage() {
         return "ghcr.io/creek-service/aggregate-template-example-service";
     }
-
-    @Override
-    public Collection<ComponentInput> inputs() {
-        return List.copyOf(INPUTS);
-    }
-
-    @Override
-    public Collection<ComponentInternal> internals() {
-        return List.copyOf(INTERNALS);
-    }
-
-    @Override
-    public Collection<ComponentOutput> outputs() {
-        return List.copyOf(OUTPUTS);
-    }
-
-    private static <T extends ComponentInput> T register(final T input) {
-        INPUTS.add(input);
-        return input;
-    }
-
-    // Uncomment if needed:
-    // private static <T extends ComponentInternal> T register(final T internal) {
-    //     INTERNALS.add(internal);
-    //     return internal;
-    // }
-
-    private static <T extends ComponentOutput> T register(final T output) {
-        OUTPUTS.add(output);
-        return output;
-    }
+                                                    // init:remove
+    @Override                                       // init:remove
+    public Collection<ComponentInput> inputs() {    // init:remove
+        return List.of(InputTopic);                 // init:remove
+    }                                               // init:remove
+                                                    // init:remove
+    @Override                                       // init:remove
+    public Collection<ComponentOutput> outputs() {  // init:remove
+        return List.of(OutputTopic);                // init:remove
+    }                                               // init:remove
 }

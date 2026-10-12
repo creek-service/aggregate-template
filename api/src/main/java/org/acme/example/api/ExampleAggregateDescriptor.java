@@ -31,42 +31,23 @@ import org.creekservice.api.platform.metadata.OwnedResource;
 
 public final class ExampleAggregateDescriptor implements AggregateDescriptor {
 
-    private static final List<ComponentInput> INPUTS = new ArrayList<>();
-    private static final List<ComponentOutput> OUTPUTS = new ArrayList<>();
     // formatting:off init:remove
     private static final String AGGREGATE_PREFIX = "example.";                  // init:remove
                                                                                 // init:remove
     public static final OwnedKafkaTopicOutput<Long, String> OutputTopic =       // init:remove
-            register(                                                           // init:remove
-                    outputTopic(                                                // init:remove
-                            AGGREGATE_PREFIX + "output",                        // init:remove
-                            Long.class,                                         // init:remove
-                            KAFKA_FORMAT,                                       // init:remove
-                            String.class,                                       // init:remove
-                            KAFKA_FORMAT, // init:remove
-                            TopicConfigBuilder.withPartitions(2)));             // init:remove
+                outputTopic(                                                    // init:remove
+                        AGGREGATE_PREFIX + "output",                            // init:remove
+                        Long.class,                                             // init:remove
+                        KAFKA_FORMAT,                                           // init:remove
+                        String.class,                                           // init:remove
+                        KAFKA_FORMAT,                                           // init:remove
+                        TopicConfigBuilder.withPartitions(2));                  // init:remove
     // formatting:on init:remove
 
     public ExampleAggregateDescriptor() {}
-
-    @Override
-    public Collection<ComponentInput> inputs() {
-        return List.copyOf(INPUTS);
-    }
-
-    @Override
-    public Collection<ComponentOutput> outputs() {
-        return List.copyOf(OUTPUTS);
-    }
-
-    // Uncomment if needed
-    // private static <T extends ComponentInput & OwnedResource> T register(final T input) {
-    //     INPUTS.add(input);
-    //     return input;
-    // }
-
-    private static <T extends ComponentOutput & OwnedResource> T register(final T output) {
-        OUTPUTS.add(output);
-        return output;
-    }
+                                                        // init:remove
+    @Override                                           // init:remove
+    public Collection<ComponentOutput> outputs() {      // init:remove
+        return List.of(OutputTopic);                    // init:remove
+    }                                                   // init:remove
 }
