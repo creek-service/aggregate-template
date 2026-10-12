@@ -49,6 +49,10 @@ java {
 
 repositories {
     mavenCentral()
+    // TODO(0.5.1 release): Remove this temporary Creek SNAPSHOT repository.
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
     // Required for Confluent's JSON schema provider deps. Remove if not using JSON payloads:
     maven {
         url = uri("https://packages.confluent.io/maven/")
