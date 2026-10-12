@@ -19,15 +19,12 @@ package org.acme.example.api;
 import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.outputTopic;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.acme.example.internal.TopicConfigBuilder;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 import org.creekservice.api.platform.metadata.AggregateDescriptor;
-import org.creekservice.api.platform.metadata.ComponentInput;
 import org.creekservice.api.platform.metadata.ComponentOutput;
-import org.creekservice.api.platform.metadata.OwnedResource;
 
 public final class ExampleAggregateDescriptor implements AggregateDescriptor {
 
@@ -45,9 +42,10 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     // formatting:on init:remove
 
     public ExampleAggregateDescriptor() {}
-                                                        // init:remove
-    @Override                                           // init:remove
-    public Collection<ComponentOutput> outputs() {      // init:remove
-        return List.of(OutputTopic);                    // init:remove
-    }                                                   // init:remove
+
+    // init:remove
+    @Override // init:remove
+    public Collection<ComponentOutput> outputs() { // init:remove
+        return List.of(OutputTopic); // init:remove
+    } // init:remove
 }
