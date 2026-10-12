@@ -14,6 +14,12 @@ and the external resources the service interacts with, for example a Kafka topic
 The `services` jar is used by the system tests to discover services in the aggregate. 
 To avoid dependency hell when running system tests it should be pretty much dependency free.
 
+Payload types used only within this aggregate can live in `services`. Like `api`, this module
+generates JSON schemas for its `@GeneratesSchema`-annotated types. See [JSON payloads][jsonPayloads]
+for the schema generation and annotation setup.
+
 ## Backwards compatability
 
 Because the jar is not shared outside the aggregate, there is no backwards compatibility concerns.
+
+[jsonPayloads]: {{ "/features/json-payloads" | relative_url }}

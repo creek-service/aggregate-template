@@ -18,6 +18,7 @@ The following, non-exhaustive list, of Gradle commands should provide a good sta
 * `./gradlew static` will run static code analysis, i.e. [Spotbugs][spotbugs] and [Checkstyle][checkstyle].
 * `./gradlew check` will run all checks and tests.
 * `./gradlew coverage` will generate a cross-module [Jacoco][jacoco] coverage report.
+* `./gradlew :api:generateJsonSchema :services:generateJsonSchema` will generate schemas for annotated [JSON payloads][jsonPayloads].
 * `./gradlew cV` to log out the repo's current version.
   
 **ProTip:** Simply running `./gradlew` without any commands will run the default commands, which are
@@ -29,3 +30,4 @@ The following, non-exhaustive list, of Gradle commands should provide a good sta
 [spotbugs]: https://spotbugs.github.io/
 [checkstyle]: https://checkstyle.sourceforge.io/
 [jacoco]: https://www.jacoco.org/jacoco/trunk/doc/
+[jsonPayloads]: {{ "/features/json-payloads" | relative_url }}

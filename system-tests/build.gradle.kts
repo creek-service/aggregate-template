@@ -23,6 +23,8 @@ plugins {
 dependencies {
     systemTestComponent(project(":services"))
     systemTestExtension("org.creekservice:creek-kafka-test-extension:${property("creekVersion")}")
+    // Remove if not using JSON payloads:
+    systemTestExtension("org.creekservice:creek-kafka-json-serde:${property("creekVersion")}")
 }
 
 tasks.systemTest {

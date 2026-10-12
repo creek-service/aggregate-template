@@ -25,6 +25,8 @@
       url: /features/versioning
     - title: Publishing
       url: /features/publishing
+    - title: JSON payloads
+      url: /features/json-payloads
 
 - title: Structure
   children:

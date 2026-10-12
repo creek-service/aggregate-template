@@ -16,10 +16,23 @@
 
 plugins {
     `java-library`
+    // Generates JSON schemas from @GeneratesSchema-annotated types. Remove if not using JSON.
+    id("org.creekservice.schema.json")
 }
 
 dependencies {
     api(project(":api"))
 
+    // Remove following if not using JSON payloads:
+    compileOnlyApi("org.creekservice:creek-base-annotation:${property("creekVersion")}")
+    compileOnlyApi("com.fasterxml.jackson.core:jackson-annotations:${property("jacksonAnnotationsVersion")}")
+    compileOnlyApi("io.swagger.core.v3:swagger-annotations:${property("swaggerAnnotationsVersion")}")
+
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
+}
+
+// Remove if not using JSON:
+creek.schema.json {
+    typeScanning.moduleWhiteList(moduleName)
+    subTypeScanning.moduleWhiteList(moduleName)
 }

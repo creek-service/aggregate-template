@@ -49,6 +49,10 @@ java {
 
 repositories {
     mavenCentral()
+    // Required for Confluent's JSON schema provider deps. Remove if not using JSON payloads:
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
 }
 
 dependencies {

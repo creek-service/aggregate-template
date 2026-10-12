@@ -13,6 +13,10 @@ directory a.k.a. module, with its descriptor created in the [`services` module][
 The workflow creates a bare [Kafka Streams][kafkaStreams] based microservice that utilises the [Creek Kafka][creekKafka]
 service and test extensions to simplify development and testing.
 
+The service application includes Creek's JSON serde for [schema-validated JSON payloads][jsonPayloads].
+Schema generation happens in `api` or `services`, where the payload types are defined, not in the
+service application module.
+
 Each service module has the following structure:
 
 ## Entry Point
@@ -94,5 +98,6 @@ Creek recommends always naming operators in the Kafka Streams DSL. (See the [Kaf
 [tutorial]: https://www.creekservice.org/basic-kafka-streams-demo/
 [addService]: {{ "/add-service" | relative_url }}
 [services]: {{ "/structure/services" | relative_url }}
+[jsonPayloads]: {{ "/features/json-payloads" | relative_url }}
 
 [todo]: add page on JPMS and how to remove it.

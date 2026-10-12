@@ -1,6 +1,6 @@
 #!/bin/zsh
 #
-# Copyright 2022-2025 Creek Contributors (https://github.com/creek-service)
+# Copyright 2022-2026 Creek Contributors (https://github.com/creek-service)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -80,6 +80,7 @@ replaceInCode "aggregate-template" "${(L)${repoName}}"
 echo "Updating aggregate descriptor to: $aggregateClass"
 replaceInCode "ExampleAggregateDescriptor" "$aggregateClass"
 mv "api/src/main/java/org/acme/example/api/ExampleAggregateDescriptor.java" "api/src/main/java/org/acme/example/api/$aggregateClass.java"
+mv "api/src/test/java/org/acme/example/api/ExampleAggregateDescriptorTest.java" "api/src/test/java/org/acme/example/api/${aggregateClass}Test.java"
 
 echo "Updating root packages to: $rootPackage"
 renamePackage "org.acme.example" "$rootPackage"
