@@ -33,6 +33,10 @@ To minimise code sharing, metadata jars contain mainly interfaces defining the r
 supported by their associated Creek extensions. 
 The api module defines internal implementations of these interfaces.
 
+JSON payload types shared with other aggregates can live here. The module generates JSON schemas
+for `@GeneratesSchema`-annotated types; its annotation dependencies are compile-only. See
+[JSON payloads][jsonPayloads] for configuration and runtime requirements.
+
 Because other aggregates should not expose types in this API in their own API, there is no need for binary
 compatability when making changes. However, any changes should be backwards compatible and taking into
 account the compatibility of the serialization format being used.
@@ -40,3 +44,4 @@ account the compatibility of the serialization format being used.
 [creekKafkaMd]: https://github.com/creek-service/creek-kafka/tree/main/metadata
 [dependencyHell]: https://en.wikipedia.org/wiki/Dependency_hell
 [services]: {{ "/structure/services" | relative_url }}
+[jsonPayloads]: {{ "/features/json-payloads" | relative_url }}
