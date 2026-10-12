@@ -19,7 +19,6 @@ package org.acme.example.services;
 import static org.acme.example.internal.TopicDescriptors.KAFKA_FORMAT;
 import static org.acme.example.internal.TopicDescriptors.inputTopic;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.acme.example.api.ExampleAggregateDescriptor;
@@ -27,7 +26,6 @@ import org.acme.example.internal.TopicConfigBuilder;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicInput;
 import org.creekservice.api.kafka.metadata.topic.OwnedKafkaTopicOutput;
 import org.creekservice.api.platform.metadata.ComponentInput;
-import org.creekservice.api.platform.metadata.ComponentInternal;
 import org.creekservice.api.platform.metadata.ComponentOutput;
 import org.creekservice.api.platform.metadata.ServiceDescriptor;
 
@@ -53,14 +51,16 @@ public final class ExampleServiceDescriptor implements ServiceDescriptor {
     public String dockerImage() {
         return "ghcr.io/creek-service/aggregate-template-example-service";
     }
-                                                    // init:remove
-    @Override                                       // init:remove
-    public Collection<ComponentInput> inputs() {    // init:remove
-        return List.of(InputTopic);                 // init:remove
-    }                                               // init:remove
-                                                    // init:remove
-    @Override                                       // init:remove
-    public Collection<ComponentOutput> outputs() {  // init:remove
-        return List.of(OutputTopic);                // init:remove
-    }                                               // init:remove
+
+    // init:remove
+    @Override // init:remove
+    public Collection<ComponentInput> inputs() { // init:remove
+        return List.of(InputTopic); // init:remove
+    } // init:remove
+
+    // init:remove
+    @Override // init:remove
+    public Collection<ComponentOutput> outputs() { // init:remove
+        return List.of(OutputTopic); // init:remove
+    } // init:remove
 }

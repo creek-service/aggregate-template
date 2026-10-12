@@ -42,9 +42,10 @@ public final class ExampleAggregateDescriptor implements AggregateDescriptor {
     // formatting:on init:remove
 
     public ExampleAggregateDescriptor() {}
-                                                        // init:remove
-    @Override                                           // init:remove
-    public Collection<ComponentOutput> outputs() {      // init:remove
-        return List.of(OutputTopic);                    // init:remove
-    }                                                   // init:remove
+
+    // init:remove
+    @Override // init:remove
+    public Collection<ComponentOutput> outputs() { // init:remove
+        return List.of(OutputTopic); // init:remove
+    } // init:remove
 }
