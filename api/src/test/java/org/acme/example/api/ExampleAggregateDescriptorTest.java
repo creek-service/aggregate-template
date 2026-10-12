@@ -32,4 +32,13 @@ class ExampleAggregateDescriptorTest {
         final List<ComponentDescriptor> loaded = ComponentDescriptors.load();
         assertThat(loaded, hasItem(instanceOf(ExampleAggregateDescriptor.class)));
     }
+
+    // formatting:off init:remove
+    @Test // init:remove
+    void shouldExposeOutputTopic() { // init:remove
+        assertThat( // init:remove
+                new ExampleAggregateDescriptor().outputs(), // init:remove
+                org.hamcrest.Matchers.contains(ExampleAggregateDescriptor.OutputTopic)); // init:remove
+    } // init:remove
+    // formatting:on init:remove
 }
