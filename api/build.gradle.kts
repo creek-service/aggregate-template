@@ -35,9 +35,3 @@ dependencies {
     // Remove if not using JSON:
   //  jsonSchemaGenerator("org.creekservice:creek-json-schema-generator:${property("creekVersion")}")
 }
-
-// Remove if not using JSON:
-creek.schema.json {
-    typeScanning.moduleWhiteList(moduleName)
-    subTypeScanning.moduleWhiteList(moduleName)
-}

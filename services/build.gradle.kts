@@ -30,9 +30,3 @@ dependencies {
 
     // To avoid dependency hell downstream, avoid adding any more dependencies except Creek metadata jars and test dependencies.
 }
-
-// Remove if not using JSON:
-creek.schema.json {
-    typeScanning.moduleWhiteList(moduleName)
-    subTypeScanning.moduleWhiteList(moduleName)
-}

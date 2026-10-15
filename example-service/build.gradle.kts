@@ -36,7 +36,7 @@ dependencies {
 
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:${log4jVersion}")
 
-    testImplementation("org.creekservice:creek-kafka-streams-test:$creekVersion")
+    testImplementation("org.apache.kafka:kafka-streams-test-utils:${property("kafkaVersion")}")
 }
 
 // Patch Kafka Streams test jar into main Kafka Streams module to avoid split packages:
