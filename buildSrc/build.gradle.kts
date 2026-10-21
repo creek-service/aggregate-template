@@ -21,6 +21,10 @@ plugins {
 repositories {
     mavenCentral()
     gradlePluginPortal()
+    // TODO(0.5.1 release): Remove this temporary Creek SNAPSHOT repository.
+    maven {
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
 }
 
 val jvmTargetVer = JavaLanguageVersion.of(17)
@@ -37,9 +41,9 @@ kotlin {
 
 
 dependencies {
-    implementation("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8")                // https://plugins.gradle.org/plugin/com.github.spotbugs
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:8.10.4")                   // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    implementation("org.javamodularity:moduleplugin:2.0.0")                                // https://plugins.gradle.org/plugin/org.javamodularity.moduleplugin
-    implementation("com.gradle.publish:plugin-publish-plugin:2.1.1")                        // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    implementation("org.creekservice:creek-system-test-gradle-plugin:0.5.0")                // https://plugins.gradle.org/plugin/org.creekservice.system.test
+    implementation("com.github.spotbugs.snom:spotbugs-gradle-plugin:6.4.8")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:8.10.4")
+    implementation("org.javamodularity:moduleplugin:2.0.0")
+    implementation("com.gradle.publish:plugin-publish-plugin:2.1.1")
+    implementation("org.creekservice:creek-system-test-gradle-plugin:0.5.1-SNAPSHOT")
 }
